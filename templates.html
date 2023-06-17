@@ -1,0 +1,50 @@
+<template id="invention-page-component">
+    <div class="content d-none" id="invention-container">
+        <div class="skill-info">
+          <div class="block block-rounded" id="skill-header-invention:Invention">
+            <div class="progress active mb-1 border border-top border-1x border-dark" style="height: 8px">
+              <div class="progress-bar bg-info" id="skill-progress-bar-invention:Invention" role="progressbar" style="width: 0%;"></div>
+            </div>
+            <div class="block-header text-center pt-0 pb-0">
+              <ul class="nav-main nav-main-horizontal nav-main-horizontal-override font-size-xs w-100">
+                <li class="m-1" style="min-width: 45%;">
+                  <span class="font-w600">
+                    <lang-string lang-id="MENU_TEXT_SKILL_LEVEL"></lang-string>
+                  </span>
+                  <span class="p-1 bg-success rounded font-w600" id="skill-progress-level-invention:Invention">1 / 99</span>
+                </li>
+                <li class="m-1" style="min-width: 45%">
+                  <span class="font-w600">
+                    <lang-string lang-id="MENU_TEXT_SKILL XP"></lang-string>
+                  </span>
+                  <span class="p-1 bg-info rounded font-w600" id="skill-progress-xp-invention:Invention">1 / 99</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row row-deck">
+          <div class="col-12" id="summoning-category-menu">
+            <div class="bg-white p-3 push content-justify-center" style="width: 100%;">
+              <ul class="nav-main nav-main-horizontal nav-main-hover nav-main-horizontal-center">
+                <li class="nav-main-item">
+                  <a class="nav-main-link active js-class-toggle-enabled">
+                    <img class="skill-icon-xs m-0 mr-2" src="https://cdn.melvor.net/core/v018/assets/media/skills/summoning/mark_4_256.png">
+                    <span class="nav-main-link-name">Workbench</span>
+                  </a>
+                </li>
+                <li class="nav-main-item">
+                  <a class="nav-main-link active js-class-toggle-enabled">
+                    <img class="skill-icon-xs m-0 mr-2" src="https://cdn.melvor.net/core/v018/assets/media/skills/summoning/mark_4_256.png">
+                    <span class="nav-main-link-name">Material Pouch</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-12">
+              <div class="block block-rounded border-top border-success border-4x p-3"></div>
+          </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://melvoridle.com/assets/schema/gameData.json",
+  "namespace": "invention",
+  "data": {
+    "pages": [
+      {
+        "id": "Invention",
+        "media": "melvor:assets/media/main/adventure.svg",
+        "containerID": "invention-container",
+        "headerBgClass": "bg-combat",
+        "hasGameGuide": false,
+        "canBeDefault": true,
+        "customName": "Invention",
+        "action": "invention:Invention",
+        "skillSidebarCategoryID": "Non-Combat",
+        "skills": [
+          "invention:Invention"
+        ]
+      },
+      {
+        "id": "Armory",
+        "media": "melvor:assets/media/main/adventure.svg",
+        "containerID": "armory-container",
+        "headerBgClass": "bg-combat",
+        "customName": "Augmented Armory",
+        "hasGameGuide": false,
+        "canBeDefault": false,
+        "sidebarItem": {
+          "categoryID": "",
+          "after": "melvorD:Bank",
+          "icon": "melvor:assets/media/main/adventure.svg"
+        }
+      }
+    ],
+    "skillData": [
+      {
+        "skillID": "invention:Invention",
+        "data": {
+          "materials": [
+            {
+              "id": "junk",
+              "name": "Junk",
+              "media": "melvor:assets/media/main/gp.svg"
+            }
+          ]
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "Augmented_Equipment_Placeholder",
+        "name": "Augmented Equipment Placeholder",
+        "category": "Combat",
+        "type": "",
+        "media": "assets/media/bank/weapon_shortbow_willow.png",
+        "ignoreCompletion": true,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0,
+        "tier": "augmented",
+        "validSlots": [
+          "Platebody",
+          "Platelegs",
+          "Shield"
+        ],
+        "occupiesSlots": [],
+        "equipRequirements": [],
+        "equipmentStats": [],
+        "itemType": "Equipment"
+      },
+      {
+        "id": "Augmented_Weapon_Placeholder",
+        "name": "Augmented Weapon Placeholder",
+        "category": "Combat",
+        "type": "",
+        "media": "assets/media/bank/weapon_shortbow_willow.png",
+        "ignoreCompletion": true,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0,
+        "tier": "augmented",
+        "validSlots": [
+          "Weapon",
+          "Quiver"
+        ],
+        "occupiesSlots": [],
+        "equipRequirements": [],
+        "equipmentStats": [],
+        "itemType": "Weapon"
+      }
+    ]
+  }
+}

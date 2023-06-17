@@ -1,0 +1,4 @@
+{
+  "namespace": "invention",
+  "setup": "setup.mjs"
+}
