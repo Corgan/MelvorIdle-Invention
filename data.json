@@ -16,77 +16,130 @@
         "skills": [
           "invention:Invention"
         ]
+      }
+    ],
+    "items": [
+      {
+        "itemType": "Item",
+        "id": "Weapon_Gizmo_Shell",
+        "name": "Weapon Gizmo Shell",
+        "category": "Invention",
+        "type": "Gizmo",
+        "media": "melvor:assets/media/bank/logs_normal.png?2",
+        "ignoreCompletion": true,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0
       },
       {
-        "id": "Armory",
-        "media": "melvor:assets/media/main/adventure.svg",
-        "containerID": "armory-container",
-        "headerBgClass": "bg-combat",
-        "customName": "Augmented Armory",
-        "hasGameGuide": false,
-        "canBeDefault": false,
-        "sidebarItem": {
-          "categoryID": "",
-          "after": "melvorD:Bank",
-          "icon": "melvor:assets/media/main/adventure.svg"
-        }
+        "itemType": "Item",
+        "id": "Weapon_Gizmo",
+        "name": "Weapon Gizmo",
+        "category": "Invention",
+        "type": "Gizmo",
+        "media": "melvor:assets/media/bank/logs_normal.png?2",
+        "ignoreCompletion": true,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0
+      },
+      {
+        "itemType": "Item",
+        "id": "Equipment_Gizmo_Shell",
+        "name": "Equipment Gizmo Shell",
+        "category": "Invention",
+        "type": "Gizmo",
+        "media": "melvor:assets/media/bank/logs_normal.png?2",
+        "ignoreCompletion": true,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0
+      },
+      {
+        "itemType": "Item",
+        "id": "Equipment_Gizmo",
+        "name": "Equipment Gizmo",
+        "category": "Invention",
+        "type": "Gizmo",
+        "media": "melvor:assets/media/bank/logs_normal.png?2",
+        "ignoreCompletion": true,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0
       }
     ],
     "skillData": [
       {
         "skillID": "invention:Invention",
         "data": {
-          "materials": [
+          "perks": [
             {
-              "id": "junk",
-              "name": "Junk",
-              "media": "melvor:assets/media/main/gp.svg"
+              "id": "test_ranged",
+              "name": "Test Ranged Perk",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [
+                {
+                  "key": "rangedAttackBonus",
+                  "value": 16
+                }
+              ],
+              "modifiers": {
+                "increasedHiddenSkillLevel": [
+                  {
+                  "skillID": "melvorD:Ranged",
+                  "value": 6
+                  }
+                ]
+              }
+            },
+            {
+              "id": "test_melee",
+              "name": "Test Melee Perk",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [
+                {
+                  "key": "stabAttackBonus",
+                  "value": 16
+                },
+                {
+                  "key": "slashAttackBonus",
+                  "value": 16
+                },
+                {
+                  "key": "blockAttackBonus",
+                  "value": 16
+                }
+              ],
+              "modifiers": {
+                "increasedHiddenSkillLevel": [
+                  {
+                  "skillID": "melvorD:Strength",
+                  "value": 6
+                  }
+                ]
+              }
+            },
+            {
+              "id": "test_magic",
+              "name": "Test Magic Perk",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [
+                {
+                  "key": "magicAttackBonus",
+                  "value": 16
+                }
+              ],
+              "modifiers": {
+                "increasedHiddenSkillLevel": [
+                  {
+                  "skillID": "melvorD:Magic",
+                  "value": 6
+                  }
+                ]
+              }
             }
           ]
         }
-      }
-    ],
-    "items": [
-      {
-        "id": "Augmented_Equipment_Placeholder",
-        "name": "Augmented Equipment Placeholder",
-        "category": "Combat",
-        "type": "",
-        "media": "assets/media/bank/weapon_shortbow_willow.png",
-        "ignoreCompletion": true,
-        "obtainFromItemLog": false,
-        "golbinRaidExclusive": false,
-        "sellsFor": 0,
-        "tier": "augmented",
-        "validSlots": [
-          "Platebody",
-          "Platelegs",
-          "Shield"
-        ],
-        "occupiesSlots": [],
-        "equipRequirements": [],
-        "equipmentStats": [],
-        "itemType": "Equipment"
-      },
-      {
-        "id": "Augmented_Weapon_Placeholder",
-        "name": "Augmented Weapon Placeholder",
-        "category": "Combat",
-        "type": "",
-        "media": "assets/media/bank/weapon_shortbow_willow.png",
-        "ignoreCompletion": true,
-        "obtainFromItemLog": false,
-        "golbinRaidExclusive": false,
-        "sellsFor": 0,
-        "tier": "augmented",
-        "validSlots": [
-          "Weapon",
-          "Quiver"
-        ],
-        "occupiesSlots": [],
-        "equipRequirements": [],
-        "equipmentStats": [],
-        "itemType": "Weapon"
       }
     ]
   }
