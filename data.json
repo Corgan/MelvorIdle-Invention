@@ -83,14 +83,7 @@
                   "value": 16
                 }
               ],
-              "modifiers": {
-                "increasedHiddenSkillLevel": [
-                  {
-                  "skillID": "melvorD:Ranged",
-                  "value": 6
-                  }
-                ]
-              }
+              "modifiers": { }
             },
             {
               "id": "test_melee",
@@ -110,14 +103,7 @@
                   "value": 16
                 }
               ],
-              "modifiers": {
-                "increasedHiddenSkillLevel": [
-                  {
-                  "skillID": "melvorD:Strength",
-                  "value": 6
-                  }
-                ]
-              }
+              "modifiers": { }
             },
             {
               "id": "test_magic",
@@ -129,13 +115,33 @@
                   "value": 16
                 }
               ],
+              "modifiers": { }
+            },
+            {
+              "id": "test_dr",
+              "name": "Test DR Perk",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [],
               "modifiers": {
-                "increasedHiddenSkillLevel": [
-                  {
-                  "skillID": "melvorD:Magic",
-                  "value": 6
-                  }
-                ]
+                "increasedDamageReduction": 1
+              }
+            },
+            {
+              "id": "test_hp_regen",
+              "name": "Test HP Regen Perk",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [],
+              "modifiers": {
+                "increasedHPRegenFlat": 0.5
+              }
+            },
+            {
+              "id": "test_slayer_damage",
+              "name": "Test Slayer Damage Perk",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [],
+              "modifiers": {
+                "increasedDamageToSlayerTasks": 1
               }
             }
           ]

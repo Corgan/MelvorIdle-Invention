@@ -16,9 +16,11 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
     patch(Bank, 'processItemSale').replace(function(o, item, quantity) {
         o(item, quantity);
         if(item.namespace === 'invention') {
-            let invention = game.skills.registeredObjects.get("invention:Invention");
-            if(invention.isAugmentedItem(item)) {
-                invention.removeAugmentedItem(item);
+            if(game.invention.isAugmentedItem(item)) {
+                game.invention.removeAugmentedItem(item);
+            }
+            if(game.invention.isGizmo(item)) {
+                game.invention.removeGizmo(item);
             }
         }
     });
@@ -28,9 +30,11 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
         this._items.forEach((quantity, item) => {
             if(quantity > 0) {
                 if(item.namespace === 'invention') {
-                    let invention = game.skills.registeredObjects.get("invention:Invention");
-                    if(invention.isAugmentedItem(item)) {
-                        invention.removeAugmentedItem(item);
+                    if(game.invention.isAugmentedItem(item)) {
+                        game.invention.removeAugmentedItem(item);
+                    }
+                    if(game.invention.isGizmo(item)) {
+                        game.invention.removeGizmo(item);
                     }
                 }
             }
@@ -40,11 +44,15 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
     patch(Telemetry, 'updatePlayerDeathEventItemLost').replace(function(o, itemLost, count=0) {
         o(itemLost, count);
         if(itemLost.namespace === 'invention') {
-            let invention = game.skills.registeredObjects.get("invention:Invention");
-            if(invention.isAugmentedItem(itemLost)) {
-                invention.removeAugmentedItem(itemLost);
+            if(game.invention.isAugmentedItem(itemLost)) {
+                game.invention.removeAugmentedItem(itemLost);
             }
         }
+    });
+
+    patch(Player, 'rewardForDamage').replace(function(o, damage) {
+        o(damage);
+        game.invention.rewardForDamage(damage);
     });
 
     onInterfaceAvailable(async () => {

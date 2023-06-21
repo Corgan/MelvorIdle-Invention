@@ -1,6 +1,5 @@
 const { loadModule } = mod.getContext(import.meta);
 
-
 const { InventionPageUIComponent } = await loadModule('src/components/invention.mjs');
 
 class InventionAugmentedEquipmentItem extends EquipmentItem {
@@ -23,6 +22,7 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
         }, game);
         this.item = item;
         this._gizmos = new Set();
+        this._xp = 0;
     }
     set tier(_) { }
     get tier() {
@@ -86,11 +86,16 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
     }
     set hasDescription(_) { }
     get hasDescription() {
-        return this.item.hasDescription;
+        return true;
     }
     set description(_) { }
     get description() {
-        return this.item.description;
+        return `<div class="row no-gutters">
+            <div class="col-12">Equipment Level ${this.level}</div>
+            <div class="col-12">${this.xp} / ${this.nextXP} XP</div>
+            ${[...this._gizmos].map(gizmo => `<div class="col-12">${gizmo.description}</div>`).join('')}
+        </div>
+        ${this.item.description}`
     }
     set modifiers(_) { }
     get modifiers() {
@@ -120,10 +125,50 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
     get ammoType() {
         return this.item.ammoType;
     }
-
     set slots(_) { }
     get slots() {
         return 2;
+    }
+    set gizmos(_) { }
+    get gizmos() {
+        return this._gizmos;
+    }
+    set xp(_) { }
+    get xp() {
+        return Math.floor(this._xp);
+    }
+    set nextXP(_) { }
+    get nextXP() {
+        return game.invention.equipment_xp[Math.min(this.level, game.invention.equipment_xp.length-1)];
+    }
+    set level(_) { }
+    get level() {
+        return Math.min(game.invention.maxEquipmentLevel(), game.invention.equipmentXPToLevel(this._xp));
+    }
+
+
+    addXP(xp) {
+        this._xp += xp;
+        game.combat.player.rendersRequired.equipment = true;
+    }
+
+    
+    attachGizmo(gizmo) {
+        if(gizmo.attachedTo !== undefined)
+            return;
+        if(this._gizmos.size >= this.slots)
+            return;
+        this._gizmos.add(gizmo);
+        game.bank.removeItemQuantity(gizmo, game.bank.getQty(gizmo));
+        console.log("Attached Gizmo ", gizmo.id, " to ", this.id);
+    }
+
+    removeGizmo(gizmo) {
+        if(!this._gizmos.has(gizmo))
+            return;
+        this._gizmos.delete(gizmo);
+        game.bank.addItem(gizmo, 1, false, false, true, false);
+        console.log("Removed Gizmo ", gizmo.id, " from ", this.id);
     }
 
     encode(writer) {
@@ -141,6 +186,10 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
         if(isEquipped) {
             writer.writeUint8(equipmentSet);
         }
+        writer.writeUint32(this._xp);
+        writer.writeSet(this._gizmos, (gizmo, writer) => {
+            writer.writeNamespacedObject(gizmo);
+        });
     }
 
     decode(reader) {
@@ -154,6 +203,10 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
         if(this.loadedEquipped) {
             this.loadedEquipmentSet = reader.getUint8();
         }
+        this._xp = reader.getUint32();
+        this._gizmos = reader.getSet((reader) => {
+            return reader.getNamespacedObject(game.invention.gizmos);
+        });
     }
 }
 
@@ -178,6 +231,7 @@ class InventionAugmentedWeaponItem extends WeaponItem {
         }, game);
         this.item = item;
         this._gizmos = new Set();
+        this._xp = 0;
     }
     set tier(_) { }
     get tier() {
@@ -249,14 +303,16 @@ class InventionAugmentedWeaponItem extends WeaponItem {
     }
     set hasDescription(_) { }
     get hasDescription() {
-        return this.item.hasDescription;
+        return true;
     }
     set description(_) { }
     get description() {
-        let description = this.item.description;
-        if(this._gizmos.size > 0)
-            description += '</br>' + [...this._gizmos].map(gizmo => gizmo.description).join('</br>');
-        return description;
+        return `<div class="row no-gutters">
+            <div class="col-12">Equipment Level ${this.level}</div>
+            <div class="col-12">${this.xp} / ${this.nextXP} XP</div>
+            ${[...this._gizmos].map(gizmo => `<div class="col-12">${gizmo.description}</div>`).join('')}
+        </div>
+        ${this.item.description}`
     }
     set modifiers(_) { }
     get modifiers() {
@@ -286,23 +342,48 @@ class InventionAugmentedWeaponItem extends WeaponItem {
     get ammoType() {
         return this.item.ammoType;
     }
-
     set slots(_) { }
     get slots() {
         return this.item.occupiesSlots.includes('Shield') ? 2 : 1;
     }
-
     set gizmos(_) { }
     get gizmos() {
         return this._gizmos;
     }
+    set xp(_) { }
+    get xp() {
+        return Math.floor(this._xp);
+    }
+    set nextXP(_) { }
+    get nextXP() {
+        return game.invention.equipment_xp[Math.min(this.level, game.invention.equipment_xp.length-1)];
+    }
+    set level(_) { }
+    get level() {
+        return Math.min(game.invention.maxEquipmentLevel(), game.invention.equipmentXPToLevel(this._xp));
+    }
+
+    addXP(xp) {
+        this._xp += xp;
+        game.combat.player.rendersRequired.equipment = true;
+    }
 
     attachGizmo(gizmo) {
+        if(gizmo.attachedTo !== undefined)
+            return;
+        if(this._gizmos.size >= this.slots)
+            return;
         this._gizmos.add(gizmo);
+        game.bank.removeItemQuantity(gizmo, game.bank.getQty(gizmo));
+        console.log("Attached Gizmo ", gizmo.id, " to ", this.id);
     }
 
     removeGizmo(gizmo) {
+        if(!this._gizmos.has(gizmo))
+            return;
         this._gizmos.delete(gizmo);
+        game.bank.addItem(gizmo, 1, false, false, true, false);
+        console.log("Removed Gizmo ", gizmo.id, " from ", this.id);
     }
 
     encode(writer) {
@@ -320,6 +401,7 @@ class InventionAugmentedWeaponItem extends WeaponItem {
         if(isEquipped) {
             writer.writeUint8(equipmentSet);
         }
+        writer.writeUint32(this._xp);
         writer.writeSet(this._gizmos, (gizmo, writer) => {
             writer.writeNamespacedObject(gizmo);
         });
@@ -336,6 +418,7 @@ class InventionAugmentedWeaponItem extends WeaponItem {
         if(this.loadedEquipped) {
             this.loadedEquipmentSet = reader.getUint8();
         }
+        this._xp = reader.getUint32();
         this._gizmos = reader.getSet((reader) => {
             return reader.getNamespacedObject(game.invention.gizmos);
         });
@@ -362,7 +445,24 @@ class InventionGizmo extends Item {
 
     set description(_) { }
     get description() {
-        return [...this.perks.entries()].map(([perk, rank]) => perk.name + ' ' + rank).join('</br>');
+        return `<div class="row no-gutters">
+            ${[...this.perks.entries()].map(([perk, rank]) => {
+                const equipStats = perk.equipmentStats;
+                let stats = equipStats.map((stat)=>{
+                    if (stat.value > 0) {
+                        return `<span class="text-success">${Equipment.getEquipStatDescription(stat.key, stat.value * rank)}</span>`;
+                    } else {
+                        return `<span class="text-danger">${Equipment.getEquipStatDescription(stat.key, stat.value * rank)}</span>`;
+                    }
+                });
+
+                let mods = getModifierDataSpans(perk.modifiers, rank, rank);
+
+                let desc = [...stats, ...mods];
+
+                return `<div class="col-12">${perk.name} Rank ${rank}</br>${desc.join('</br>')}</div>`
+            }).join('')}
+        </div>`;
     }
 
     set hasDescription(_) { }
@@ -417,6 +517,12 @@ class InventionGizmo extends Item {
     set perks(_) { }
     get perks() {
         return this._perks;
+    }
+
+    set attachedTo(_) { }
+    get attachedTo() {
+        let augmentedItems = [...game.invention.augmentedEquipment.allObjects, ...game.invention.augmentedWeapons.allObjects];
+        return augmentedItems.find((item => item.gizmos.has(this)));
     }
 
     setPerks(perks) {
@@ -478,6 +584,8 @@ class InventionRenderQueue extends SkillRenderQueue {
     }
 }
 
+
+
 export class Invention extends Skill {
     constructor(namespace, game) {
         super(namespace, 'Invention', game);
@@ -496,7 +604,96 @@ export class Invention extends Skill {
 
         this.component = new InventionPageUIComponent(this, this.game);
 
+        this.equipment_xp = [
+            0,
+            1160,
+            2607,
+            5176,
+            8286,
+            11760,
+            15835,
+            21152,
+            28761,
+            40120,
+            57095,
+            81960,
+            117397,
+            166496,
+            232755,
+            320080,
+            432785,
+            575592,
+            753631,
+            972440
+        ];
+
+        this.equipment_reward = [
+            0,
+            9000,
+            27000,
+            54000,
+            108000,
+            144000,
+            198000,
+            270000,
+            378000,
+            540000
+        ];
+
         console.log("Invention constructor done");
+    }
+
+    maxEquipmentLevel() {
+        if(this.level >= 99)
+            return 20;
+        if(this.level >= 60)
+            return 15;
+        if(this.level >= 27)
+            return 10;
+        if(this.level >= 4)
+            return 5;
+        return 1;
+    }
+
+    equipmentXPToLevel(xp) {
+        for(let i = 0; i < this.equipment_xp.length; i++) {
+            if(xp <= this.equipment_xp[i])
+                return Math.max(1, i);
+        }
+        return this.equipment_xp.length;
+    }
+
+    equipmentXPReward(level) {
+        if(level < 1)
+            level = 1;
+        let reward = this.equipment_reward[Math.min(level-1, this.equipment_reward.length-1)];
+        return reward;
+    }
+
+    addTestData() {
+        this.game.bank.addItem(game.items.getObjectByID('melvorD:Strawberry_Cupcake_Perfect'), 1e6, false, false, true, false);
+        this.game.bank.addItem(game.items.getObjectByID('melvorF:Ragnar_God_Helmet'), 1, false, false, true, false);
+        this.game.bank.addItem(game.items.getObjectByID('melvorF:Ragnar_God_Boots'), 1, false, false, true, false);
+        this.game.bank.addItem(game.items.getObjectByID('melvorF:Ragnar_God_Gloves'), 1, false, false, true, false);
+        this.game.bank.addItem(game.items.getObjectByID('melvorF:Fighter_Ring'), 1, false, false, true, false);
+        this.game.bank.addItem(game.items.getObjectByID('melvorF:Fighter_Amulet'), 1, false, false, true, false);
+        this.game.bank.addItem(game.items.getObjectByID('melvorF:Infernal_Cape'), 1, false, false, true, false);
+        let ron1 = this.createAugmentedItem(game.items.getObjectByID('melvorF:Ultima_Godsword'));
+        let rag1 = this.createAugmentedItem(game.items.getObjectByID('melvorF:Ragnar_God_Platebody'));
+        let rag2 = this.createAugmentedItem(game.items.getObjectByID('melvorF:Ragnar_God_Platelegs'));
+        let wgizmo1 = this.createWeaponGizmo();
+        let wgizmo2 = this.createWeaponGizmo();
+        let egizmo1 = this.createEquipmentGizmo();
+        let egizmo2 = this.createEquipmentGizmo();
+        let egizmo3 = this.createEquipmentGizmo();
+        let egizmo4 = this.createEquipmentGizmo();
+
+        ron1.attachGizmo(wgizmo1);
+        ron1.attachGizmo(wgizmo2);
+        rag1.attachGizmo(egizmo1);
+        rag1.attachGizmo(egizmo2);
+        rag2.attachGizmo(egizmo3);
+        rag2.attachGizmo(egizmo4);
     }
 
     createAugmentedWeapon(item) {
@@ -506,16 +703,20 @@ export class Invention extends Skill {
         this.augmentedWeapons.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
         this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
+        console.log("Created Augmented Weapon:", augmentedItem.id, augmentedItem.name);
         return augmentedItem;
     }
 
     createAugmentedEquipment(item) {
         if(!(item instanceof EquipmentItem) || item instanceof WeaponItem)
             return;
+        if(!item.validSlots.includes('Platebody') && !item.validSlots.includes('Platelegs'))
+            return;
         let augmentedItem = new InventionAugmentedEquipmentItem({item});
         this.augmentedEquipment.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
         this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
+        console.log("Created Augmented Equipment:", augmentedItem.id, augmentedItem.name);
         return augmentedItem;
     }
 
@@ -536,10 +737,27 @@ export class Invention extends Skill {
     removeAugmentedItem(item) {
         if(!(item instanceof InventionAugmentedEquipmentItem || item instanceof InventionAugmentedWeaponItem))
             return;
+        console.log("Removed Augmented Item:", item.id, item.name);
         if(item instanceof InventionAugmentedWeaponItem) {
             this.augmentedWeapons.registeredObjects.delete(item.id);
         } else if (item instanceof InventionAugmentedEquipmentItem) {
             this.augmentedEquipment.registeredObjects.delete(item.id);
+        }
+        item.gizmos.forEach(gizmo => {
+            this.removeGizmo(gizmo);
+        });
+    }
+
+    isGizmo(item) {
+        return item instanceof InventionGizmo;
+    }
+
+    removeGizmo(item) {
+        if(!(item instanceof InventionGizmo))
+            return;
+        if(item instanceof InventionGizmo) {
+            console.log("Removed Gizmo:", item.id, item.description);
+            this.gizmos.registeredObjects.delete(item.id);
         }
     }
 
@@ -559,6 +777,7 @@ export class Invention extends Skill {
         this.gizmos.registerObject(gizmo);
         this.game.items.registerObject(gizmo);
         this.game.bank.addItem(gizmo, 1, false, false, true, false);
+        console.log("Created Weapon Gizmo:", gizmo.id, gizmo.description);
         return gizmo;
     }
 
@@ -578,24 +797,43 @@ export class Invention extends Skill {
         this.gizmos.registerObject(gizmo);
         this.game.items.registerObject(gizmo);
         this.game.bank.addItem(gizmo, 1, false, false, true, false);
+        console.log("Created Equipment Gizmo:", gizmo.id, gizmo.description);
         return gizmo;
+    }
+
+    rewardForDamage(damage) {
+        damage = damage / numberMultiplier;
+        let items = [...game.combat.player.equipment.slotMap.keys()];
+        items.forEach(item => {
+            if(item instanceof InventionAugmentedWeaponItem) {
+                if(item.occupiesSlots.includes('Shield')) {
+                    item.addXP(damage * 0.06);
+                } else if (item.validSlots.includes('Shield')) {
+                    item.addXP(damage * 0.02);
+                } else {
+                    item.addXP(damage * 0.04);
+                }
+            } else if (item instanceof InventionAugmentedEquipmentItem) {
+                item.addXP(damage * 0.04);
+            }
+        });
     }
     
     /*
         - Charge Pack (Astro Dust)
             - Divine Charges
+        - Work Bench
+            - Craft Items (Gizmo Shells)
         - Disassemble
-            - Materials Inventory
+            - Queue x Items
         - Augment
-            - Create
-            - Level
+            * Create
+            * Level
             - Siphon
-            - Armory
-                - Dummy Equipment Items
         - Gizmos
-            - Craft
-            - Fill Perks
-            - Attach
+            - Fill with Materials
+            - Generate Perks
+            * Attach
     */
 
     onLoad() {
@@ -734,16 +972,6 @@ export class Invention extends Skill {
             writer.writeString(value.localID);
             value.encode(writer);
         });
-
-        /*writer.writeComplexMap(this.augmentedWeapons.registeredObjects, (key, value, writer) => {
-            writer.writeString(value.localID);
-            value.encode(writer);
-        });
-
-        writer.writeComplexMap(this.augmentedEquipment.registeredObjects, (key, value, writer) => {
-            writer.writeString(value.localID);
-            value.encode(writer);
-        });*/
         
         let end = writer.byteOffset;
         console.log(`Wrote ${end-start} bytes for Invention save`);
