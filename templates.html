@@ -1,62 +1,118 @@
 <template id="invention-page-component">
-    <div class="content d-none" id="invention-container">
-        <div class="skill-info">
-          <div class="block block-rounded" id="skill-header-invention:Invention">
-            <div class="progress active mb-1 border border-top border-1x border-dark" style="height: 8px">
-              <div class="progress-bar bg-info" id="skill-progress-bar-invention:Invention" role="progressbar" style="width: 0%;"></div>
-            </div>
-            <div class="block-header text-center pt-0 pb-0">
-              <ul class="nav-main nav-main-horizontal nav-main-horizontal-override font-size-xs w-100">
-                <li class="m-1" style="min-width: 45%;">
-                  <span class="font-w600">
-                    <lang-string lang-id="MENU_TEXT_SKILL_LEVEL"></lang-string>
-                  </span>
-                  <span class="p-1 bg-success rounded font-w600" id="skill-progress-level-invention:Invention">1 / 99</span>
-                </li>
-                <li class="m-1" style="min-width: 45%">
-                  <span class="font-w600">
-                    <lang-string lang-id="MENU_TEXT_SKILL XP"></lang-string>
-                  </span>
-                  <span class="p-1 bg-info rounded font-w600" id="skill-progress-xp-invention:Invention">1 / 99</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+  <div class="content d-none" id="invention-container">
+    <div class="skill-info">
+      <div class="block block-rounded" id="skill-header-invention:Invention">
+        <div class="progress active mb-1 border border-top border-1x border-dark" style="height: 8px">
+          <div class="progress-bar bg-info" id="skill-progress-bar-invention:Invention" role="progressbar"
+            style="width: 0%;"></div>
         </div>
-        <div class="row row-deck">
-          <div class="col-12" id="invention-category-menu">
-            <div class="bg-white p-3 push content-justify-center" style="width: 100%;">
-              <ul class="nav-main nav-main-horizontal nav-main-hover nav-main-horizontal-center">
-                <li class="nav-main-item">
-                  <a class="nav-main-link">
-                    <img class="skill-icon-xs m-0 mr-2" src="https://cdn.melvor.net/core/v018/assets/media/skills/summoning/mark_4_256.png">
-                    <span class="nav-main-link-name">Work Bench</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link">
-                    <img class="skill-icon-xs m-0 mr-2" src="https://cdn.melvor.net/core/v018/assets/media/skills/summoning/mark_4_256.png">
-                    <span class="nav-main-link-name">Disassemble</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link">
-                    <img class="skill-icon-xs m-0 mr-2" src="https://cdn.melvor.net/core/v018/assets/media/skills/summoning/mark_4_256.png">
-                    <span class="nav-main-link-name">Augmentation</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link">
-                    <img class="skill-icon-xs m-0 mr-2" src="https://cdn.melvor.net/core/v018/assets/media/skills/summoning/mark_4_256.png">
-                    <span class="nav-main-link-name">Gizmos</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-12">
-              <div class="block block-rounded border-top border-success border-4x p-3"></div>
-          </div>
+        <div class="block-header text-center pt-0 pb-0">
+          <ul class="nav-main nav-main-horizontal nav-main-horizontal-override font-size-xs w-100">
+            <li class="m-1" style="min-width: 45%;">
+              <span class="font-w600">
+                <lang-string lang-id="MENU_TEXT_SKILL_LEVEL"></lang-string>
+              </span>
+              <span class="p-1 bg-success rounded font-w600" id="skill-progress-level-invention:Invention">1 / 99</span>
+            </li>
+            <li class="m-1" style="min-width: 45%">
+              <span class="font-w600">
+                <lang-string lang-id="MENU_TEXT_SKILL XP"></lang-string>
+              </span>
+              <span class="p-1 bg-info rounded font-w600" id="skill-progress-xp-invention:Invention">1 / 99</span>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
+    <div id="overview" class="row row-deck gutters-tiny mb-1"></div>
+    <div class="row row-deck gutters-tiny">
+      <div class="col-12">
+        <div id="pages" class="block block-rounded border-top border-success border-4x p-3">
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="invention-overview-nav-item-component">
+  <li class="nav-main-item">
+    <a id="clickable" class="nav-main-link">
+      <img id="icon" class="skill-icon-xs m-0 mr-2" src="">
+      <span id="name" class="nav-main-link-name"></span>
+    </a>
+  </li>
+</template>
+
+<template id="invention-overview-component">
+  <div class="col-12">
+    <div class="bg-white p-3 push content-justify-center" style="width: 100%;">
+      <ul id="menu" class="nav-main nav-main-horizontal nav-main-hover nav-main-horizontal-center"></ul>
+    </div>
+  </div>
+</template>
+
+<template id="invention-workbench-component">
+  <div id="page" class="col-12">
+    <div class="row no-gutters" id="invention-workbench-category-container">
+      <div class="col-12 col-md-4" id="invention-workbench-artisan-container"></div>
+    </div>
+  </div>
+</template>
+
+<template id="invention-disassemble-component">
+  <div id="page" class="col-12">
+    <div class="row no-gutters" id="invention-disassemble-category-container">
+      <div class="col-12 col-md-4" id="invention-disassemble-artisan-container"></div>
+      <div class="col-12 col-md-8">
+        <div class="block-content block-content-full">
+          <div class="row no-gutters" id="invention-disassemble-item-selection-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="invention-augmentation-component">
+  <div id="page" class="col-12">
+    <div class="row no-gutters" id="invention-augmentation-category-container">
+      <div class="col-12 col-md-4" id="invention-augmentation-artisan-container"></div>
+      <div class="col-12 col-md-8">
+        <div class="block-content block-content-full">
+          <div class="row no-gutters" id="invention-augmentation-item-selection-container"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="invention-gizmo-table-component">
+  <div id="page" class="col-12">
+  </div>
+</template>
+
+<template id="invention-gizmo-modal-component">
+  <div class="modal" id="modal-invention-gizmos" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="block-header bg-primary-dark">
+          <h3 class="block-title">
+            <span>Manage Gizmos</span>
+          </h3>
+          <div class="block-options">
+            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
+              <i class="fa fa-fw fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="block-content block-content-full text-left border-top">
+          Ayyy this is where we'll socket gizmos
+        </div>
+        <div class="block-content block-content-full text-right border-top">
+          <button type="button" class="btn btn-danger ml-3" data-dismiss="modal">
+            <span>Close</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

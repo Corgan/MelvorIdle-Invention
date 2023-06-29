@@ -55,6 +55,26 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
         game.invention.rewardForDamage(damage);
     });
 
+    patch(BankSelectedItemMenu, 'setItem').replace(function(o, bankItem, bank) {
+        o(bankItem, bank);
+        if(this.insertGizmosButton === undefined) {
+            this.insertGizmosButton = createElement('h5', {
+                classList: ['font-w400', 'font-size-sm', 'text-left', 'combat-action', 'm-1', 'mb-2', 'pointer-enabled'],
+                children: [createElement('span', { text: 'Manage Gizmos'})]
+            });
+            this.viewStatsButton.before(this.insertGizmosButton);
+        }
+
+        const item = bankItem.item;
+        if (game.invention.isAugmentedItem(item)) {
+            showElement(this.insertGizmosButton);
+            this.insertGizmosButton.onclick = ()=>game.invention.showGizmoModal(item);
+        } else {
+            hideElement(this.insertGizmosButton);
+        }
+        console.log(bankItem, bank);
+    })
+
     onInterfaceAvailable(async () => {
         const skill = game.skills.registeredObjects.get("invention:Invention");
 
@@ -62,5 +82,11 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
 
         console.log("Appending Invention Page");
         skill.component.mount(document.getElementById('main-container')); // Add skill container
+        
+        let $fragment = new DocumentFragment();
+        $fragment.append(getTemplateNode('invention-gizmo-modal-component'));
+        document.getElementById('main-container').after($fragment)
+
+        game.invention.pages.initMenus();
     });
 }

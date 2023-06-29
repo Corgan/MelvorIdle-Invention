@@ -1,12 +1,9 @@
 export class UIComponent {
-    constructor(manager, game, template) {
-        this.manager = manager;
-        this.game = game;
+    constructor(template) {
         this.$fragment = new DocumentFragment();
         this.$fragment.append(getTemplateNode(template));
 
         this.$elements = [...this.$fragment.children];
-        this.needsUpdate = false;
     }
 
     show() {

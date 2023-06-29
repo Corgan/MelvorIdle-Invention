@@ -3,7 +3,7 @@ const { loadModule } = mod.getContext(import.meta);
 const { InventionPageUIComponent } = await loadModule('src/components/invention.mjs');
 
 class InventionAugmentedEquipmentItem extends EquipmentItem {
-    constructor({id='e' + Math.random().toString(36).slice(-5), item}) {
+    constructor({id='e' + Math.random().toString(36).slice(-5), item}, manager, game) {
         super(game.registeredNamespaces.getNamespace('invention'), {
             id,
             tier: 'dummyItem',
@@ -20,6 +20,8 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
             equipRequirements: [],
             equipmentStats: []
         }, game);
+        this.manager = manager;
+        this.game = game;
         this.item = item;
         this._gizmos = new Set();
         this._xp = 0;
@@ -90,12 +92,14 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
     }
     set description(_) { }
     get description() {
-        return `<div class="row no-gutters">
+        let tt = `<div class="row no-gutters">
             <div class="col-12">Equipment Level ${this.level}</div>
             <div class="col-12">${this.xp} / ${this.nextXP} XP</div>
             ${[...this._gizmos].map(gizmo => `<div class="col-12">${gizmo.description}</div>`).join('')}
-        </div>
-        ${this.item.description}`
+        </div>`;
+        if(this.item.hasDescription)
+            tt += `${this.item.description}`
+        return tt;
     }
     set modifiers(_) { }
     get modifiers() {
@@ -211,7 +215,7 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
 }
 
 class InventionAugmentedWeaponItem extends WeaponItem {
-    constructor({id='w' + Math.random().toString(36).slice(-5), item}) {
+    constructor({id='w' + Math.random().toString(36).slice(-5), item}, manager, game) {
         super(game.registeredNamespaces.getNamespace('invention'), {
             id,
             tier: 'dummyItem',
@@ -229,6 +233,8 @@ class InventionAugmentedWeaponItem extends WeaponItem {
             equipmentStats: [],
             attackType: ''
         }, game);
+        this.manager = manager;
+        this.game = game;
         this.item = item;
         this._gizmos = new Set();
         this._xp = 0;
@@ -307,12 +313,23 @@ class InventionAugmentedWeaponItem extends WeaponItem {
     }
     set description(_) { }
     get description() {
-        return `<div class="row no-gutters">
+        let gizmos = [...this._gizmos];
+        let gizmoString = '';
+        for(let i=0; i<2; i++) {
+            if(gizmos[i] !== undefined) {
+                gizmoString += `<div class="col-12">${gizmos[i].description}</div>`
+            } else {
+                gizmoString += `<div class="col-12">Empty Slot</div>`
+            }
+        }
+        let tt = `<div class="row no-gutters">
             <div class="col-12">Equipment Level ${this.level}</div>
             <div class="col-12">${this.xp} / ${this.nextXP} XP</div>
-            ${[...this._gizmos].map(gizmo => `<div class="col-12">${gizmo.description}</div>`).join('')}
-        </div>
-        ${this.item.description}`
+            ${gizmoString}
+        </div>`;
+        if(this.item.hasDescription)
+            tt += `${this.item.description}`
+        return tt;
     }
     set modifiers(_) { }
     get modifiers() {
@@ -401,7 +418,7 @@ class InventionAugmentedWeaponItem extends WeaponItem {
         if(isEquipped) {
             writer.writeUint8(equipmentSet);
         }
-        writer.writeUint32(this._xp);
+        writer.writeFloat32(this._xp);
         writer.writeSet(this._gizmos, (gizmo, writer) => {
             writer.writeNamespacedObject(gizmo);
         });
@@ -418,7 +435,7 @@ class InventionAugmentedWeaponItem extends WeaponItem {
         if(this.loadedEquipped) {
             this.loadedEquipmentSet = reader.getUint8();
         }
-        this._xp = reader.getUint32();
+        this._xp = reader.getFloat32();
         this._gizmos = reader.getSet((reader) => {
             return reader.getNamespacedObject(game.invention.gizmos);
         });
@@ -426,7 +443,7 @@ class InventionAugmentedWeaponItem extends WeaponItem {
 }
 
 class InventionGizmo extends Item {
-    constructor({id='g' + Math.random().toString(36).slice(-5), item}) {
+    constructor({id='g' + Math.random().toString(36).slice(-5), item}, manager, game) {
         super(game.registeredNamespaces.getNamespace('invention'), {
             id,
             tier: 'dummyItem',
@@ -439,6 +456,8 @@ class InventionGizmo extends Item {
             golbinRaidExclusive: false,
             sellsFor: 0
         }, game);
+        this.manager = manager;
+        this.game = game;
         this.item = item;
         this._perks = new Map();
     }
@@ -562,13 +581,40 @@ class InventionGizmo extends Item {
     }
 }
 
-class InventionPerk extends NamespacedObject {
-    constructor(namespace, data, game) {
+class InventionWorkbenchRecipe extends NamespacedObject {
+    constructor(namespace, data, manager, game) {
         super(namespace, data.id);
+        this.manager = manager;
+        this.game = game;
+        this._name = data.name;
+        this._media = data.media;
+        this.level = data.level;
+        this.baseExperience = data.baseExperience;
+        this.baseQuantity = data.baseQuantity;
+        this.itemCosts = game.items.getQuantities(data.itemCosts);
+        this.product = game.items.getObjectByID(data.productID);
+    }
+    get name() {
+        return this.product.name;
+    }
+    get media() {
+        return this.product.media;
+    }
+    get description() {
+        return this._description;
+    }
+}
+
+class InventionPerk extends NamespacedObject {
+    constructor(namespace, data, manager, game) {
+        super(namespace, data.id);
+        this.manager = manager;
+        this.game = game;
         this._name = data.name;
         this._media = data.media;
         this.modifiers = game.getPlayerModifiersFromData(data.modifiers);
         this.equipmentStats = data.equipmentStats;
+        this.ranks = data.ranks;
     }
     get name() {
         return this._name;
@@ -578,13 +624,41 @@ class InventionPerk extends NamespacedObject {
     }
 }
 
+class InventionComponent extends NamespacedObject {
+    constructor(namespace, data, manager, game) {
+        super(namespace, data.id);
+        this.manager = manager;
+        this.game = game;
+        this.perks = data.perks;
+    }
+}
+
+class MaterialsDropTable extends DropTable {
+    constructor(game, data, count=5, junkChance=35, requires=1) {
+        super(game, data);
+        this.count = count;
+        this.requires = requires;
+        this.junkChance = junkChance;
+    }
+
+    getChances() {
+        return [...this.drops].map(({item, weight}) => ({ item, chance: Math.floor((weight / this.weight) * 100) }))
+    }
+}
+
 class InventionRenderQueue extends SkillRenderQueue {
     constructor() {
         super(...arguments);
     }
 }
 
+const { InventionOverview } = await loadModule('src/invention-overview.mjs');
+const { InventionPages } = await loadModule('src/invention-pages.mjs');
 
+const { InventionWorkbench } = await loadModule('src/invention-workbench.mjs');
+const { InventionDisassemble } = await loadModule('src/invention-disassemble.mjs');
+const { InventionAugmentation } = await loadModule('src/invention-augmentation.mjs');
+const { InventionGizmoTable } = await loadModule('src/invention-gizmo-table.mjs');
 
 export class Invention extends Skill {
     constructor(namespace, game) {
@@ -602,7 +676,24 @@ export class Invention extends Skill {
 
         this.perks = new NamespaceRegistry(this.game.registeredNamespaces);
 
-        this.component = new InventionPageUIComponent(this, this.game);
+        this.components = new NamespaceRegistry(this.game.registeredNamespaces);
+
+        this.component = new InventionPageUIComponent();
+
+        this.overview = new InventionOverview(this, this.game);
+        this.overview.component.mount(this.component.overview);
+
+        this.pages = new InventionPages(this, this.game);
+
+        this.workbench = new InventionWorkbench(this, this.game);
+        this.disassemble = new InventionDisassemble(this, this.game);
+        this.augmentation = new InventionAugmentation(this, this.game);
+        this.gizmo_table = new InventionGizmoTable(this, this.game);
+
+        this.pages.register('workbench', this.workbench);
+        this.pages.register('disassemble', this.disassemble);
+        this.pages.register('augmentation', this.augmentation);
+        this.pages.register('gizmo_table', this.gizmo_table);
 
         this.equipment_xp = [
             0,
@@ -639,6 +730,8 @@ export class Invention extends Skill {
             378000,
             540000
         ];
+
+        this.cachedDropTables = new Map();
 
         console.log("Invention constructor done");
     }
@@ -699,10 +792,10 @@ export class Invention extends Skill {
     createAugmentedWeapon(item) {
         if(!(item instanceof WeaponItem))
             return;
-        let augmentedItem = new InventionAugmentedWeaponItem({item});
+        let augmentedItem = new InventionAugmentedWeaponItem({item}, this, this.game);
         this.augmentedWeapons.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
-        this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
+        //this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
         console.log("Created Augmented Weapon:", augmentedItem.id, augmentedItem.name);
         return augmentedItem;
     }
@@ -712,10 +805,10 @@ export class Invention extends Skill {
             return;
         if(!item.validSlots.includes('Platebody') && !item.validSlots.includes('Platelegs'))
             return;
-        let augmentedItem = new InventionAugmentedEquipmentItem({item});
+        let augmentedItem = new InventionAugmentedEquipmentItem({item}, this, this.game);
         this.augmentedEquipment.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
-        this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
+        //this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
         console.log("Created Augmented Equipment:", augmentedItem.id, augmentedItem.name);
         return augmentedItem;
     }
@@ -748,6 +841,10 @@ export class Invention extends Skill {
         });
     }
 
+    showGizmoModal(item) {
+        $('#modal-invention-gizmos').modal('show');
+    }
+
     isGizmo(item) {
         return item instanceof InventionGizmo;
     }
@@ -763,7 +860,7 @@ export class Invention extends Skill {
 
     createWeaponGizmo() {
         let item = game.items.registeredObjects.get('invention:Weapon_Gizmo');
-        let gizmo = new InventionGizmo({item});
+        let gizmo = new InventionGizmo({item}, this, this.game);
 
         let perks = new Map();
         let possiblePerks = [...this.perks.allObjects].sort(() => 0.5 - Math.random());
@@ -783,7 +880,7 @@ export class Invention extends Skill {
 
     createEquipmentGizmo() {
         let item = game.items.registeredObjects.get('invention:Equipment_Gizmo');
-        let gizmo = new InventionGizmo({item});
+        let gizmo = new InventionGizmo({item}, this, this.game);
 
         let perks = new Map();
         let possiblePerks = [...this.perks.allObjects].sort(() => 0.5 - Math.random());
@@ -818,6 +915,135 @@ export class Invention extends Skill {
             }
         });
     }
+
+    canDisassemble(item) {
+        if(this.isAugmentedItem(item))
+            item = item.item;
+        return item.canDisassemble;
+    }
+
+    getJunkChanceForItem(item) {
+        if(this.isAugmentedItem(item))
+            item = item.item;
+        if(this.cachedDropTables.has(item.id)) {
+            let table = this.cachedDropTables.get(item.id);
+            return table.junkChance;
+        }
+        return 35;
+    }
+
+    getDropTableForItem(item) {
+        if(this.isAugmentedItem(item))
+            item = item.item;
+        if(this.cachedDropTables.has(item.id))
+            return this.cachedDropTables.get(item.id);
+        
+        let table = new MaterialsDropTable(game, [
+            { itemID: 'invention:Simple_Parts', weight: 100, minQuantity: 1, maxQuantity: 1}
+        ]);
+        this.cachedDropTables.set(item.id, table);
+        return table;
+    }
+
+    getMaterialCountForItem(item) {
+        if(this.isAugmentedItem(item))
+            item = item.item;
+        if(this.cachedDropTables.has(item.id)) {
+            let table = this.cachedDropTables.get(item.id);
+            return table.count;
+        }
+        return 5;
+    }
+
+    getRequiredCountForItem(item) {
+        if(this.isAugmentedItem(item))
+            item = item.item;
+        if(this.cachedDropTables.has(item.id)) {
+            let table = this.cachedDropTables.get(item.id);
+            return table.requires !== undefined ? table.requires : 1;
+        }
+        return 1;
+    }
+
+    generatePerks() {
+        let budget = 0;
+        for(let i = 0; i < 5; i++)
+            budget += rollInteger(0, Math.floor(this.level / 2) + 20);
+        budget = Math.max(budget, this.level);
+
+        let materials = [
+            "invention:Simple_Parts", // Center
+            "invention:Simple_Parts", // 
+            "invention:Base_Parts", //
+            "invention:Base_Parts", //
+            "invention:Base_Parts", //
+        ]
+
+        let perks = new Map();
+        let type = "weapon";
+        materials.forEach(material => {
+            let component = this.components.getObjectByID(material);
+            component.perks[type].forEach(perkValue => {
+                let perk = this.perks.getObjectByID(perkValue.perkID);
+                let current = perks.get(perk) || 0;
+                let value = current + perkValue.base + rollInteger(0, perkValue.roll);
+                perks.set(perk, value);
+            });
+        });
+        let ranks = [...perks.entries()].map(([perk, value]) => {
+            if(value < perk.ranks[0].threshold)
+                return { perk, value, cost: 0, rank: 0 };
+            let rank = perk.ranks[0];
+            for(let i = 1; i < perk.ranks.length; i++) {
+                if(value < perk.ranks[i].threshold) {
+                    break;
+                } else {
+                    rank = perk.ranks[i];
+                }
+            }
+            return { perk, value, cost: rank.cost, rank: rank.rank, threshold: rank.threshold };
+        })
+        this.perksort(0, ranks.length-1, ranks, (a, b) => a.cost - b.cost);
+        let chosen = [];
+        for(let i = ranks.length-1; i >= 0; i--) {
+            if(ranks[i].cost <= budget && ranks[i].rank > 0) {
+                chosen.push({ perk: ranks[i].perk, rank: ranks[i].rank });
+                budget -= ranks[i].cost;
+                if(chosen.length === 2)
+                    break;
+            }
+        }
+        return chosen;
+    }
+
+    perksort(low, high, arr, compare) {
+        var pivot_index = (~~((low + high)/2));
+        var pivot_value = arr[pivot_index];
+        arr[pivot_index] = arr[high];
+        arr[high] = pivot_value;
+        var counter = low;
+        var loop_index = low;
+    
+        while (loop_index < high) {
+            if (compare(arr[loop_index], pivot_value) < (loop_index & 1)) {
+                var tmp = arr[loop_index];
+                arr[loop_index] = arr[counter];
+                arr[counter] = tmp;
+                counter = counter + 1;
+            }
+            loop_index = loop_index + 1;
+        }
+        
+        arr[high] = arr[counter];
+        arr[counter] = pivot_value;
+    
+        if (low < (counter - 1)) {
+            this.perksort(low, counter - 1, arr, compare);
+        }
+        if ((counter + 1) < high) {
+            this.perksort(counter + 1, high, arr, compare);
+        }
+    }
     
     /*
         - Charge Pack (Astro Dust)
@@ -839,6 +1065,9 @@ export class Invention extends Skill {
     onLoad() {
         console.log("Invention onLoad");
         super.onLoad();
+
+        this.overview.onLoad();
+        this.pages.onLoad();
 
         let bankItems = [...this.augmentedEquipment.allObjects, ...this.augmentedWeapons.allObjects, ...this.gizmos.allObjects];
 
@@ -869,10 +1098,14 @@ export class Invention extends Skill {
                 console.log(augmentedItem.id, augmentedItem.loadedEquipmentSet);
             }
         });
+        
+        this.workbench.go();
     }
 
     onLevelUp(oldLevel, newLevel) {
         super.onLevelUp(oldLevel, newLevel);
+
+        this.pages.onLevelUp();
     }
 
     get name() { return "Invention"; }
@@ -923,6 +1156,7 @@ export class Invention extends Skill {
     }
 
     activeTick() {
+        this.pages.activeTick();
     }
 
     passiveTick() {
@@ -930,27 +1164,58 @@ export class Invention extends Skill {
             return;
     }
 
-    onPageChange() {
+    queueBankQuantityRender(item) {
+        this.pages.queueBankQuantityRender(item);
+    }
 
+    onPageChange() {
+        this.pages.onPageChange();
     }
 
     render() {
         super.render();
+        this.overview.render();
+        this.pages.render();
     }
 
     registerData(namespace, data) {
         console.log("Invention registerData");
         super.registerData(namespace, data); // pets, rareDrops, minibar, customMilestones
 
+        this.overview.registerData(data.overview, this, this.game);
+
         data.perks.forEach(data => {
-            let perk = new InventionPerk(namespace, data, this.game);
+            let perk = new InventionPerk(namespace, data, this, this.game);
             this.perks.registerObject(perk);
+        });
+
+        data.workbench.forEach(data => {
+            let action = new InventionWorkbenchRecipe(namespace, data, this, this.game);
+            this.workbench.actions.registerObject(action);
+        });
+
+        data.components.forEach(data => {
+            let component = new InventionComponent(namespace, data, this, this.game);
+            this.components.registerObject(component);
+        });
+
+        data.disassemble_categories.forEach(data => {
+            if(data.items !== undefined) {
+                data.items.forEach(item => {
+                    let table = new MaterialsDropTable(game, data.parts, item.count !== undefined ? item.count : data.count, item.junkChance !== undefined ? item.junkChance : data.junkChance, item.requires !== undefined ? item.requires : data.requires);
+                    this.cachedDropTables.set(item.id, table);
+                });
+            }
         });
     }
 
     postDataRegistration() {
         console.log("Invention postDataRegistration");
         super.postDataRegistration(); // Milestones setLevel
+
+        [...this.cachedDropTables.keys()].forEach(id => {
+            game.items.getObjectByID(id).canDisassemble = true;
+        });
     }
 
     encode(writer) {
@@ -972,6 +1237,8 @@ export class Invention extends Skill {
             writer.writeString(value.localID);
             value.encode(writer);
         });
+
+        this.pages.encode(writer);
         
         let end = writer.byteOffset;
         console.log(`Wrote ${end-start} bytes for Invention save`);
@@ -993,7 +1260,7 @@ export class Invention extends Skill {
 
             reader.getArray((reader) => {
                 let key = reader.getString();
-                let value = new InventionGizmo({id: key});
+                let value = new InventionGizmo({id: key}, this, this.game);
                 value.decode(reader);
                 this.gizmos.registerObject(value);
                 this.game.items.registerObject(value);
@@ -1003,7 +1270,7 @@ export class Invention extends Skill {
             reader.getArray((reader) => {
                 let key = reader.getString();
                 let isWeapon = key[0] === "w";
-                let value = isWeapon ? new InventionAugmentedWeaponItem({id: key}) : new InventionAugmentedEquipmentItem({id: key});
+                let value = isWeapon ? new InventionAugmentedWeaponItem({id: key}, this, this.game) : new InventionAugmentedEquipmentItem({id: key}, this, this.game);
                 value.decode(reader);
                 if(isWeapon) {
                     this.augmentedWeapons.registerObject(value);
@@ -1013,6 +1280,8 @@ export class Invention extends Skill {
                 this.game.items.registerObject(value);
                 return { key, value };
             });
+
+            this.pages.decode(reader, version);
         } catch(e) { // Something's fucky, dump all progress and skip past the trash save data
             console.log(e);
             reader.byteOffset = start;
