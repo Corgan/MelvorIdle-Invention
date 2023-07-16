@@ -23,9 +23,12 @@ export class InventionPages {
         this.pages.forEach(p => p.onLevelUp());
     }
 
+    stop() {
+        return [...this.pages].every(p => p.stop());
+    }
+
     queueBankQuantityRender(item) {
-        if(this.current)
-            this.current.queueBankQuantityRender(item);
+        this.pages.forEach(p => p.queueBankQuantityRender(item));
     }
 
     activeTick() {

@@ -51,6 +51,11 @@
   </div>
 </template>
 
+<template id="invention-discover-component">
+  <div id="page" class="col-12">
+  </div>
+</template>
+
 <template id="invention-workbench-component">
   <div id="page" class="col-12">
     <div class="row no-gutters" id="invention-workbench-category-container">
@@ -87,12 +92,21 @@
 
 <template id="invention-gizmo-table-component">
   <div id="page" class="col-12">
+    <div class="row no-gutters" id="invention-gizmo-table-category-container">
+      <div class="col-12 col-md-4" id="invention-gizmo-table-artisan-container"></div>
+      <div class="col-12 col-md-8">
+        <div class="block-content block-content-full">
+          <div class="row no-gutters" id="invention-gizmo-table-item-selection-container"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <template id="invention-gizmo-modal-component">
-  <div class="modal" id="modal-invention-gizmos" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-xl" role="document">
+  <div class="modal" id="modal-invention-gizmos" tabindex="-1" role="dialog" aria-labelledby="modal-block-normal"
+    aria-hidden="true" style="display: none;">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="block-header bg-primary-dark">
           <h3 class="block-title">
@@ -104,13 +118,125 @@
             </button>
           </div>
         </div>
-        <div class="block-content block-content-full text-left border-top">
-          Ayyy this is where we'll socket gizmos
+        <div id="content" class="block-content block-content-full text-left border-top">
+          <div class="row no-gutters">
+            <div id="gizmo-slot-1" class="col-6">
+            </div>
+            <div id="gizmo-slot-2" class="col-6">
+            </div>
+            <div class="col-12">
+              <div class="block-content block-content-full">
+                <div id="gizmo-selector-container" class="row no-gutters">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="block-content block-content-full text-right border-top">
           <button type="button" class="btn btn-danger ml-3" data-dismiss="modal">
             <span>Close</span>
           </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+<template id="invention-gizmo-modal-gizmo-component">
+  <div class="block-content block-content-full block-rounded-double bg-combat-inner">
+    <div class="row no-gutters">
+        <div id="container" class="block block-rounded-double bg-combat-inner-dark text-center p-3">
+          <div class="row no-gutters">
+            <div class="col-6">
+              <img id="gizmo-icon" class="bank-img-detail">
+            </div>
+            <div class="col-6">
+              <h5 class="font-w400 font-size-sm text-left m-1 mb-2">
+                <small id="gizmo-name"></small>
+              </h5>
+            </div>
+            <div class="col-12 text-left">
+              <h5 class="font-w400 font-size-sm text-left text-bank-desc m-1 mb-2">
+                <small id="gizmo-description"></small>
+              </h5>
+            </div>
+            <div class="col-12 d-none">
+              <button id="add" type="button" class="btn btn-success ml-3">
+                <span>Add</span>
+              </button>
+            </div>
+            <div class="col-12 d-none">
+              <button id="remove" type="button" class="btn btn-danger ml-3">
+                <span>Remove</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template id="invention-game-guide">
+  <div class="py-2 text-center" id="tutorial-page-Invention">
+    <h2 class="h1 mb-2"><img id="header-icon" class="m-2" height="64px">Invention</h2>
+    <h5 class="font-w400 mb-5">Invent shit.</h5>
+    <div class="col-12">
+      <div class="row gutters-tiny">
+        <div class="col-md-6">
+          <div class="block-content">
+            <div class="py-2 text-left">
+              <h4 class="mb-2">Used to Create:</h4>
+            </div>
+            <div class="media d-flex align-items-center push">
+              <div class="mr-3"><img class="m-2" id="augment-icon" height="48px"></div>
+              <div class="media-body text-left">
+                <div class="font-w600">Augmentors</div>
+                <div class="font-w400 font-size-sm">Augment Items. Level them.</div>
+              </div>
+            </div>
+            <div class="media d-flex align-items-center push">
+              <div class="mr-3"><img class="m-2" id="augment-icon" height="48px"></div>
+              <div class="media-body text-left">
+                <div class="font-w600">Gizmo Shells</div>
+                <div class="font-w400 font-size-sm">Fill Shells. Get Perks.</div>
+              </div>
+            </div>
+            <div class="media d-flex align-items-center push">
+              <div class="mr-3"><img class="m-2" id="augment-icon" height="48px"></div>
+              <div class="media-body text-left">
+                <div class="font-w600">Equipment Siphon</div>
+                <div class="font-w400 font-size-sm">Suck the XP out of your Augmented Items for big gainz.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="block-content block-content-full">
+            <div class="py-2 text-left">
+              <h4 class="mb-2">Actions to Perform</h4>
+            </div>
+            <div class="media d-flex align-items-center push">
+              <div class="mr-3"><img class="m-2" height="48px"></div>
+              <div class="media-body text-left">
+                <div class="font-w600">Discover</div>
+                <div class="font-w400 font-size-sm">Discover new inventions and how to use new parts.</div>
+              </div>
+            </div>
+            <div class="media d-flex align-items-center push">
+              <div class="mr-3"><img class="m-2" height="48px"></div>
+              <div class="media-body text-left">
+                <div class="font-w600">Disassemble</div>
+                <div class="font-w400 font-size-sm">Break down items into parts.</div>
+              </div>
+            </div>
+            <div class="media d-flex align-items-center push">
+              <div class="mr-3"><img class="m-2" height="48px"></div>
+              <div class="media-body text-left">
+                <div class="font-w600">Attach Gizmos</div>
+                <div class="font-w400 font-size-sm">Attach Gizmos into your Augmented Items. Mix and match perks.</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

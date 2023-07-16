@@ -1,4 +1,4 @@
-export async function setup({ gameData, patch, loadTemplates, loadModule, onInterfaceAvailable, onInterfaceReady }) {
+export async function setup({ gameData, patch, loadTemplates, loadModule, onInterfaceAvailable, onCharacterLoaded }) {
     console.log("Loading Invention Templates");
     await loadTemplates("templates.html"); // Add templates
   
@@ -6,12 +6,15 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
     const { Invention } = await loadModule('src/invention.mjs'); // Load skill
 
     console.log("Registering Invention Skill");
-    game.registerSkill(game.registeredNamespaces.getNamespace('invention'), Invention); // Register skill
+    game.invention = game.registerSkill(game.registeredNamespaces.getNamespace('invention'), Invention); // Register skill
 
-    console.log("Registering Invention Data");
-    await gameData.addPackage('data.json'); // Add skill data (page + sidebar, skillData)
-
-    console.log('Registered Invention Data.');
+    patch(NamespaceRegistry, 'getObjectByID').replace(function(o, id) {
+        let obj = o(id);
+        if(obj === undefined && id !== undefined && id.startsWith("invention")) {
+            return game.invention.handleMissingObject(id);
+        }
+        return obj;
+    });
 
     patch(Bank, 'processItemSale').replace(function(o, item, quantity) {
         o(item, quantity);
@@ -55,6 +58,18 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
         game.invention.rewardForDamage(damage);
     });
 
+    patch(Player, 'updateForEquipmentChange').before(function() {
+        game.invention.onEquipmentChange();
+    });
+
+    patch(Player, 'updateForEquipSetChange').before(function() {
+        game.invention.onEquipSetChange();
+    });
+
+    patch(Equipment, 'removeQuantityFromSlot').before(function(slot, quantity) {
+        console.log(slot, quantity);
+    });
+
     patch(BankSelectedItemMenu, 'setItem').replace(function(o, bankItem, bank) {
         o(bankItem, bank);
         if(this.insertGizmosButton === undefined) {
@@ -72,21 +87,24 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
         } else {
             hideElement(this.insertGizmosButton);
         }
-        console.log(bankItem, bank);
-    })
+    });
+
+    console.log("Registering Invention Data");
+    await gameData.addPackage('data.json'); // Add skill data (page + sidebar, skillData)
+
+    console.log('Registered Invention Data.');
+
+    onCharacterLoaded(async() => {
+        game.invention.onCharacterLoaded();
+    });
 
     onInterfaceAvailable(async () => {
-        const skill = game.skills.registeredObjects.get("invention:Invention");
-
-        game.invention = skill;
-
         console.log("Appending Invention Page");
-        skill.component.mount(document.getElementById('main-container')); // Add skill container
-        
-        let $fragment = new DocumentFragment();
-        $fragment.append(getTemplateNode('invention-gizmo-modal-component'));
-        document.getElementById('main-container').after($fragment)
+        game.invention.component.mount(document.getElementById('main-container')); // Add skill container
+        game.invention.gizmoModal.mount(document.getElementById('page-container')); // Add Gizmo Modal
+        game.invention.gameGuide.mount(document.querySelector('#modal-game-guide .block-content.block-content-full')); // Add Game Guide
 
         game.invention.pages.initMenus();
+        game.invention.onInterfaceAvailable();
     });
 }

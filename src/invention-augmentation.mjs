@@ -87,24 +87,38 @@ class InventionAugmentationTab extends ContainedComponent {
             return true;
         });
     }
-    updateItems() {
-        this.destroyIcons();
-        let items = game.bank.unlockedItemArray.filter(item => {
-            if(this.augmentation.manager.isAugmentedItem(item))
-                return false;
-            if(item instanceof WeaponItem)
-                return true;
-            if(item instanceof EquipmentItem && (item.validSlots.includes('Platebody') || item.validSlots.includes('Platelegs')))
-                return true;
-            return false;
-        });
-        items.forEach((item)=>{
+    updateItem(item) {
+        let icon = this.icons.find(i => i.item === item);
+        let qty = game.bank.getQty(item);
+        if(qty > 0) {
+            if(icon !== undefined) {
+                icon.updateQty();
+            } else {
+                if(!this.augmentation.manager.canAugmentItem(item) || game.bank.lockedItems.has(item))
+                    return;
             let icon = new ItemAugmentationIcon(this.container);
             icon.setItem(item, game.bank.getQty(item));
             icon.setCallback(()=>this.augmentation.selectItemOnClick(item));
             if(item === this.augmentation.selectedItem)
                 icon.container.classList.add('bg-easy-task');
+            icon.localize();
             this.icons.push(icon);
+            }
+        } else if (qty === 0) {
+            if(icon !== undefined) {
+                icon.destroy();
+                this.icons.splice(this.icons.indexOf(icon), 1);
+            }
+        }
+    }
+    updateItems() {
+        let items = game.bank.unlockedItemArray.filter(item => {
+            if(this.augmentation.manager.canAugmentItem(item))
+                return true;
+            return false;
+        });
+        items.forEach((item)=>{
+            this.updateItem(item);
         });
         this.localize();
     }
@@ -116,14 +130,13 @@ class InventionAugmentationRenderQueue {
         this.recipeInfo = false;
         this.quantities = false;
         this.progressBar = false;
-        this.icons = false;
+        this.icons = new Set();
     }
     updateAll() {
         this.selectedItem = true;
         this.recipeInfo = true;
         this.quantities = true;
         this.progressBar = true;
-        this.icons = true;
     }
 }
 
@@ -153,6 +166,8 @@ export class InventionAugmentation extends InventionPage {
     onShow() {
         if(game.bank.getQty(this.selectedItem) === 0)
             this.selectItemOnClick();
+        this.selectionTab.updateItems();
+        this.renderQueue.quantities = true;
     }
 
     onHide() {
@@ -186,8 +201,11 @@ export class InventionAugmentation extends InventionPage {
     
 
     augmentButtonOnClick() {
+        if(this.manager.isActive && !this.actionTimer.isActive)
+            this.manager.stop();
+        
         if(this.manager.isActive) {
-            this.stop();
+            this.manager.stop();
         } else if(this.selectedItem !== undefined) {
             if(this.getCurrentAugmentCosts().checkIfOwned()) {
                 this.start();
@@ -201,47 +219,29 @@ export class InventionAugmentation extends InventionPage {
     }
 
     selectItemOnClick(item) {
-        if(item !== this.selectedItem && this.manager.isActive && !this.stop())
+        if(item !== this.selectedItem && this.actionTimer.isActive && !this.manager.stop())
             return;
         this.selectedItem = item;
         this.renderQueue.selectedItem = true;
         this.render();
     }
 
-    get canStop() {
-        return this.manager.isActive && !this.game.isGolbinRaid;
-    }
-
-    get canStart() {
-        return !this.game.idleChecker(this);
-    }
-
     start() {
-        if (!this.canStart)
+        if (!this.manager.canStart)
             return false;
-        
-        this.manager.isActive = true;
-        this.game.renderQueue.activeSkills = true;
-        this.startActionTimer();
-        this.game.activeAction = this.manager;
-        this.game.scheduleSave();
 
-        saveData();
-        return true;
+        this.startActionTimer();
+        
+        return this.manager.start();
     }
 
     stop() {
-        if(!this.canStop)
+        if(!this.manager.canStop)
             return false;
             
-        this.manager.isActive = false;
         this.actionTimer.stop();
         this.renderQueue.progressBar = true;
-        this.game.renderQueue.activeSkills = true;
-        this.game.clearActiveAction(false);
-        this.game.scheduleSave();
-
-        saveData();
+        
         return true;
     }
 
@@ -257,15 +257,19 @@ export class InventionAugmentation extends InventionPage {
                 type: 'Player',
                 args: [this, this.noCostsMessage, 'danger']
             });
-            this.stop();
+            this.manager.stop();
             return;
         }
-        this.addActionRewards(this.selectedItem);
+        let notAllGiven = this.addActionRewards(this.selectedItem);
+        if(notAllGiven) {
+            this.manager.stop();
+            return;
+        }
         this.preAction();
         augmentCosts.consumeCosts();
         this.postAction();
 
-        this.stop();
+        this.manager.stop();
     }
     postAction() {
         this.renderQueue.recipeInfo = true;
@@ -274,6 +278,8 @@ export class InventionAugmentation extends InventionPage {
     addActionRewards(item) {
         const rewards = this.actionRewards;
         let augmentedItem = this.manager.createAugmentedItem(item);
+        if(augmentedItem === undefined)
+            return true;
         rewards.addItem(augmentedItem, 1);
         rewards.setSource(`Skill.${this.manager.id}`);
         const notAllGiven = rewards.giveRewards();
@@ -295,9 +301,8 @@ export class InventionAugmentation extends InventionPage {
         this.actionTimer.stop();
     }
     queueBankQuantityRender(item) {
-        this.renderQueue.quantities = true;
-        if(this.game.bank.getQty(item) <= 1)
-            this.renderQueue.icons = true;
+        this.renderQueue.icons.add(item);
+        this.quantities = true;
     }
     render() {
         this.renderSelectedItem();
@@ -308,16 +313,15 @@ export class InventionAugmentation extends InventionPage {
         this.renderProgressBar();
     }
     renderIcons() {
-        if(!this.renderQueue.icons)
+        if(!this.renderQueue.icons.size > 0)
             return;
-        this.selectionTab.updateItems();
-        this.renderQueue.icons = false;
+        this.renderQueue.icons.forEach(icon => this.selectionTab.updateItem(icon));
+        this.renderQueue.icons.clear();
     }
     renderQuantities() {
         if (!this.renderQueue.quantities)
             return;
         this.menu.updateQuantities();
-        this.selectionTab.updateQty();
         this.renderQueue.quantities = false;
     }
     renderSelectedItem() {
@@ -348,7 +352,7 @@ export class InventionAugmentation extends InventionPage {
     renderProgressBar() {
         if (!this.renderQueue.progressBar)
             return;
-        if (this.manager.isActive) {
+        if (this.actionTimer.isActive) {
             this.menu.animateProgressFromTimer(this.actionTimer);
         } else {
             this.menu.stopProgressBar();

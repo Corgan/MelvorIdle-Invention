@@ -67,7 +67,7 @@ class ItemDisassembleIcon extends ItemQtyIcon {
     }
     updateQty() {
         this.qty = this.getCurrentQty();
-        this.setText(this.qty);
+        this.setText(numberWithCommas(this.getCurrentQty()));
     }
     setCallback(callback) {
         this.container.onclick = callback;
@@ -90,6 +90,15 @@ class ItemDisassembleIcon extends ItemQtyIcon {
     }
 }
 
+class DecimalXPIcon extends XPIcon {
+    setXP(xp, baseXP) {
+        this.xp = xp.toFixed(1) % 1 != 0 ? xp.toFixed(1) : Math.floor(xp);
+        this.baseXP = baseXP.toFixed(1) % 1 != 0 ? baseXP.toFixed(1) : Math.floor(baseXP);
+        this.setText(`${this.xp}`);
+        this.localize();
+    }
+}
+
 class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
     constructor(disassemble) {
         super('invention-disassemble-artisan-container', disassemble.manager);
@@ -97,6 +106,10 @@ class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
         hideElement(this.buffsContainer);
         hideElement(this.masteryCol);
         this.produces.hide();
+        this.grants.xpIcon.destroy();
+        this.grants.icons.splice(this.grants.icons.indexOf(this.grants.xpIcon), 1)
+        this.grants.xpIcon = new DecimalXPIcon(this.grants.iconContainer,69,69,48);
+        this.grants.addIcon(this.grants.xpIcon);
         this.grants.container.classList.remove('col-sm-6');
 
         let blockClasses = ['block', 'block-rounded-double', 'bg-combat-inner-dark'];
@@ -115,8 +128,25 @@ class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
         this.junkChance = new JunkBox(disassembleRow, false, boxClasses);
         this.junkChance.setJunk(this.disassemble.game.items.getObjectByID('invention:Junk'));
         this.junkChance.setSelected();
+        this.createButton.parentElement.parentElement.style = "align-items: center;";
+        this.siphonSwitch = new SettingsSwitchElement();
+        this.siphonSwitch.initialize({
+            currentValue: false,
+            name: "Siphon"
+        },
+        () => {
+            this.disassemble.renderQueue.selectedItem = true;
+        });
+        this.siphonSwitch.setAttribute('data-size', 'large');
+        this.createButton.parentElement.before(this.siphonSwitch);
+        hideElement(this.siphonSwitch);
     }
     setSelected(recipe) {
+        if(this.disassemble.manager.isAugmentedItem(recipe)) {
+            showElement(this.siphonSwitch);
+        } else {
+            hideElement(this.siphonSwitch);
+        }
         if (this.noneSelected) {
             this.junkChance.setSelected();
             this.materials.setSelected();
@@ -145,12 +175,18 @@ class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
     setProduct(item) {
         super.setProduct(item, 0);
         this.junkChance.setJunk(this.disassemble.game.items.getObjectByID('invention:Junk'));
-        this.junkChance.setChance(this.disassemble.manager.getJunkChanceForItem(item));
-        let table = this.disassemble.manager.getDropTableForItem(item);
-        this.materials.setMaterialCount(this.disassemble.manager.getMaterialCountForItem(item));
+        if(!this.disassemble.shouldSiphon) {
+            this.junkChance.setChance(this.disassemble.manager.getJunkChanceForItem(item));
+            let table = this.disassemble.manager.getDropTableForItem(item);
+            this.materials.setMaterialCount(this.disassemble.manager.getMaterialCountForItem(item));
 
-        let items = table.getChances();
-        this.materials.setItems(items);
+            let items = table.getChances();
+            this.materials.setItems(items);
+        } else {
+            this.junkChance.setChance(0);
+            this.materials.setMaterialCount(0);
+            this.materials.setItems([]);
+        }
     }
 
     localize() {
@@ -194,16 +230,34 @@ class InventionDisassembleTab extends ContainedComponent {
         });
         this.icons = [];
     }
+    updateItem(item) {
+        let icon = this.icons.find(i => i.item === item);
+        let qty = game.bank.getQty(item);
+        if(qty > 0) {
+            if(icon !== undefined) {
+                icon.updateQty();
+            } else {
+                if(!this.disassemble.manager.canDisassemble(item) || game.bank.lockedItems.has(item))
+                    return;
+                let icon = new ItemDisassembleIcon(this.container);
+                icon.setItem(item, game.bank.getQty(item));
+                icon.setCallback(()=>this.disassemble.selectItemOnClick(item));
+                if(item === this.disassemble.selectedItem)
+                    icon.container.classList.add('bg-easy-task');
+                icon.localize();
+                this.icons.push(icon);
+            }
+        } else if (qty === 0) {
+            if(icon !== undefined) {
+                icon.destroy();
+                this.icons.splice(this.icons.indexOf(icon), 1);
+            }
+        }
+    }
     updateItems() {
-        this.destroyIcons();
         let items = game.bank.unlockedItemArray.filter(item => this.disassemble.manager.canDisassemble(item));
         items.forEach((item)=>{
-            let icon = new ItemDisassembleIcon(this.container);
-            icon.setItem(item, game.bank.getQty(item));
-            icon.setCallback(()=>this.disassemble.selectItemOnClick(item));
-            if(item === this.disassemble.selectedItem)
-                icon.container.classList.add('bg-easy-task');
-            this.icons.push(icon);
+            this.updateItem(item);
         });
         this.localize();
     }
@@ -215,14 +269,13 @@ class InventionDisassembleRenderQueue {
         this.recipeInfo = false;
         this.quantities = false;
         this.progressBar = false;
-        this.icons = false;
+        this.icons = new Set();
     }
     updateAll() {
         this.selectedItem = true;
         this.recipeInfo = true;
         this.quantities = true;
         this.progressBar = true;
-        this.icons = true;
     }
 }
 
@@ -252,6 +305,8 @@ export class InventionDisassemble extends InventionPage {
     onShow() {
         if(game.bank.getQty(this.selectedItem) === 0)
             this.selectItemOnClick();
+        this.selectionTab.updateItems();
+        this.renderQueue.quantities = true;
     }
 
     onHide() {
@@ -267,26 +322,16 @@ export class InventionDisassemble extends InventionPage {
         this.selectionTab = new InventionDisassembleTab(this);
     }
 
-    getCurrentDisassembleCosts() {
-        return this.getDisassembleCosts(this.selectedItem);
-    }
-
-    getDisassembleCosts(item) {
-        const costs = new Costs(this.game);
-        let count = this.manager.getRequiredCountForItem(item);
-        costs.addItem(item, count);
-
-        return costs;
-    }
-
     activeTick() {
         this.actionTimer.tick();
     }
-    
 
     disassembleButtonOnClick() {
+        if(this.manager.isActive && !this.actionTimer.isActive)
+            this.manager.stop();
+        
         if(this.manager.isActive) {
-            this.stop();
+            this.manager.stop();
         } else if(this.selectedItem !== undefined) {
             if(this.getCurrentDisassembleCosts().checkIfOwned()) {
                 this.start();
@@ -300,47 +345,29 @@ export class InventionDisassemble extends InventionPage {
     }
 
     selectItemOnClick(item) {
-        if(item !== this.selectedItem && this.manager.isActive && !this.stop())
+        if(item !== this.selectedItem && this.actionTimer.isActive && !this.manager.stop())
             return;
         this.selectedItem = item;
         this.renderQueue.selectedItem = true;
         this.render();
     }
 
-    get canStop() {
-        return this.manager.isActive && !this.game.isGolbinRaid;
-    }
-
-    get canStart() {
-        return !this.game.idleChecker(this);
-    }
-
     start() {
-        if (!this.canStart)
+        if (!this.manager.canStart)
             return false;
-        
-        this.manager.isActive = true;
-        this.game.renderQueue.activeSkills = true;
-        this.startActionTimer();
-        this.game.activeAction = this.manager;
-        this.game.scheduleSave();
 
-        saveData();
-        return true;
+        this.startActionTimer();
+        
+        return this.manager.start();
     }
 
     stop() {
-        if(!this.canStop)
+        if(!this.manager.canStop)
             return false;
             
-        this.manager.isActive = false;
         this.actionTimer.stop();
         this.renderQueue.progressBar = true;
-        this.game.renderQueue.activeSkills = true;
-        this.game.clearActiveAction(false);
-        this.game.scheduleSave();
-
-        saveData();
+        
         return true;
     }
 
@@ -356,7 +383,7 @@ export class InventionDisassemble extends InventionPage {
                 type: 'Player',
                 args: [this, this.noCostsMessage, 'danger']
             });
-            this.stop();
+            this.manager.stop();
             return;
         }
         const continueSkill = this.addActionRewards(this.selectedItem);
@@ -365,14 +392,14 @@ export class InventionDisassemble extends InventionPage {
         this.postAction();
 
         const nextCosts = this.getCurrentDisassembleCosts();
-        if (nextCosts.checkIfOwned() && continueSkill) {
+        if (nextCosts.checkIfOwned() && continueSkill && !this.shouldSiphon) {
             this.startActionTimer();
         } else {
             this.game.combat.notifications.add({
                 type: 'Player',
                 args: [this.manager, this.noCostsMessage, 'danger']
             });
-            this.stop();
+            this.manager.stop();
             this.selectedItem = undefined;
             this.renderQueue.selectedItem = true;
         }
@@ -380,6 +407,35 @@ export class InventionDisassemble extends InventionPage {
     postAction() {
         this.renderQueue.recipeInfo = true;
         this.renderQueue.quantities = true;
+    }
+    getCurrentDisassembleCosts() {
+        return this.getDisassembleCosts(this.selectedItem);
+    }
+    getDisassembleCosts(item) {
+        const costs = new Costs(this.game);
+        if(this.manager.isAugmentedItem(this.selectedItem) && this.menu.siphonSwitch.input.checked) {
+            let siphon = this.game.items.getObjectByID('invention:Equipment_Siphon');
+            costs.addItem(siphon, 1);
+        } else {
+            let count = this.manager.getRequiredCountForItem(item);
+            costs.addItem(item, count);
+        }
+
+        return costs;
+    }
+    get shouldSiphon() {
+        return this.manager.isAugmentedItem(this.selectedItem) && this.menu.siphonSwitch.input.checked;
+    }
+    get currentXP() {
+        if(this.selectedItem === undefined)
+            return 0;
+        let level = this.manager.getItemLevel(this.selectedItem);
+        let xp = this.selectedItem instanceof EquipmentItem ? level * 0.3 : Math.floor(Math.max(1, level * 0.3)) / 10;
+        if(this.manager.isAugmentedItem(this.selectedItem)) {
+            xp = this.manager.equipment_reward[Math.max(0, Math.min(this.selectedItem.level - (this.shouldSiphon ? 2 : 0), this.manager.equipment_reward.length) - 1)];
+            xp *= 1 + (1.5 * ((Math.max(15, level) - 80) / 100));
+        }
+        return xp;
     }
     addActionRewards(item) {
         const rewards = this.actionRewards;
@@ -389,17 +445,20 @@ export class InventionDisassemble extends InventionPage {
     }
     get actionRewards() {
         const rewards = new Rewards(this.game);
+        rewards.addXP(this.manager, this.currentXP);
 
-        let count = this.manager.getMaterialCountForItem(this.selectedItem);
-        let junk = this.manager.getJunkChanceForItem(this.selectedItem);
-        let table = this.manager.getDropTableForItem(this.selectedItem);
-
-        for(let i=0; i<count; i++) {
-            if(Math.floor(Math.random()*100) < junk) {
-                rewards.addItem(this.game.items.getObjectByID('invention:Junk'), 1);
-            } else {
-                let { item, quantity } = table.getDrop();
-                rewards.addItem(item, quantity);
+        if(!this.shouldSiphon) {
+            let count = this.manager.getMaterialCountForItem(this.selectedItem);
+            let junk = this.manager.getJunkChanceForItem(this.selectedItem);
+            let table = this.manager.getDropTableForItem(this.selectedItem);
+    
+            for(let i=0; i<count; i++) {
+                if(Math.floor(Math.random()*100) < junk) {
+                    rewards.addItem(this.game.items.getObjectByID('invention:Junk'), 1);
+                } else {
+                    let { item, quantity } = table.getDrop();
+                    rewards.addItem(item, quantity);
+                }
             }
         }
 
@@ -414,10 +473,8 @@ export class InventionDisassemble extends InventionPage {
         this.actionTimer.stop();
     }
     queueBankQuantityRender(item) {
-        this.renderQueue.items.push(item);
-        this.renderQueue.quantities = true;
-        if(this.game.bank.getQty(item) <= 1)
-            this.renderQueue.icons = true;
+        this.renderQueue.icons.add(item);
+        this.quantities = true;
     }
 
     render() {
@@ -429,16 +486,15 @@ export class InventionDisassemble extends InventionPage {
         this.renderProgressBar();
     }
     renderIcons() {
-        if(!this.renderQueue.icons)
+        if(!this.renderQueue.icons.size > 0)
             return;
-        this.selectionTab.updateItems();
-        this.renderQueue.icons = false;
+        this.renderQueue.icons.forEach(icon => this.selectionTab.updateItem(icon));
+        this.renderQueue.icons.clear();
     }
     renderQuantities() {
         if (!this.renderQueue.quantities)
             return;
         this.menu.updateQuantities();
-        this.selectionTab.updateQty();
         this.renderQueue.quantities = false;
     }
     renderSelectedItem() {
@@ -461,7 +517,7 @@ export class InventionDisassemble extends InventionPage {
     renderItemInfo() {
         if (!this.renderQueue.recipeInfo)
             return;
-        this.menu.updateGrants(this.manager.modifyXP(this.baseXP), this.baseXP, 0, 0, 0);
+        this.menu.updateGrants(this.manager.modifyXP(this.currentXP), this.currentXP, 0, 0, 0);
         this.menu.grants.hideMastery();
         this.menu.updateChances(0, 0);
         this.menu.updateInterval(this.baseInterval);
@@ -470,7 +526,7 @@ export class InventionDisassemble extends InventionPage {
     renderProgressBar() {
         if (!this.renderQueue.progressBar)
             return;
-        if (this.manager.isActive) {
+        if (this.actionTimer.isActive) {
             this.menu.animateProgressFromTimer(this.actionTimer);
         } else {
             this.menu.stopProgressBar();

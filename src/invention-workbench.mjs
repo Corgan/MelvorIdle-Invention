@@ -187,8 +187,11 @@ export class InventionWorkbench extends InventionPage {
     }
 
     createButtonOnClick() {
+        if(this.manager.isActive && !this.actionTimer.isActive)
+            this.manager.stop();
+        
         if(this.manager.isActive) {
-            this.stop();
+            this.manager.stop();
         } else if(this.selectedRecipe !== undefined) {
             if(this.getCurrentRecipeCosts().checkIfOwned()) {
                 this.start();
@@ -199,7 +202,7 @@ export class InventionWorkbench extends InventionPage {
     }
 
     selectRecipeOnClick(recipe) {
-        if(recipe !== this.selectedRecipe && this.manager.isActive && !this.stop())
+        if(recipe !== this.selectedRecipe && this.actionTimer.isActive && !this.manager.stop())
             return;
         this.selectedRecipe = recipe;
         this.renderQueue.selectedRecipe = true;
@@ -210,40 +213,22 @@ export class InventionWorkbench extends InventionPage {
         return quantity;
     }
 
-    get canStop() {
-        return this.manager.isActive && !this.game.isGolbinRaid;
-    }
-
-    get canStart() {
-        return !this.game.idleChecker(this);
-    }
-
     start() {
-        if (!this.canStart)
+        if (!this.manager.canStart)
             return false;
-        
-        this.manager.isActive = true;
-        this.game.renderQueue.activeSkills = true;
-        this.startActionTimer();
-        this.game.activeAction = this.manager;
-        this.game.scheduleSave();
 
-        saveData();
-        return true;
+        this.startActionTimer();
+        
+        return this.manager.start();
     }
 
     stop() {
-        if(!this.canStop)
+        if(!this.manager.canStop)
             return false;
             
-        this.manager.isActive = false;
         this.actionTimer.stop();
         this.renderQueue.progressBar = true;
-        this.game.renderQueue.activeSkills = true;
-        this.game.clearActiveAction(false);
-        this.game.scheduleSave();
-
-        saveData();
+        
         return true;
     }
 
@@ -258,7 +243,7 @@ export class InventionWorkbench extends InventionPage {
                 type: 'Player',
                 args: [this, this.noCostsMessage, 'danger']
             });
-            this.stop();
+            this.manager.stop();
             return;
         }
         this.preAction();
@@ -281,7 +266,7 @@ export class InventionWorkbench extends InventionPage {
                 type: 'Player',
                 args: [this.manager, this.noCostsMessage, 'danger']
             });
-            this.stop();
+            this.manager.stop();
         }
     }
     addActionRewards() {
@@ -357,7 +342,7 @@ export class InventionWorkbench extends InventionPage {
     renderProgressBar() {
         if (!this.renderQueue.progressBar)
             return;
-        if (this.manager.isActive) {
+        if (this.actionTimer.isActive) {
             this.menu.animateProgressFromTimer(this.actionTimer);
         } else {
             this.menu.stopProgressBar();

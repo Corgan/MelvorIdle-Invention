@@ -75,6 +75,7 @@ export class InventionOverview {
                 let nav = new InventionOverviewNavItem(navData);
                 nav.component.mount(this.component.menu);
                 this.menu.add(nav);
+                nav.render();
             });
         }
     }

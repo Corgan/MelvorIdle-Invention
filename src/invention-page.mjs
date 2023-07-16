@@ -25,7 +25,11 @@ export class InventionPage {
 
     activeTick() { }
 
-    queueBankQuantityRender() { }
+    start() { }
+
+    stop() { return true }
+
+    queueBankQuantityRender(item) { }
 
     initMenus() { }
 
