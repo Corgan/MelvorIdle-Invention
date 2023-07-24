@@ -113,7 +113,10 @@
               {
                 "id": "discover",
                 "name": "Discoveries",
-                "page": "discover"
+                "page": "discover",
+                "classList": [
+                  "d-none"
+                ]
               },
               {
                 "id": "workbench",
@@ -214,31 +217,56 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 5,
-                    "roll": 25
-                  },
-                  {
                     "perkID": "invention:Precise",
                     "base": 5,
                     "roll": 25
                   },
                   {
-                    "perkID": "invention:Savage",
+                    "perkID": "invention:Thrusting",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Rending",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Brutal",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Mystical",
                     "base": 5,
                     "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
+                    "perkID": "invention:Acrobatic",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Safeguard",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Deflecting",
                     "base": 5,
                     "roll": 25
                   },
                   {
                     "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Wealth",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -257,31 +285,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Thrusting",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Savage",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
                     "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Commanding",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Durable",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Hardened",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Impenetrable",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Resistant",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -300,31 +343,31 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Thrusting",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Rending",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Sharp",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Razor_Sharp",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Thorny",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -344,30 +387,35 @@
                 "weapon": [
                   {
                     "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Lethal",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Sharp",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Dismantling",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Thorny",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Razor_Sharp",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -386,31 +434,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Commanding",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Balanced",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
                     "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Efficient",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Deadly",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Occult",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Deflecting",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Blurred",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -429,31 +492,41 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Blunt",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Crushing",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Stunning",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Strategic",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Safeguard",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
                     "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Grizzled",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -472,31 +545,36 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Balanced",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Commanding",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Stunning",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Strategic",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Durable",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Safeguard",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -515,31 +593,36 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Quick",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Thrifty",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Frenzy",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Acrobatic",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Elusive",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Evasive",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -558,31 +641,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Gale",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Flood",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Earthquake",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Volcanic",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Efficient",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Deadly",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Deflecting",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Blurred",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Resistant",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -601,31 +704,56 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
                     "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Blunt",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Balanced",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Commanding",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Durable",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Hardened",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Impenetrable",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Resistant",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Perceptive",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Grizzled",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -644,31 +772,41 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Blunt",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Commanding",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Balanced",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Durable",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Acrobatic",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Safeguard",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Deflecting",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -687,31 +825,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Thrifty",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Efficient",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Lethal",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Deadly",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Crushing",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Soft",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Elusive",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Agile",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Blurred",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -730,31 +888,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Crushing",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Crushing",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Lethal",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Deadly",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Stunning",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Safeguard",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Deflecting",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
                     "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Grizzled",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -773,31 +951,41 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Strategic",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Dismantling",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Balanced",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Thrifty",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Efficient",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Glutton",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Invigorate",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -816,31 +1004,46 @@
               "perks": {
                 "weapon": [
                   {
+                    "perkID": "invention:Quick",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
                     "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Lethal",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Deadly",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Elusive",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Agile",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Blurred",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Evasive",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -859,31 +1062,41 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Sandman",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Frenzy",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Savage",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Stunning",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Commanding",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Wealth",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Glutton",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Regenerative",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -902,31 +1115,36 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Commanding",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Stunning",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Sandman",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Hardened",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Impenetrable",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Resistant",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -945,31 +1163,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Balanced",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Flood",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Earthquake",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Volcanic",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Gale",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Soft",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Buzzed",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Cat_Nap",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -988,31 +1221,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Poisonous",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Venomous",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Savage",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Cruel",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Healthy",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Hearty",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Regenerative",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Invigorate",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Lizardman",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Noxious",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -1031,31 +1284,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Thrifty",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Efficient",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Mystical",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Quick",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Dismantling",
+                    "base": 5,
+                    "roll": 25
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Flame_Retardant",
+                    "base": 5,
+                    "roll": 25
                   },
                   {
-                    "perkID": "invention:Durable",
-                    "base": 10,
-                    "roll": 20
+                    "perkID": "invention:Bandage",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Antidote",
+                    "base": 5,
+                    "roll": 25
+                  },
+                  {
+                    "perkID": "invention:Antitoxin",
+                    "base": 5,
+                    "roll": 25
                   }
                 ]
               }
@@ -1074,31 +1342,41 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Thrusting",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Rending",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Crushing",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Savage",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Dismantling",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Razor_Sharp",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Thorny",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
                   }
                 ]
               }
@@ -1118,30 +1396,50 @@
                 "weapon": [
                   {
                     "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Lethal",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Savage",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Dismantling",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Acrobatic",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Elusive",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Agile",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Blurred",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Evasive",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1160,31 +1458,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
                     "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Blunt",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Crushing",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Stunning",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Safeguard",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Deflecting",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
                     "perkID": "invention:Durable",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Hardened",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1203,31 +1516,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Thrifty",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Sharp",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Quick",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Frenzy",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Perceptive",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Elusive",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Agile",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Blurred",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1246,31 +1574,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Thrifty",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Precise",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Strategic",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Frenzy",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Evasive",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Elusive",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Agile",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Blurred",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1289,31 +1632,66 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Occult",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Deadly",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Blaze",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Electric",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Hypothermia",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Adept",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Lizardman",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Noxious",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Wet",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Mithridatism",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Clotting",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Tonic_Immobility",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1332,31 +1710,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Thrifty",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Efficient",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Devout",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Commanding",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Stunning",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
                     "perkID": "invention:Durable",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Hardened",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Impenetrable",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Resistant",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1376,30 +1774,45 @@
                 "weapon": [
                   {
                     "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Quick",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Frenzy",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Strategic",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Elusive",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Agile",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Blurred",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Evasive",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1418,31 +1831,41 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Strategic",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Frenzy",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Quick",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Savage",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Acrobatic",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Safeguard",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Deflecting",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1462,30 +1885,35 @@
                 "weapon": [
                   {
                     "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Sharp",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Vampiric",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Thorny",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Razor_Sharp",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Noxious",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1504,31 +1932,36 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Efficient",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Savage",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Quick",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Grizzled",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Perceptive",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
                     "perkID": "invention:Durable",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
                   }
                 ]
               }
@@ -1547,31 +1980,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
                     "perkID": "invention:Mystical",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Occult",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Devout",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Rot",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Blessed",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Wealth",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Glutton",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Healthy",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Hearty",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1590,31 +2043,41 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Insanity",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Torture",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Anguish",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Flame_Retardant",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Bandage",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Antidote",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Antitoxin",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1633,31 +2096,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Commanding",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Balanced",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Sandman",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Glutton",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Healthy",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Hearty",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Regenerative",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Invigorate",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1676,31 +2154,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Vampiric",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Savage",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Poisonous",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Venomous",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Cruel",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Healthy",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Hearty",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Lizardman",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Cat_Nap",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1719,31 +2217,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Gale",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Flood",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Earthquake",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Volcanic",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Adept",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Noxious",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Wet",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Mithridatism",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Clotting",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1762,31 +2280,36 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Lethal",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Thrifty",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Flame_Retardant",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Bandage",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Antidote",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Antitoxin",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1805,31 +2328,46 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Vampiric",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Commanding",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Strategic",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Healthy",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Hearty",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Lizardman",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Tonic_Immobility",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Cat_Nap",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1849,30 +2387,40 @@
                 "weapon": [
                   {
                     "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Strategic",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Dismantling",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Perceptive",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Grizzled",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Buzzed",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Tonic_Immobility",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1891,31 +2439,51 @@
               "perks": {
                 "weapon": [
                   {
-                    "perkID": "invention:Precise",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Brutal",
-                    "base": 25,
-                    "roll": 5
-                  },
-                  {
-                    "perkID": "invention:Mystical",
+                    "perkID": "invention:Dismantling",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Quick",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Strategic",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Commanding",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Balanced",
+                    "base": 10,
+                    "roll": 40
                   }
                 ],
                 "armour": [
                   {
-                    "perkID": "invention:Regenerative",
-                    "base": 25,
-                    "roll": 5
+                    "perkID": "invention:Flame_Retardant",
+                    "base": 10,
+                    "roll": 40
                   },
                   {
-                    "perkID": "invention:Durable",
+                    "perkID": "invention:Bandage",
                     "base": 10,
-                    "roll": 20
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Antidote",
+                    "base": 10,
+                    "roll": 40
+                  },
+                  {
+                    "perkID": "invention:Antitoxin",
+                    "base": 10,
+                    "roll": 40
                   }
                 ]
               }
@@ -1932,17 +2500,60 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
+                  "cost": 175,
+                  "rank": 3
+                }
+              ]
+            },
+            {
+              "id": "Thrusting",
+              "name": "Thrusting",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [],
+              "modifiers": {
+                "increasedFlatStabAttackBonus": 15
+              },
+              "ranks": [
+                {
+                  "cost": 40,
+                  "rank": 1
+                },
+                {
+                  "cost": 90,
+                  "rank": 2
+                },
+                {
+                  "cost": 175,
+                  "rank": 3
+                }
+              ]
+            },
+            {
+              "id": "Rending",
+              "name": "Rending",
+              "media": "melvor:assets/media/main/gp.svg",
+              "equipmentStats": [],
+              "modifiers": {
+                "increasedFlatSlashAttackBonus": 15
+              },
+              "ranks": [
+                {
+                  "cost": 40,
+                  "rank": 1
+                },
+                {
+                  "cost": 90,
+                  "rank": 2
+                },
+                {
                   "cost": 175,
                   "rank": 3
                 }
@@ -1954,23 +2565,18 @@
               "media": "melvor:assets/media/main/gp.svg",
               "equipmentStats": [],
               "modifiers": {
-                "increasedFlatStabAttackBonus": 15,
-                "increasedFlatSlashAttackBonus": 15,
                 "increasedFlatBlockAttackBonus": 15
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -1986,17 +2592,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2012,17 +2615,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2038,17 +2638,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2064,17 +2661,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2090,17 +2684,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2116,17 +2707,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2143,17 +2731,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2170,17 +2755,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2197,17 +2779,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2224,17 +2803,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2250,17 +2826,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2276,17 +2849,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2302,17 +2872,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2328,17 +2895,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2354,17 +2918,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2381,17 +2942,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2407,43 +2965,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
-                  "cost": 175,
-                  "rank": 3
-                }
-              ]
-            },
-            {
-              "id": "Toxic",
-              "name": "Toxic",
-              "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedDamageDealtIfPoisoned": 5
-              },
-              "ranks": [
-                {
-                  "threshold": 55,
-                  "cost": 40,
-                  "rank": 1
-                },
-                {
-                  "threshold": 115,
-                  "cost": 90,
-                  "rank": 2
-                },
-                {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2459,17 +2988,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2485,17 +3011,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2511,17 +3034,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2537,7 +3057,6 @@
               },
               "ranks": [
                 {
-                  "threshold": 100,
                   "cost": 90,
                   "rank": 1
                 }
@@ -2553,7 +3072,6 @@
               },
               "ranks": [
                 {
-                  "threshold": 100,
                   "cost": 90,
                   "rank": 1
                 }
@@ -2569,33 +3087,45 @@
               },
               "ranks": [
                 {
-                  "threshold": 100,
                   "cost": 90,
                   "rank": 1
                 }
               ]
             },
             {
-              "id": "Wrath",
-              "name": "Wrath",
+              "id": "Frenzy",
+              "name": "Frenzy",
               "media": "melvor:assets/media/main/gp.svg",
               "equipmentStats": [],
-              "modifiers": {
-                "increasedPlayerRage": 5
-              },
+              "modifiers": {},
+              "onHitEffects": [
+                {
+                  "id": "Frenzy",
+                  "effectType": "Custom",
+                  "type": "Modifier",
+                  "stacksToAdd": 1,
+                  "character": "Attacker",
+                  "countsOn": "Attacker",
+                  "modifiers": {
+                    "decreasedAttackIntervalPercent": 1
+                  },
+                  "maxStacks": 10,
+                  "media": "assets/media/status/attack_increase.svg",
+                  "turns": "Infinity",
+                  "name": "Frenzy",
+                  "description": "When Target is hit, Attacker gains a stack of Frenzy: -${decreasedAttackIntervalPercent}% Attack Interval"
+                }
+              ],
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2611,17 +3141,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2637,17 +3164,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2663,17 +3187,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2689,17 +3210,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2715,17 +3233,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2741,17 +3256,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2767,17 +3279,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2793,17 +3302,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2819,17 +3325,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2845,17 +3348,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2871,17 +3371,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2897,17 +3394,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2923,17 +3417,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -2954,12 +3445,10 @@
               ],
               "ranks": [
                 {
-                  "threshold": 100,
                   "cost": 75,
                   "rank": 1
                 },
                 {
-                  "threshold": 200,
                   "cost": 150,
                   "rank": 2
                 }
@@ -2975,17 +3464,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3001,17 +3487,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3027,17 +3510,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3053,17 +3533,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3079,17 +3556,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3105,17 +3579,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3131,17 +3602,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3157,17 +3625,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3183,17 +3648,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3209,17 +3671,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3235,17 +3694,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3261,17 +3717,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3298,23 +3751,19 @@
               ],
               "ranks": [
                 {
-                  "threshold": 40,
-                  "cost": 30,
+                  "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 80,
-                  "cost": 60,
+                  "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 140,
-                  "cost": 110,
+                  "cost": 140,
                   "rank": 3
                 },
                 {
-                  "threshold": 200,
-                  "cost": 180,
+                  "cost": 200,
                   "rank": 4
                 }
               ]
@@ -3329,17 +3778,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3355,17 +3801,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3381,17 +3824,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3407,17 +3847,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3433,17 +3870,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3459,17 +3893,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3485,17 +3916,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3511,17 +3939,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3537,17 +3962,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3563,17 +3985,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3589,17 +4008,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3615,17 +4031,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3641,17 +4054,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3667,17 +4077,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3693,17 +4100,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3719,17 +4123,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3741,21 +4142,18 @@
               "media": "melvor:assets/media/main/gp.svg",
               "equipmentStats": [],
               "modifiers": {
-                "increasedMaxHitpoints": 0.1
+                "increasedMaxHitpoints": 1
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3767,21 +4165,18 @@
               "media": "melvor:assets/media/main/gp.svg",
               "equipmentStats": [],
               "modifiers": {
-                "increasedFlatMaxHitpoints": 10
+                "increasedFlatMaxHitpoints": 1
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3797,17 +4192,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3823,17 +4215,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3849,17 +4238,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3875,17 +4261,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3901,17 +4284,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3927,17 +4307,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3953,17 +4330,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -3979,17 +4353,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -4005,17 +4376,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }
@@ -4031,17 +4399,14 @@
               },
               "ranks": [
                 {
-                  "threshold": 55,
                   "cost": 40,
                   "rank": 1
                 },
                 {
-                  "threshold": 115,
                   "cost": 90,
                   "rank": 2
                 },
                 {
-                  "threshold": 220,
                   "cost": 175,
                   "rank": 3
                 }

@@ -78,7 +78,10 @@ class ComponentIcon extends ContainedComponent {
         return 'Empty';
     }
     getTooltipContent() {
-        let tt = `<div class="text-center">${this.getName()}</div>`;
+        let desc = '';
+        if(this.item !== undefined && this.item.hasDescription)
+            desc =  `<small>${this.item.description}</small>`;
+        let tt = `<div class="text-center">${this.getName()}${desc}</div>`;
         return tt;
     }
 }
@@ -143,11 +146,14 @@ class PerksBox extends ContainedComponent {
         this.container = createElement('div', {
             classList: containerClasses
         });
-        const nameHeader = createElement('h5', {
+        this.budget = createElement('h5', {
+            classList: ['font-w600', 'mb-1', 'text-center'],
+            parent: this.container,
+        });
+        this.name = createElement('h5', {
             classList: ['font-w600', 'font-size-sm', 'mb-1', 'text-center'],
             parent: this.container,
         });
-        this.name = nameHeader;
         this.centerContainer = createElement('div', {
             classList: ['row', 'justify-content-center'],
             parent: this.container,
@@ -161,17 +167,25 @@ class PerksBox extends ContainedComponent {
     setName(name) {
         this.name.textContent = name;
     }
+    setBudget(budget) {
+        this.budget.textContent = budget;
+    }
     setPerks(perks) {
-        this.perksContainer.innerHTML = `<div class="row no-gutters">
-            ${perks.filter(perk => perk.rank > 0).map(({ perk, rank }) => {
-                let range = rank > 1 ? `1-${rank}` : rank;
-                let name = `${perk.name} Rank ${range}`;
-                return `<div class="col-12">${name}</div>`
+        this.perksContainer.innerHTML = `<div class="row no-gutters"><small>
+            ${perks.sort((a,b) => a.high === b.high ? a.perk.name.localeCompare(b.perk.name) : b.high - a.high).filter(perk => perk.lowRank !== undefined || perk.highRank !== undefined).map(({ perk, low, lowRank, high, highRank, roll, rollRank }) => {
+                if(lowRank === undefined)
+                    lowRank = perk.ranks[0];
+                let rankRange = lowRank !== highRank ? `${lowRank.rank}-${highRank.rank}` : highRank.rank;
+                let costRange = lowRank !== highRank ? perk.ranks.slice(perk.ranks.indexOf(lowRank), perk.ranks.indexOf(highRank)+1).map(rank => rank.cost).join('/') : highRank.cost;
+                let name = `${perk.name} Rank ${rankRange} (${costRange})`;
+                return `<div class="col-12"><span class="text-success">${name}</span></div>`
             }).join('')}
-        </div>`;
+        </small></div>`;
     }
     localize() {
-        this.setName("Possible Perks");
+        let { low, high } = game.invention.getBudget(false);
+        this.setName("Possible Perks (cost)");
+        this.setBudget(`Budget: ${low}-${high}`);
     }
 }
 
@@ -276,6 +290,7 @@ class InventionGizmoTableMenu extends ArtisanMenu { // Remove Mastery Shit
 
     localize() {
         super.localize();
+        this.perks.localize();
         this.createText.textContent = 'Fill Gizmo';
         this.createButton.textContent = 'Fill Gizmo';
     }
@@ -298,7 +313,10 @@ class ItemComponentIcon extends ItemQtyIcon {
         this.container.onclick = callback;
     }
     getTooltipContent() {
-        let tt = `<div class="text-center">${this.getName()}</div>`;
+        let desc = '';
+        if(this.item !== undefined && this.item.hasDescription)
+            desc =  `<small>${this.item.description}</small>`;
+        let tt = `<div class="text-center">${this.getName()}${desc}</div>`;
         return tt;
     }
 }
@@ -411,6 +429,7 @@ export class InventionGizmoTable extends InventionPage {
     }
 
     onShow() {
+        this.menu.localize();
         this.selectionTab.updateItems();
         this.renderQueue.quantities = true;
     }
@@ -520,15 +539,13 @@ export class InventionGizmoTable extends InventionPage {
             return;
         }
         let notAllGiven = this.addActionRewards(this.selectedGizmo);
-        if(notAllGiven) {
-            this.manager.stop()
+        if(notAllGiven)
             return;
-        }
         this.preAction();
         disassembleCosts.consumeCosts();
         this.postAction();
 
-        this.manager.stop()
+        this.manager.stop();
     }
     postAction() {
         this.renderQueue.recipeInfo = true;
@@ -542,7 +559,8 @@ export class InventionGizmoTable extends InventionPage {
                 type: 'Player',
                 args: [this, "Perks went over budget. Unfortunate :(", 'danger']
             });
-            return true;
+            this.manager.stop();
+            return;
         }
         rewards.addItem(gizmo, 1);
         rewards.setSource(`Skill.${this.manager.id}`);
@@ -619,7 +637,7 @@ export class InventionGizmoTable extends InventionPage {
 
         let type = this.manager.getPerkTypeFromGizmo(this.selectedGizmo);
         if(type !== undefined)
-            this.menu.perks.setPerks(this.manager.possiblePerks(type, this.menu.components.getComponents(), false).reverse());
+            this.menu.perks.setPerks(this.manager.possiblePerks(type, this.menu.components.getComponents()));
         this.renderQueue.recipeInfo = false;
     }
     renderProgressBar() {

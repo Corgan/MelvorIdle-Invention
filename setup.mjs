@@ -10,83 +10,66 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
 
     patch(NamespaceRegistry, 'getObjectByID').replace(function(o, id) {
         let obj = o(id);
-        if(obj === undefined && id !== undefined && id.startsWith("invention")) {
-            return game.invention.handleMissingObject(id);
-        }
+        try {
+            if(obj === undefined && id !== undefined && id.startsWith("invention")) {
+                return game.invention.handleMissingObject(id);
+            }
+        } catch(e) { console.log("Invention Error: ", e) }
+
         return obj;
-    });
-
-    patch(Bank, 'processItemSale').replace(function(o, item, quantity) {
-        o(item, quantity);
-        if(item.namespace === 'invention') {
-            if(game.invention.isAugmentedItem(item)) {
-                game.invention.removeAugmentedItem(item);
-            }
-            if(game.invention.isGizmo(item)) {
-                game.invention.removeGizmo(item);
-            }
-        }
-    });
-
-    patch(Costs, 'consumeCosts').replace(function(o) {
-        o();
-        this._items.forEach((quantity, item) => {
-            if(quantity > 0) {
-                if(item.namespace === 'invention') {
-                    if(game.invention.isAugmentedItem(item)) {
-                        game.invention.removeAugmentedItem(item);
-                    }
-                    if(game.invention.isGizmo(item)) {
-                        game.invention.removeGizmo(item);
-                    }
-                }
-            }
-        });
-    });
-
-    patch(Telemetry, 'updatePlayerDeathEventItemLost').replace(function(o, itemLost, count=0) {
-        o(itemLost, count);
-        if(itemLost.namespace === 'invention') {
-            if(game.invention.isAugmentedItem(itemLost)) {
-                game.invention.removeAugmentedItem(itemLost);
-            }
-        }
     });
 
     patch(Player, 'rewardForDamage').replace(function(o, damage) {
         o(damage);
-        game.invention.rewardForDamage(damage);
-    });
-
-    patch(Player, 'updateForEquipmentChange').before(function() {
-        game.invention.onEquipmentChange();
-    });
-
-    patch(Player, 'updateForEquipSetChange').before(function() {
-        game.invention.onEquipSetChange();
+        try { game.invention.rewardForDamage(damage); } catch(e) { console.log("Invention Error: ", e) }
     });
 
     patch(Equipment, 'removeQuantityFromSlot').before(function(slot, quantity) {
-        console.log(slot, quantity);
+        //console.log(slot, quantity);
     });
 
     patch(BankSelectedItemMenu, 'setItem').replace(function(o, bankItem, bank) {
         o(bankItem, bank);
-        if(this.insertGizmosButton === undefined) {
-            this.insertGizmosButton = createElement('h5', {
-                classList: ['font-w400', 'font-size-sm', 'text-left', 'combat-action', 'm-1', 'mb-2', 'pointer-enabled'],
-                children: [createElement('span', { text: 'Manage Gizmos'})]
-            });
-            this.viewStatsButton.before(this.insertGizmosButton);
-        }
+        try {
+            if(this.insertGizmosButton === undefined) {
+                this.insertGizmosButton = createElement('h5', {
+                    classList: ['font-w400', 'font-size-sm', 'text-left', 'combat-action', 'm-1', 'mb-2', 'pointer-enabled'],
+                    children: [createElement('span', { text: 'Manage Gizmos'})]
+                });
+                this.viewStatsButton.before(this.insertGizmosButton);
+            }
 
-        const item = bankItem.item;
-        if (game.invention.isAugmentedItem(item)) {
-            showElement(this.insertGizmosButton);
-            this.insertGizmosButton.onclick = ()=>game.invention.showGizmoModal(item);
-        } else {
-            hideElement(this.insertGizmosButton);
-        }
+            const item = bankItem.item;
+            if (game.invention.isAugmentedItem(item)) {
+                showElement(this.insertGizmosButton);
+                this.insertGizmosButton.onclick = ()=>game.invention.showGizmoModal(item);
+            } else {
+                hideElement(this.insertGizmosButton);
+            }
+        } catch(e) { console.log("Invention Error: ", e) }
+    });
+
+    //patch(Player, 'computeAllStats').after(function() {
+    //    game.invention.computeAllStats(this);
+    //});
+
+    patch(Player, 'addEquippedItemModifiers').after(function() {
+        try { game.invention.addEquippedItemModifiers(this); } catch(e) { console.log("Invention Error: ", e) }
+    });
+    patch(Player, 'computeTargetModifiers').after(function() {
+        try { game.invention.computeTargetModifiers(this); } catch(e) { console.log("Invention Error: ", e) }
+    });
+    patch(Player, 'computeEquipmentStats').after(function() {
+        try { game.invention.computeEquipmentStats(this); } catch(e) { console.log("Invention Error: ", e) }
+    });
+    patch(Player, 'computeItemEffectList').after(function() {
+        try { game.invention.computeItemEffectList(this); } catch(e) { console.log("Invention Error: ", e) }
+    });
+    patch(Player, 'computeRuneProvision').after(function() {
+        try { game.invention.computeRuneProvision(this); } catch(e) { console.log("Invention Error: ", e) }
+    });
+    patch(Player, 'onHit').before(function() {
+        try { game.invention.playerOnHit(this); } catch(e) { console.log("Invention Error: ", e) }
     });
 
     console.log("Registering Invention Data");

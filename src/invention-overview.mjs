@@ -8,6 +8,9 @@ class InventionOverviewNavItem {
         this.data = data;
         this.component = new InventionOverviewNavItemUIComponent();
 
+        if(data.classList !== undefined)
+            this.component.clickable.classList.add(...data.classList)
+
         this.component.clickable.onclick = () => this.clicked();
     }
 

@@ -115,6 +115,10 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
             tt += `${this.item.description}`
         return tt;
     }
+    set fightEffects(_) { }
+    get fightEffects() {
+        return this.item.fightEffects;
+    }
     set modifiers(_) { }
     get modifiers() {
         return this.item.modifiers;
@@ -165,13 +169,18 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
     }
 
     canEquipGizmo(gizmo) {
-        if(this.item.validSlots.includes('Shield'))
-            return this.manager.isWeaponGizmo(gizmo);
+        //if(this.item.validSlots.includes('Shield'))
+        //    return this.manager.isWeaponGizmo(gizmo);
         return this.manager.isArmourGizmo(gizmo);
     }
 
     addXP(xp) {
         this._xp += xp;
+        game.combat.player.rendersRequired.equipment = true;
+    }
+
+    resetXP() {
+        this._xp = 0;
         game.combat.player.rendersRequired.equipment = true;
     }
     
@@ -336,6 +345,10 @@ class InventionAugmentedWeaponItem extends WeaponItem {
             tt += `${this.item.description}`
         return tt;
     }
+    set fightEffects(_) { }
+    get fightEffects() {
+        return this.item.fightEffects;
+    }
     set modifiers(_) { }
     get modifiers() {
         let modifiers = this.item.modifiers;
@@ -396,6 +409,11 @@ class InventionAugmentedWeaponItem extends WeaponItem {
         game.combat.player.rendersRequired.equipment = true;
     }
 
+    resetXP() {
+        this._xp = 0;
+        game.combat.player.rendersRequired.equipment = true;
+    }
+
     attachGizmo(gizmo) {
         if(gizmo.attachedTo !== undefined)
             return;
@@ -451,7 +469,7 @@ class InventionGizmo extends Item {
         }, game);
         this.manager = manager;
         this.game = game;
-        this.item = item;
+        this.item = item || this.game.emptyEquipmentItem;
         this._perks = new Map();
     }
 
@@ -459,7 +477,7 @@ class InventionGizmo extends Item {
     get description() {
         return `<div class="row no-gutters">
             ${[...this.perks.entries()].map(([perk, rank]) => {
-                return perk.descriptionForRank(rank);
+                return typeof perk === "string" ? perk : perk.descriptionForRank(rank);
             }).join('')}
         </div>`;
     }
@@ -520,7 +538,7 @@ class InventionGizmo extends Item {
 
     set attachedTo(_) { }
     get attachedTo() {
-        let augmentedItems = [...game.invention.augmentedArmour.allObjects, ...game.invention.augmentedWeapons.allObjects];
+        let augmentedItems = [...game.invention.armour.allObjects, ...game.invention.weapons.allObjects];
         return augmentedItems.find((item => item.gizmos.has(this)));
     }
 
@@ -541,10 +559,15 @@ class InventionGizmo extends Item {
 
     decode(reader) {
         this.item = reader.getNamespacedObject(game.items);
-        this._perks = reader.getComplexMap((reader) => {
+        if(typeof this.item === 'string') {
+            this._postLoadID = this.item;
+            this.item = this.game.emptyEquipmentItem;
+        }
+        reader.getComplexMap((reader) => {
             let key = reader.getNamespacedObject(game.invention.perks);
             let value = reader.getUint8();
-            return {key, value};
+            if(typeof key !== 'string')
+                this._perks.set(key, value);
         });
     }
 }
@@ -580,20 +603,63 @@ class InventionPerk extends NamespacedObject {
         this.game = game;
         this._name = data.name;
         this._media = data.media;
-        this.rankedModifiers = Array.isArray(data.modifiers);
-        if(this.rankedModifiers) {
-            this.modifiers = data.modifiers.map(modifiers => game.getPlayerModifiersFromData(modifiers));
-        } else {
-            this.modifiers = game.getPlayerModifiersFromData(data.modifiers);
-        }
-        this.equipmentStats = data.equipmentStats;
         this.ranks = data.ranks;
+        if(data.customDescription !== undefined)
+            this._customDescription = data.customDescription;
+
+        if (data.modifiers !== undefined) {
+            this.rankedModifiers = Array.isArray(data.modifiers);
+            if(this.rankedModifiers) {
+                this.modifiers = data.modifiers.map(modifiers => game.getPlayerModifiersFromData(modifiers));
+            } else {
+                this.modifiers = game.getPlayerModifiersFromData(data.modifiers);
+            }
+        }
+
+        if (data.enemyModifiers !== undefined) {
+            this.rankedEnemyModifiers = Array.isArray(data.enemyModifiers);
+            this.enemyModifiers = data.enemyModifiers;
+        }
+
+        /*
+        if (data.specialAttacks !== undefined) {
+            data.specialAttacks.forEach((id)=>{
+                const attack = game.specialAttacks.getObjectByID(id);
+                if (attack === undefined)
+                    throw new Error(`Error constructing item, attack with ${id} is not registered.`);
+                this.specialAttacks.push(attack);
+            }
+            );
+        }
+
+        if (data.overrideSpecialChances !== undefined)
+            this.overrideSpecialChances = data.overrideSpecialChances;
+        */
+        
+        if (data.providedRunes !== undefined)
+            this.providedRunes = this.game.items.getQuantities(data.providedRunes);
+        
+        this.equipmentStats = data.equipmentStats;
+        this.game.queueForSoftDependencyReg(data, this);
     }
     get name() {
         return this._name;
     }
     get media() {
         return this.getMediaURL(this._media);
+    }
+
+    registerSoftDependencies(data, game) {
+        if (data.onHitEffects !== undefined) {
+            this.onHitEffects = data.ranks.map(({rank}) => {
+                return data.onHitEffects.map(({id}) => {
+                    const specialAttack = game.specialAttacks.getObjectByID(`${this._namespace.name}:${id}_${rank}`);
+                    if (specialAttack === undefined)
+                        throw new Error(`Error constructing onHitEffect, specialAttack with ${id}_${rank} is not registered.`);
+                    return specialAttack;
+                });
+            });
+        }
     }
 
     equipmentStatsForRank(rank) {
@@ -612,6 +678,25 @@ class InventionPerk extends NamespacedObject {
         }
     }
 
+    enemyModifiersForRank(rank) {
+        if(this.rankedEnemyModifiers) {
+            if(this.enemyModifiers[rank] !== undefined) {
+                return this.enemyModifiers[rank-1];
+            } else {
+                return this.enemyModifiers[this.enemyModifiers.length-1];
+            }
+        } else {
+            return this.enemyModifiers;
+        }
+    }
+
+    onHitEffectsForRank(rank) {
+        let onHitEffects = [];
+        if(this.onHitEffects !== undefined)
+            onHitEffects = this.onHitEffects[rank-1]
+        return onHitEffects;
+    }
+
     descriptionForRank(rank) {
         const equipStats = this.equipmentStats || [];
         let rankScale = this.rankedModifiers ? 1 : rank;
@@ -625,8 +710,15 @@ class InventionPerk extends NamespacedObject {
 
         let mods = getModifierDataSpans(this.modifiersForRank(rank), rankScale, rankScale);
 
+        let onHitEffects = [];
+        if(this.onHitEffects !== undefined)
+            onHitEffects = this.onHitEffects[rank-1].flatMap(attack => attack.onhitEffects.map(effect => templateString(effect.description, effect.modifiers)));
+
         let name = `${this.name} Rank ${rank}`;
-        let desc = `</br>${[...stats, ...mods].join('</br>')}`;
+        let desc = `</br>${[...stats, ...mods, ...onHitEffects].join('</br>')}`;
+
+        //if(this._customDescription !== undefined)
+        //    desc = `</br><span class="text-success">${this._customDescription}</span>`;
 
         return `<div class="col-12">${name}${desc}</div>`
     }
@@ -638,6 +730,24 @@ class InventionComponentItem extends Item {
         this.manager = manager;
         this.game = game;
         this.perks = data.perks;
+
+        this._customDescription = this.generateDescription();
+    }
+
+    generateDescription() {
+        let weaponPerks = this.perks.weapon.map(({perkID, base, roll}) => {
+            let perk = this.game.invention.perks.getObjectByID(perkID);
+            return `<span class="text-success">${perk.name} (${base}-${base+roll})</span>`;
+        });
+        let armourPerks = this.perks.armour.map(({perkID, base, roll}) => {
+            let perk = this.game.invention.perks.getObjectByID(perkID);
+            return `<span class="text-success">${perk.name} (${base}-${base+roll})</span>`;
+        });
+        let desc = `<span>Weapon Perk Values</span></br>
+        ${weaponPerks.join('</br>')}</br>
+        <span>Armour Perk Values</span></br>
+        ${armourPerks.join('</br>')}`;
+        return `<div class="col-12">${desc}</div>`
     }
 }
 
@@ -680,8 +790,8 @@ export class Invention extends Skill {
         this.currentEquipmentStats = new EquipmentStats();
         this.currentModifiers = new MappedModifiers();
 
-        this.augmentedArmour = new NamespaceRegistry(this.game.registeredNamespaces);
-        this.augmentedWeapons = new NamespaceRegistry(this.game.registeredNamespaces);
+        this.armour = new NamespaceRegistry(this.game.registeredNamespaces);
+        this.weapons = new NamespaceRegistry(this.game.registeredNamespaces);
 
         this.gizmos = new NamespaceRegistry(this.game.registeredNamespaces);
 
@@ -750,46 +860,84 @@ export class Invention extends Skill {
 
         console.log("Invention constructor done");
     }
-    onEquipmentChange() {
-        this.computeStats();
-    }
 
-    onEquipSetChange() {
-        this.computeStats();
-    }
-
-    computeStats() {
-        this.currentEquipmentStats.resetStats();
-        this.currentModifiers.reset();
-
-        ['Weapon', 'Shield', 'Quiver', 'Platebody', 'Platelegs'].forEach(slot => {
+    getCurrentPerks() {
+        let perks = new Map();
+        ['Weapon', 'Shield', 'Platebody', 'Platelegs'].forEach(slot => {
             let equipmentSlot = game.combat.player.equipment.slots[slot];
-            if(!equipmentSlot.isEmpty && equipmentSlot.occupiedBy === 'None') {
-                let item = equipmentSlot.item;
-                if(this.isAugmentedItem(item)) {
-                    item.gizmos.forEach(gizmo => {
-                        gizmo.perks.forEach((rank, perk) => {
-                            if(perk.equipmentStats !== undefined) {
-                                this.currentEquipmentStats.addStats(perk.equipmentStatsForRank(rank));
-                            }
-                            if(perk.modifiers !== undefined) {
-                                let modifiers = perk.modifiersForRank(rank);
-                                let rankScale = perk.rankedModifiers ? 1 : rank;
-                                this.currentModifiers.addModifiers(modifiers, rankScale, rankScale);
-                            }
-                        });
+            if(!equipmentSlot.isEmpty && equipmentSlot.occupiedBy === 'None' && this.isAugmentedItem(equipmentSlot.item)) {
+                equipmentSlot.item.gizmos.forEach(gizmo => {
+                    gizmo.perks.forEach((rank, perk) => {
+                        let old = perks.get(perk);
+                        if(old === undefined || old < rank)
+                            perks.set(perk, rank);
                     });
-                }
+                });
+            }
+        });
+        return perks;
+    }
+
+    addEquippedItemModifiers(player) {
+        let perks = this.getCurrentPerks();
+        perks.forEach((rank, perk) => {
+            if(perk.modifiers !== undefined) {
+                let modifiers = perk.modifiersForRank(rank);
+                let rankScale = perk.rankedModifiers ? 1 : rank;
+                player.modifiers.addModifiers(modifiers, rankScale, rankScale);
             }
         });
     }
 
-    get modifiers() {
-        return this.currentModifiers;
+    computeTargetModifiers(player) {
+        let perks = this.getCurrentPerks();
+        perks.forEach((rank, perk) => {
+            if(perk.enemyModifiers !== undefined) {
+                let enemyModifiers = perk.enemyModifiersForRank(rank);
+                let rankScale = perk.rankedEnemyModifiers ? 1 : rank;
+                player.targetModifiers.addModifiers(enemyModifiers, rankScale, rankScale);
+            }
+        });
     }
 
-    get equipmentStats() {
-        return Object.entries(this.currentEquipmentStats).map(([key, value]) => ({key, value}));
+    computeEquipmentStats(player) {
+        let perks = this.getCurrentPerks();
+        perks.forEach((rank, perk) => {
+            if(perk.equipmentStats !== undefined) {
+                player.equipmentStats.addStats(perk.equipmentStatsForRank(rank));
+            }
+        });
+    }
+
+    computeRuneProvision(player) {
+        let perks = this.getCurrentPerks();
+        perks.forEach((rank, perk) => {
+            if(perk.providedRunes) {
+                perk.providedRunes.forEach(({item, quantity})=>{
+                    //quantity *= Math.pow(2, this.modifiers.increasedRuneProvision);
+                    const newQuantity = ((_a = player.runesProvided.get(item)) !== null && _a !== void 0 ? _a : 0) + quantity;
+                    player.runesProvided.set(item, newQuantity);
+                });
+            }
+        });
+    }
+
+    computeItemEffectList(player) {
+        let perks = this.getCurrentPerks();
+        perks.forEach((rank, perk) => {
+            if (perk.fightEffects !== undefined) {
+                perk.fightEffects.forEach((itemEffect)=>player.itemEffects.add(itemEffect));
+            }
+        });
+    }
+
+    playerOnHit(player) {
+        let perks = this.getCurrentPerks();
+        perks.forEach((rank, perk) => {
+            let hitEffects = perk.onHitEffectsForRank(rank);
+            if(hitEffects.length > 0)
+                hitEffects.forEach((attack) => player.applyEffects(attack.onhitEffects, player.target, 0, attack));
+        });
     }
 
     maxEquipmentLevel() {
@@ -820,16 +968,27 @@ export class Invention extends Skill {
     }
 
     addTestData() {
-        this.game.bank.addItem(game.items.getObjectByID('melvorD:Strawberry_Cupcake_Perfect'), 1e6, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Bronze_Helmet'), 1, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Bronze_Boots'), 1, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Bronze_Gloves'), 1, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Bronze_Sword'), 1, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Bronze_2H_Sword'), 1, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Bronze_Platebody'), 1, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Bronze_Platelegs'), 1, false, false, true, false);
-        this.game.bank.addItem(game.items.getObjectByID('melvorF:Infernal_Cape'), 1, false, false, true, false);
-        this.game.items.allObjects.filter(item => item.type === "Parts" || item.type === "Components").forEach(part => this.game.bank.addItem(part, 100))
+        this.game.shop.upgradesPurchased.set(this.game.shop.purchases.getObjectByID('melvorD:Extra_Bank_Slot'), 1000)
+        this.game.shop.computeProvidedStats();
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Strawberry_Cupcake_Perfect'), 1e6, false, false, true, false);
+
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Bar'), 50000, false, false, true, false);
+
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Helmet'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Boots'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Gloves'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Sword'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Shield'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_2H_Sword'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Platebody'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Platelegs'), 1, false, false, true, false);
+
+        this.game.bank.addItem(this.game.items.getObjectByID('invention:Augmentor'), 20, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('invention:Weapon_Gizmo_Shell'), 20, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('invention:Armour_Gizmo_Shell'), 20, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('invention:Equipment_Siphon'), 20, false, false, true, false);
+
+        this.game.items.allObjects.filter(item => item.type === "Parts" || item.type === "Components").forEach(part => this.game.bank.addItem(part, 1000, false, false, true, false))
     }
 
     handleMissingObject(namespacedID) {
@@ -838,11 +997,11 @@ export class Invention extends Skill {
         switch (id[0]) {
             case "w":
                 obj = new InventionAugmentedWeaponItem({id}, this, this.game);
-                this.augmentedWeapons.registerObject(obj);
+                this.weapons.registerObject(obj);
                 break;
             case "e":
                 obj = new InventionAugmentedEquipmentItem({id}, this, this.game);
-                this.augmentedArmour.registerObject(obj);
+                this.armour.registerObject(obj);
                 break;
             case "g":
                 obj = new InventionGizmo({id}, this, this.game);
@@ -859,10 +1018,11 @@ export class Invention extends Skill {
     createAugmentedWeapon(item) {
         if(!(item instanceof WeaponItem))
             return;
+        if(item.ammoType === AmmoTypeID.Javelins || item.ammoType === AmmoTypeID.ThrowingKnives)
+            return;
         let augmentedItem = new InventionAugmentedWeaponItem({item}, this, this.game);
-        this.augmentedWeapons.registerObject(augmentedItem);
+        this.weapons.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
-        //this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
         console.log("Created Augmented Weapon:", augmentedItem.id, augmentedItem.name);
         return augmentedItem;
     }
@@ -873,9 +1033,8 @@ export class Invention extends Skill {
         if(!item.validSlots.includes('Shield') && !item.validSlots.includes('Platebody') && !item.validSlots.includes('Platelegs'))
             return;
         let augmentedItem = new InventionAugmentedEquipmentItem({item}, this, this.game);
-        this.augmentedArmour.registerObject(augmentedItem);
+        this.armour.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
-        //this.game.bank.addItem(augmentedItem, 1, false, false, true, false);
         console.log("Created Augmented Armour:", augmentedItem.id, augmentedItem.name);
         return augmentedItem;
     }
@@ -904,25 +1063,39 @@ export class Invention extends Skill {
 
     canAugmentItem(item) {
         if(this.isAugmentedItem(item))
-        return false;
-        if(item instanceof WeaponItem)
+            return false;
+        if(item instanceof WeaponItem && !(item.ammoType === AmmoTypeID.Javelins || item.ammoType === AmmoTypeID.ThrowingKnives))
             return true;
         if(item instanceof EquipmentItem && (item.validSlots.includes('Shield') || item.validSlots.includes('Platebody') || item.validSlots.includes('Platelegs')))
             return true;
         return false;
     }
 
+    checkForGizmo(gizmo) {
+        const hasGizmoOrProxied = (check) => (check.gizmos !== undefined && check.gizmos.has(gizmo) || (check.item !== undefined && hasGizmoOrProxied(check.item)));
+        return this.game.bank.filterItems((bankItem) => bankItem.item === gizmo || hasGizmoOrProxied(bankItem.item)).length > 0 || this.game.combat.player.equipmentSets.some(({equipment})=> equipment.slotArray.some(slot => hasGizmoOrProxied(slot.item)));
+    }
+    
+    checkForItem(item) {
+        const isItemOrProxied = (check) => (check === item || (check.item !== undefined && isItemOrProxied(check.item)));
+        return this.game.bank.filterItems((bankItem) => isItemOrProxied(bankItem.item)).length > 0 || this.game.combat.player.equipmentSets.some(({equipment})=> equipment.slotArray.some(slot => isItemOrProxied(slot.item)));
+    }
+
     removeAugmentedItem(item) {
         if(!(item instanceof InventionAugmentedEquipmentItem || item instanceof InventionAugmentedWeaponItem))
             return;
-        if(game.combat.player.checkEquipmentSetsForItem(item) || game.bank.getQty(item) > 0)
+        if(this.checkForItem(item))
             return;
-        game.stats.Items.statsMap.delete(item);
+        this.game.stats.Items.statsMap.delete(item);
+        this.game.bank.glowingItems.delete(item);
+        let sortIdx = this.game.bank.customSortOrder.indexOf(item);
+        if(sortIdx > -1)
+            this.game.bank.customSortOrder.splice(this.game.bank.customSortOrder.indexOf(item), 1);
         console.log("Removed Augmented Item:", item.id, item.name);
         if(item instanceof InventionAugmentedWeaponItem) {
-            this.augmentedWeapons.registeredObjects.delete(item.id);
+            this.weapons.registeredObjects.delete(item.id);
         } else if (item instanceof InventionAugmentedEquipmentItem) {
-            this.augmentedArmour.registeredObjects.delete(item.id);
+            this.armour.registeredObjects.delete(item.id);
         }
         item.gizmos.forEach(gizmo => {
             this.removeGizmo(gizmo);
@@ -951,7 +1124,7 @@ export class Invention extends Skill {
     }
 
     onCharacterLoaded() {
-        [...this.augmentedWeapons.allObjects, ...this.augmentedArmour.allObjects].filter(item => item._postLoadID !== undefined).forEach(item => {
+        [...this.weapons.allObjects, ...this.armour.allObjects].filter(item => item._postLoadID !== undefined).forEach(item => {
             let itemID = item._postLoadID;
             delete item._postLoadID;
             console.log(`Looking for ${itemID}`);
@@ -964,22 +1137,32 @@ export class Invention extends Skill {
                 this.removeAugmentedItem(item);
             }
         });
-        [...this.augmentedWeapons.allObjects, ...this.augmentedArmour.allObjects].filter(item => item.item === game.emptyEquipmentItem).forEach(item => {
+        [...this.weapons.allObjects, ...this.armour.allObjects].filter(item => item.item === game.emptyEquipmentItem || !this.checkForItem(item)).forEach(item => {
             console.log(`Empty Item ${item.id}`)
             this.removeAugmentedItem(item);
+        });
+        this.gizmos.allObjects.filter(item => !this.checkForGizmo(item)).forEach(item => {
+            console.log(`Unused Gizmo ${item.id}`)
+            this.removeGizmo(item);
         });
         game.combat.player.computeAllStats();
     }
 
     onInterfaceAvailable() {
+        
     }
 
     removeGizmo(item) {
         if(!(item instanceof InventionGizmo))
             return;
         if(item instanceof InventionGizmo) {
-            if(game.bank.getQty(item) > 0)
+            if(this.checkForGizmo(item))
                 return;
+            this.game.stats.Items.statsMap.delete(item);
+            this.game.bank.glowingItems.delete(item);
+            let sortIdx = this.game.bank.customSortOrder.indexOf(item);
+            if(sortIdx > -1)
+                this.game.bank.customSortOrder.splice(this.game.bank.customSortOrder.indexOf(item), 1);
             console.log("Removed Gizmo:", item.id, item.description);
             this.gizmos.registeredObjects.delete(item.id);
         }
@@ -1021,13 +1204,15 @@ export class Invention extends Skill {
             if(item instanceof InventionAugmentedWeaponItem) {
                 if(item.occupiesSlots.includes('Shield')) {
                     item.addXP(damage * 0.06);
-                } else if (item.validSlots.includes('Shield')) {
-                    item.addXP(damage * 0.02);
                 } else {
                     item.addXP(damage * 0.04);
                 }
             } else if (item instanceof InventionAugmentedEquipmentItem) {
-                item.addXP(damage * 0.04);
+                if(item.validSlots.includes('Shield')) {
+                    item.addXP(damage * 0.02);
+                } else {
+                    item.addXP(damage * 0.04);
+                }
             }
         });
     }
@@ -1183,48 +1368,58 @@ export class Invention extends Skill {
             return this.game.items.getObjectByID('invention:Armour_Gizmo_Shell')
     }
 
-    possiblePerks(type="weapon", materials=[], roll=true) {
+    possiblePerks(type="weapon", materials=[]) {
         let perks = new Map();
         materials.forEach(material => {
             if(material.perks[type])
                 material.perks[type].forEach(perkValue => {
                     let perk = this.perks.getObjectByID(perkValue.perkID);
-                    let current = perks.get(perk) || 0;
-                    let value = current + perkValue.base + (roll ? rollInteger(0, perkValue.roll) : perkValue.roll);
-                    perks.set(perk, value);
+                    let { high=0, low=0, roll=0 } = perks.get(perk) || {};
+                    low += perkValue.base;
+                    high += perkValue.base + perkValue.roll;
+                    roll += perkValue.base + rollInteger(0, perkValue.roll);
+
+                    perks.set(perk, {high, low, roll});
                 });
         });
-        let ranks = [...perks.entries()].map(([perk, value]) => {
-            if(value < perk.ranks[0].threshold)
-                return { perk, value, cost: 0, rank: 0 };
-            let rank = perk.ranks[0];
-            for(let i = 1; i < perk.ranks.length; i++) {
-                if(value < perk.ranks[i].threshold) {
-                    break;
-                } else {
-                    rank = perk.ranks[i];
-                }
+        let ranks = [...perks.entries()].map(([perk, {low, high, roll}]) => {
+            let rollRank, lowRank, highRank;
+            for(let i = 0; i < perk.ranks.length; i++) {
+                if(roll > perk.ranks[i].cost)
+                    rollRank = perk.ranks[i];
+                if(low > perk.ranks[i].cost)
+                    lowRank = perk.ranks[i];
+                if(high > perk.ranks[i].cost)
+                    highRank = perk.ranks[i];
             }
-            return { perk, value, cost: rank.cost, rank: rank.rank, threshold: rank.threshold };
+            return { perk, low, lowRank, high, highRank, roll, rollRank };
         })
         if(ranks.length > 1)
-            this.perksort(0, ranks.length-1, ranks, (a, b) => a.cost - b.cost);
+            //ranks.sort((a, b) => a.value - b.value);
+            this.perksort(0, ranks.length-1, ranks, (a, b) => b.roll - a.roll);
         return ranks;
     }
 
-    generatePerks(type="weapon", materials=[]) {
-        let budget = 0;
-        for(let i = 0; i < 5; i++)
-            budget += rollInteger(0, Math.floor(this.level / 2) + 20);
-        budget = Math.max(budget, this.level);
+    getBudget(roll=true) {
+        let [ low, high, budget ] = [this.level, (Math.floor(this.level / 2) + 20) * 5, 0];
+        if(roll) {
+            for(let i = 0; i < 5; i++)
+                budget += rollInteger(0, Math.floor(this.level / 2) + 20);
+            budget = Math.max(budget, this.level);
+        }
+        return { low, high, budget };
+    }
 
-        let ranks = this.possiblePerks(type, materials);
+    generatePerks(type="weapon", materials=[]) {
+        let { budget } = this.getBudget();
+
+        let perks = this.possiblePerks(type, materials);
         
         let chosen = [];
-        for(let i = ranks.length-1; i >= 0; i--) {
-            if(ranks[i].cost <= budget && ranks[i].rank > 0) {
-                chosen.push({ perk: ranks[i].perk, rank: ranks[i].rank });
-                budget -= ranks[i].cost;
+        for(let i = 0; i < perks.length-1; i++) {
+            if(perks[i].rollRank !== undefined && perks[i].rollRank.cost <= budget) {
+                chosen.push({ perk: perks[i].perk, rank: perks[i].rollRank.rank });
+                budget -= perks[i].rollRank.cost;
                 if(chosen.length === 2)
                     break;
             }
@@ -1269,14 +1464,12 @@ export class Invention extends Skill {
         this.pages.onLoad();
         
         this.workbench.go();
-        this.computeStats();
     }
 
     onLevelUp(oldLevel, newLevel) {
         super.onLevelUp(oldLevel, newLevel);
 
         this.pages.onLevelUp();
-        this.computeStats();
     }
 
     get name() { return "Invention"; }
@@ -1332,11 +1525,6 @@ export class Invention extends Skill {
         this.pages.activeTick();
     }
 
-    passiveTick() {
-        if(this.isActive)
-            return;
-    }
-
     queueBankQuantityRender(item) {
         this.pages.queueBankQuantityRender(item);
     }
@@ -1357,21 +1545,52 @@ export class Invention extends Skill {
 
         this.overview.registerData(data.overview, this, this.game);
 
+
+        console.log("Loading Perks");
         data.perks.forEach(data => {
+            if(data.onHitEffects !== undefined) {
+                data.onHitEffects.forEach(effect => {
+                    data.ranks.forEach(({rank}) => {
+                        let attack = new SpecialAttack(namespace, {
+                            id: `${effect.id}_${rank}`,
+                            defaultChance: 100,
+                            damage: [],
+                            prehitEffects: [],
+                            onhitEffects: [{
+                                ...effect,
+                                modifiers: Object.fromEntries(Object.entries(effect.modifiers).map(([mod, val]) => [mod, val * rank]))
+                            }],
+                            cantMiss: false,
+                            attackCount: 1,
+                            attackInterval: -1,
+                            lifesteal: 0,
+                            name: effect.name,
+                            description: effect.description,
+                            descriptionGenerator: effect.name,
+                        }, this.game);
+                        this.game.specialAttacks.registerObject(attack);
+                    });
+                });
+            }
+
             let perk = new InventionPerk(namespace, data, this, this.game);
             this.perks.registerObject(perk);
         });
 
+        console.log("Loading Parts");
         data.components.forEach(data => {
             let component = new InventionComponentItem(namespace, data, this, this.game);
+            this.components.registerObject(component);
             this.game.items.registerObject(component);
         });
 
+        console.log("Loading Workbench");
         data.workbench.forEach(data => {
             let action = new InventionWorkbenchRecipe(namespace, data, this, this.game);
             this.workbench.actions.registerObject(action);
         });
 
+        console.log("Loading Categories");
         data.disassemble_categories.forEach(data => {
             if(data.items !== undefined) {
                 data.items.forEach(item => {
@@ -1380,6 +1599,7 @@ export class Invention extends Skill {
                 });
             }
         });
+        this.data = data;
     }
 
     postDataRegistration() {
@@ -1389,7 +1609,9 @@ export class Invention extends Skill {
         this.pages.postDataRegistration();
 
         [...this.cachedDropTables.keys()].forEach(id => {
-            game.items.getObjectByID(id).canDisassemble = true;
+            let item = game.items.getObjectByID(id);
+            if(item !== undefined)
+                item.canDisassemble = true;
         });
     }
 
@@ -1399,15 +1621,15 @@ export class Invention extends Skill {
         writer.writeUint32(this.version); // Store current skill version
         writer.writeBoolean(this.isActive);
         
-        writer.writeArray(this.gizmos.allObjects, (value, writer) => {
+        writer.writeArray(this.gizmos.allObjects.filter((gizmo) => this.checkForGizmo(gizmo)), (value, writer) => {
             writer.writeNamespacedObject(value);
             value.encode(writer);
         });
-        writer.writeArray(this.augmentedWeapons.allObjects, (value, writer) => {
+        writer.writeArray(this.weapons.allObjects.filter((item) => this.checkForItem(item)), (value, writer) => {
             writer.writeNamespacedObject(value);
             value.encode(writer);
         });
-        writer.writeArray(this.augmentedArmour.allObjects, (value, writer) => {
+        writer.writeArray(this.armour.allObjects.filter((item) => this.checkForItem(item)), (value, writer) => {
             writer.writeNamespacedObject(value);
             value.encode(writer);
         });
@@ -1441,14 +1663,14 @@ export class Invention extends Skill {
             });
             console.log("Decoding Weapons");
             reader.getArray((reader) => {
-                let value = reader.getNamespacedObject(this.augmentedWeapons);
+                let value = reader.getNamespacedObject(this.weapons);
                 console.log(`Got ${value.id}, decoding`);
                 value.decode(reader);
                 return value;
             });
             console.log("Decoding Armour");
             reader.getArray((reader) => {
-                let value = reader.getNamespacedObject(this.augmentedArmour);
+                let value = reader.getNamespacedObject(this.armour);
                 console.log(`Got ${value.id}, decoding`);
                 value.decode(reader);
                 return value;

@@ -114,14 +114,14 @@ class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
 
         let blockClasses = ['block', 'block-rounded-double', 'bg-combat-inner-dark'];
         let colClasses = ['col-12', ...blockClasses];
-        let disassembleCol = createElement('div', {
+        this.disassembleCol = createElement('div', {
             classList: [...colClasses, 'pt-2', 'pb-1', 'text-center']
         });
         let disassembleRow = createElement('div', {
             classList: ['row', 'no-gutters'],
-            parent: disassembleCol
+            parent: this.disassembleCol
         });
-        this.productsCol.before(disassembleCol);
+        this.productsCol.before(this.disassembleCol);
 
         const boxClasses = ['col-12', 'col-sm-6', 'pb-2'];
         this.materials = new MaterialsBox(disassembleRow, false, boxClasses);
@@ -176,6 +176,7 @@ class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
         super.setProduct(item, 0);
         this.junkChance.setJunk(this.disassemble.game.items.getObjectByID('invention:Junk'));
         if(!this.disassemble.shouldSiphon) {
+            showElement(this.disassembleCol);
             this.junkChance.setChance(this.disassemble.manager.getJunkChanceForItem(item));
             let table = this.disassemble.manager.getDropTableForItem(item);
             this.materials.setMaterialCount(this.disassemble.manager.getMaterialCountForItem(item));
@@ -183,6 +184,7 @@ class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
             let items = table.getChances();
             this.materials.setItems(items);
         } else {
+            hideElement(this.disassembleCol);
             this.junkChance.setChance(0);
             this.materials.setMaterialCount(0);
             this.materials.setItems([]);
@@ -288,7 +290,7 @@ export class InventionDisassemble extends InventionPage {
         this.baseInterval = 1000;
         this.actionTimer = new Timer('Skill',()=>this.action());
         this.shouldResetAction = false;
-        this.baseXP = 5;
+        this.baseXP = 1;
     }
 
     onLoad() {
@@ -405,6 +407,9 @@ export class InventionDisassemble extends InventionPage {
         }
     }
     postAction() {
+        if(this.shouldSiphon) {
+            this.selectedItem.resetXP();
+        }
         this.renderQueue.recipeInfo = true;
         this.renderQueue.quantities = true;
     }
@@ -413,7 +418,7 @@ export class InventionDisassemble extends InventionPage {
     }
     getDisassembleCosts(item) {
         const costs = new Costs(this.game);
-        if(this.manager.isAugmentedItem(this.selectedItem) && this.menu.siphonSwitch.input.checked) {
+        if(this.shouldSiphon) {
             let siphon = this.game.items.getObjectByID('invention:Equipment_Siphon');
             costs.addItem(siphon, 1);
         } else {
@@ -431,6 +436,7 @@ export class InventionDisassemble extends InventionPage {
             return 0;
         let level = this.manager.getItemLevel(this.selectedItem);
         let xp = this.selectedItem instanceof EquipmentItem ? level * 0.3 : Math.floor(Math.max(1, level * 0.3)) / 10;
+        xp = Math.max(1, xp);
         if(this.manager.isAugmentedItem(this.selectedItem)) {
             xp = this.manager.equipment_reward[Math.max(0, Math.min(this.selectedItem.level - (this.shouldSiphon ? 2 : 0), this.manager.equipment_reward.length) - 1)];
             xp *= 1 + (1.5 * ((Math.max(15, level) - 80) / 100));
