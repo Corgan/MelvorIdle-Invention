@@ -112,6 +112,7 @@ class InventionAugmentationTab extends ContainedComponent {
         }
     }
     updateItems() {
+        this.destroyIcons();
         let items = game.bank.unlockedItemArray.filter(item => {
             if(this.augmentation.manager.canAugmentItem(item))
                 return true;
@@ -302,7 +303,7 @@ export class InventionAugmentation extends InventionPage {
     }
     queueBankQuantityRender(item) {
         this.renderQueue.icons.add(item);
-        this.quantities = true;
+        this.renderQueue.quantities = true;
     }
     render() {
         this.renderSelectedItem();

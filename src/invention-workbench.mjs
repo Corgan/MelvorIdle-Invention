@@ -18,6 +18,9 @@ class InventionSelectionTab extends RecipeSelectionTab {
         super(`invention-workbench-category-container`, workbench.manager, spells, `invention-category-0`);
         this.workbench = workbench;
     }
+    isRecipeUnlocked(recipe) {
+        return super.isRecipeUnlocked(recipe) && recipe.unlocked;
+    }
     getRecipeMedia(recipe) {
         return recipe.media;
     }
@@ -29,6 +32,21 @@ class InventionSelectionTab extends RecipeSelectionTab {
     }
     getRecipeIngredients(recipe) {
         return this.workbench.getRecipeCosts(recipe);
+    }
+    setRecipeLocked(id) {
+        const container = this.recipeContainers[id];
+        const recipe = this.recipes[id];
+        container.textContent = '';
+        const span = createElement('span', {
+            classList: ['nav-link', 'font-size-sm', 'border', 'border-danger', 'text-danger'],
+        });
+        if(super.isRecipeUnlocked(recipe)) {
+            span.append('Requires Discovery');
+        } else {
+            span.append(...getUnlockedAtNodes(this.skill, recipe.level));
+        }
+        this.recipeUnlocked[id] = false;
+        container.append(span);
     }
 }
 
@@ -309,6 +327,7 @@ export class InventionWorkbench extends InventionPage {
         this.renderQuantities();
         this.renderRecipeInfo();
         this.renderProgressBar();
+        this.renderSelectionTabs();
     }
     renderQuantities() {
         if (!this.renderQueue.quantities)
@@ -348,6 +367,13 @@ export class InventionWorkbench extends InventionPage {
             this.menu.stopProgressBar();
         }
         this.renderQueue.progressBar = false;
+    }
+    renderSelectionTabs() {
+        if (!this.renderQueue.selectionTabs)
+            return;
+        this.selectionTab.updateRecipesForLevel();
+        this.selectionTab.updateRecipeTooltips();
+        this.renderQueue.selectionTabs = false;
     }
 
     encode(writer) {

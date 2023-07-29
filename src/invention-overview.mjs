@@ -12,10 +12,16 @@ class InventionOverviewNavItem {
             this.component.clickable.classList.add(...data.classList)
 
         this.component.clickable.onclick = () => this.clicked();
+        game.queueForSoftDependencyReg(data, this);
+    }
+
+    registerSoftDependencies(data, game) {
+        if(data.unlockRequirements)
+            this.unlockRequirements = data.unlockRequirements.map((req)=>game.getRequirementFromData(req));
     }
 
     clicked() {
-        if(this.data.page !== undefined) {
+        if(this.data.page !== undefined && this.unlocked) {
             let page = this.page;
             if(page !== undefined) {
                 if(this.data.pageFn !== undefined && page[this.data.pageFn] !== undefined) {
@@ -24,6 +30,14 @@ class InventionOverviewNavItem {
                     page.go();
                 }
             }
+        }
+    }
+
+    get unlocked() {
+        if (this.unlockRequirements !== undefined) {
+            return game.checkRequirements(this.unlockRequirements);
+        } else {
+            return true;
         }
     }
 
@@ -47,6 +61,7 @@ class InventionOverviewNavItem {
     }
 
     render() {
+        this.component.name.classList.toggle('text-danger', !this.unlocked);
         this.component.name.classList.toggle('text-success', this.active);
         this.component.name.textContent = this.name;
         this.component.icon.src = this.media;

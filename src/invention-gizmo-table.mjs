@@ -380,6 +380,7 @@ class InventionGizmoTableTab extends ContainedComponent {
         }
     }
     updateItems() {
+        this.destroyIcons();
         let items = game.bank.unlockedItemArray.filter(item => this.gizmo_table.manager.isComponent(item));
         items.forEach((item)=>{
             this.updateItem(item);
@@ -590,7 +591,7 @@ export class InventionGizmoTable extends InventionPage {
     }
     queueBankQuantityRender(item) {
         this.renderQueue.icons.add(item);
-        this.quantities = true;
+        this.renderQueuequantities = true;
     }
 
     render() {

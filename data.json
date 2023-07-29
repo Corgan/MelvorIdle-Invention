@@ -45,6 +45,42 @@
       },
       {
         "itemType": "Item",
+        "id": "Gizmo_Dissolver",
+        "name": "Gizmo Dissolver",
+        "category": "Invention",
+        "type": "Dissolver",
+        "media": "assets/siphon.png",
+        "ignoreCompletion": false,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0
+      },
+      {
+        "itemType": "Item",
+        "id": "Equipment_Dissolver",
+        "name": "Equipment Dissolver",
+        "category": "Invention",
+        "type": "Dissolver",
+        "media": "assets/siphon.png",
+        "ignoreCompletion": false,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0
+      },
+      {
+        "itemType": "Item",
+        "id": "Augmentation_Dissolver",
+        "name": "Augmentation Dissolver",
+        "category": "Invention",
+        "type": "Dissolver",
+        "media": "assets/siphon.png",
+        "ignoreCompletion": false,
+        "obtainFromItemLog": false,
+        "golbinRaidExclusive": false,
+        "sellsFor": 0
+      },
+      {
+        "itemType": "Item",
         "id": "Equipment_Siphon",
         "name": "Equipment Siphon",
         "category": "Invention",
@@ -113,39 +149,204 @@
               {
                 "id": "discover",
                 "name": "Discoveries",
-                "page": "discover",
-                "classList": [
-                  "d-none"
-                ]
+                "page": "discover"
               },
               {
                 "id": "workbench",
                 "name": "Workbench",
-                "page": "workbench"
+                "page": "workbench",
+                "unlockRequirements": [
+                  { "type": "DiscoveryResearched", "id": "invention:Workbench" }
+                ]
               },
               {
                 "id": "disassemble",
                 "name": "Disassembler",
-                "page": "disassemble"
+                "page": "disassemble",
+                "unlockRequirements": [
+                  { "type": "DiscoveryResearched", "id": "invention:Disassembler" }
+                ]
               },
               {
                 "id": "augmentation",
                 "name": "Augmentor",
-                "page": "augmentation"
+                "page": "augmentation",
+                "unlockRequirements": [
+                  { "type": "DiscoveryResearched", "id": "invention:Augmentor" }
+                ]
               },
               {
                 "id": "gizmo_table",
                 "name": "Gizmo Table",
-                "page": "gizmo_table"
+                "page": "gizmo_table",
+                "unlockRequirements": [
+                  { "type": "DiscoveryResearched", "id": "invention:Gizmos" }
+                ]
               }
             ]
           },
+          "discoveries": [
+            {
+              "id": "Workbench",
+              "name": "Machine: Workbench",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 1,
+              "baseExperience": 200
+            },
+            {
+              "id": "Disassembler",
+              "name": "Machine: Disassembler",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 2,
+              "baseExperience": 250
+            },
+            {
+              "id": "Augmentor",
+              "name": "Machine: Augmentor",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 2,
+              "baseExperience": 250
+            },
+            {
+              "id": "Gizmos",
+              "name": "Machine: Gizmo Table",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 3,
+              "baseExperience": 400
+            },
+            {
+              "id": "Augment5",
+              "name": "Research: Augmented item max level 5",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 4,
+              "baseExperience": 107
+            },
+            {
+              "id": "Gizmo_Dissolver",
+              "name": "Device: Gizmo Dissolver",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 8,
+              "baseExperience": 161
+            },
+            {
+              "id": "Equipment_Dissolver",
+              "name": "Device: Equipment Dissolver",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 16,
+              "baseExperience": 628
+            },
+            {
+              "id": "AugmentPlatebody",
+              "name": "Research: Augmented platebody",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 16,
+              "baseExperience": 628
+            },
+            {
+              "id": "Augmentation_Dissolver",
+              "name": "Device: Augmentation Dissolver",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 16,
+              "baseExperience": 628
+            },
+            {
+              "id": "Equipment_Siphon",
+              "name": "Device: Equipment Siphon",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 27,
+              "baseExperience": 2675
+            },
+            {
+              "id": "Augment10",
+              "name": "Research: Augmented item max level 10",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 27,
+              "baseExperience": 2675
+            },
+            {
+              "id": "Junk1",
+              "name": "Research: Junk chance reduction 1",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 34,
+              "baseExperience": 5446
+            },
+            {
+              "id": "AugmentPlatelegs",
+              "name": "Research: Augmented platelegs",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 45,
+              "baseExperience": 12726
+            },
+            {
+              "id": "Junk2",
+              "name": "Research: Junk chance reduction 2",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 49,
+              "baseExperience": 5446
+            },
+            {
+              "id": "Augment15",
+              "name": "Research: Augmented item max level 15",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 60,
+              "baseExperience": 32284
+            },
+            {
+              "id": "Junk3",
+              "name": "Research: Junk chance reduction 3",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 64,
+              "baseExperience": 38610
+            },
+            {
+              "id": "Junk4",
+              "name": "Research: Junk chance reduction 4",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 69,
+              "baseExperience": 47562
+            },
+            {
+              "id": "Junk5",
+              "name": "Research: Junk chance reduction 5",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 78,
+              "baseExperience": 70981
+            },
+            {
+              "id": "Junk6",
+              "name": "Research: Junk chance reduction 6",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 83,
+              "baseExperience": 89273
+            },
+            {
+              "id": "Junk7",
+              "name": "Research: Junk chance reduction 7",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 91,
+              "baseExperience": 121584
+            },
+            {
+              "id": "Junk8",
+              "name": "Research: Junk chance reduction 8",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 95,
+              "baseExperience": 136962
+            },
+            {
+              "id": "Augment20",
+              "name": "Research: Augmented item max level 20",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 99,
+              "baseExperience": 153526
+            }
+          ],
           "workbench": [
             {
               "id": "Augmentor",
               "name": "Augmentor",
               "media": "melvor:assets/media/bank/logs_normal.png?2",
-              "level": 3,
+              "level": 2,
               "baseExperience": 5,
               "itemCosts": [
                 {
@@ -154,7 +355,10 @@
                 }
               ],
               "productID": "invention:Augmentor",
-              "baseQuantity": 1
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Augmentor" }
+              ]
             },
             {
               "id": "Weapon_Gizmo_Shell",
@@ -169,11 +373,50 @@
                 }
               ],
               "productID": "invention:Weapon_Gizmo_Shell",
-              "baseQuantity": 1
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Gizmos" }
+              ]
             },
             {
               "id": "Armour_Gizmo_Shell",
               "name": "Armour Gizmo Shell",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 3,
+              "baseExperience": 5,
+              "itemCosts": [
+                {
+                  "id": "invention:Simple_Parts",
+                  "quantity": 10
+                }
+              ],
+              "productID": "invention:Armour_Gizmo_Shell",
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Gizmos" }
+              ]
+            },
+            {
+              "id": "Gizmo_Dissolver",
+              "name": "Gizmo Dissolver",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 8,
+              "baseExperience": 5,
+              "itemCosts": [
+                {
+                  "id": "invention:Simple_Parts",
+                  "quantity": 10
+                }
+              ],
+              "productID": "invention:Gizmo_Dissolver",
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Gizmo_Dissolver" }
+              ]
+            },
+            {
+              "id": "Equipment_Dissolver",
+              "name": "Equipment Dissolver",
               "media": "melvor:assets/media/bank/logs_normal.png?2",
               "level": 16,
               "baseExperience": 5,
@@ -183,8 +426,29 @@
                   "quantity": 10
                 }
               ],
-              "productID": "invention:Armour_Gizmo_Shell",
-              "baseQuantity": 1
+              "productID": "invention:Equipment_Dissolver",
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Equipment_Dissolver" }
+              ]
+            },
+            {
+              "id": "Augmentation_Dissolver",
+              "name": "Augmentation Dissolver",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 16,
+              "baseExperience": 5,
+              "itemCosts": [
+                {
+                  "id": "invention:Simple_Parts",
+                  "quantity": 10
+                }
+              ],
+              "productID": "invention:Augmentation_Dissolver",
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Augmentation_Dissolver" }
+              ]
             },
             {
               "id": "Equipment_Siphon",
@@ -199,7 +463,10 @@
                 }
               ],
               "productID": "invention:Equipment_Siphon",
-              "baseQuantity": 1
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Equipment_Siphon" }
+              ]
             }
           ],
           "components": [

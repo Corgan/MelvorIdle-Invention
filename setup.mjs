@@ -72,6 +72,28 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
         try { game.invention.playerOnHit(this); } catch(e) { console.log("Invention Error: ", e) }
     });
 
+    patch(Game, 'getRequirementFromData').after(function(ret, data) {
+        try {
+            if(data.type === "DiscoveryResearched") {
+                const discovery = game.invention.discoveries.getObjectByID(data.id);
+                if (discovery === undefined)
+                    throw new Error(`Error getting discovery researched requirement. Discovery with id: ${data.id} is not registered.`);
+                return {
+                    type: data.type,
+                    discovery,
+                };
+            }
+        } catch(e) { console.log("Invention Error: ", e) }
+    });
+
+    patch(Game, 'checkRequirement').after(function(ret, requirement, notifyOnFailure=false, slayerLevelReq=0) {
+        try {
+            if(requirement.type === "DiscoveryResearched") {
+                return game.invention.checkDiscoveryResearchedRequirement(requirement, notifyOnFailure);
+            }
+        } catch(e) { console.log("Invention Error: ", e) }
+    });
+
     console.log("Registering Invention Data");
     await gameData.addPackage('data.json'); // Add skill data (page + sidebar, skillData)
 

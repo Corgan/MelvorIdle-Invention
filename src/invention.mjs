@@ -584,6 +584,19 @@ class InventionWorkbenchRecipe extends NamespacedObject {
         this.baseQuantity = data.baseQuantity;
         this.itemCosts = game.items.getQuantities(data.itemCosts);
         this.product = game.items.getObjectByID(data.productID);
+        game.queueForSoftDependencyReg(data, this);
+    }
+    registerSoftDependencies(data, game) {
+        if(data.unlockRequirements)
+            this.unlockRequirements = data.unlockRequirements.map((req)=>game.getRequirementFromData(req));
+    }
+
+    get unlocked() {
+        if (this.unlockRequirements !== undefined) {
+            return game.checkRequirements(this.unlockRequirements);
+        } else {
+            return true;
+        }
     }
     get name() {
         return this.product.name;
@@ -593,6 +606,27 @@ class InventionWorkbenchRecipe extends NamespacedObject {
     }
     get description() {
         return this._description;
+    }
+}
+
+class InventionDiscovery extends NamespacedObject {
+    constructor(namespace, data, manager, game) {
+        super(namespace, data.id);
+        this.manager = manager;
+        this.game = game;
+        this._name = data.name;
+        this._media = data.media;
+        this.level = data.level;
+        this.baseExperience = data.baseExperience;
+    }
+    get name() {
+        return this._name;
+    }
+    get media() {
+        return this.getMediaURL(this._media);
+    }
+    get description() {
+        return this.name;
     }
 }
 
@@ -732,6 +766,20 @@ class InventionComponentItem extends Item {
         this.perks = data.perks;
 
         this._customDescription = this.generateDescription();
+        game.queueForSoftDependencyReg(data, this);
+    }
+
+    registerSoftDependencies(data, game) {
+        if(data.unlockRequirements)
+            this.unlockRequirements = data.unlockRequirements.map((req)=>game.getRequirementFromData(req));
+    }
+
+    get unlocked() {
+        if (this.unlockRequirements !== undefined) {
+            return game.checkRequirements(this.unlockRequirements);
+        } else {
+            return true;
+        }
     }
 
     generateDescription() {
@@ -789,6 +837,8 @@ export class Invention extends Skill {
 
         this.currentEquipmentStats = new EquipmentStats();
         this.currentModifiers = new MappedModifiers();
+
+        this.discoveries = new NamespaceRegistry(this.game.registeredNamespaces);
 
         this.armour = new NamespaceRegistry(this.game.registeredNamespaces);
         this.weapons = new NamespaceRegistry(this.game.registeredNamespaces);
@@ -857,8 +907,22 @@ export class Invention extends Skill {
         ];
 
         this.cachedDropTables = new Map();
+        this.researched = new Map();
 
         console.log("Invention constructor done");
+    }
+
+    checkDiscoveryResearchedRequirement(requirement, notifyOnFailure=false) {
+        const met = this.researched.get(requirement.discovery) === true;
+        if (!met && notifyOnFailure) {
+            imageNotify(this.media, `${requirement.discovery.name} required.`, 'danger');
+        }
+        return met;
+    }
+
+    hasResearched(id) {
+        let discovery = this.discoveries.getObjectByID(id);
+        return this.researched.get(discovery) === true;
     }
 
     getCurrentPerks() {
@@ -941,13 +1005,13 @@ export class Invention extends Skill {
     }
 
     maxEquipmentLevel() {
-        if(this.level >= 99)
+        if(this.level >= 99 && this.hasResearched('invention:Augment20'))
             return 20;
-        if(this.level >= 60)
+        if(this.level >= 60 && this.hasResearched('invention:Augment15'))
             return 15;
-        if(this.level >= 27)
+        if(this.level >= 27 && this.hasResearched('invention:Augment10'))
             return 10;
-        if(this.level >= 4)
+        if(this.level >= 4 && this.hasResearched('invention:Augment5'))
             return 5;
         return 1;
     }
@@ -1066,7 +1130,7 @@ export class Invention extends Skill {
             return false;
         if(item instanceof WeaponItem && !(item.ammoType === AmmoTypeID.Javelins || item.ammoType === AmmoTypeID.ThrowingKnives))
             return true;
-        if(item instanceof EquipmentItem && (item.validSlots.includes('Shield') || item.validSlots.includes('Platebody') || item.validSlots.includes('Platelegs')))
+        if(item instanceof EquipmentItem && (item.validSlots.includes('Shield') || (item.validSlots.includes('Platebody') && this.hasResearched('invention:AugmentPlatebody')) || (item.validSlots.includes('Platelegs') && this.hasResearched('invention:AugmentPlatelegs'))))
             return true;
         return false;
     }
@@ -1232,9 +1296,89 @@ export class Invention extends Skill {
             level = item.equipRequirements.reduce((highest, current) => {
                 return current.type === "SkillLevel" && current.level > highest ? current.level : highest;
             }, 1);
+
+            if(level === 1 && (item.type === "Ring" || item.type === "Amulet")) {
+                let action = game.crafting.actions.find(action => action.product === item);
+                if(action !== undefined)
+                    level = action.level;
+            }
+
+            if(level === 1 && item.category === "Summoning" && item.type === "Familiar") {
+                let action = game.summoning.actions.find(action => action.product === item);
+                if(action !== undefined)
+                    level = action.level;
+            }
+
+            if(level === 1 && item.equipRequirements.filter(req => req.type === 'SkillLevel' && req.skill !== game.altMagic).length === 0) {
+                if(item.sellsFor >= 150)
+                    level = 10;
+                if(item.sellsFor >= 10000)
+                    level = 25;
+                if(item.sellsFor >= 10000)
+                    level = 40;
+                if(item.sellsFor >= 20000)
+                    level = 60;
+                if(item.sellsFor >= 100000)
+                    level = 70;
+                if(item.sellsFor >= 300000)
+                    level = 85;
+                if(item.sellsFor >= 1000000)
+                    level = 99;
+            }
         } else {
             let action;
             switch (item.category) {
+                case "Gemstone":
+                    switch(item.id) {
+                        case "melvorD:Topaz":
+                            level = 10;
+                            break;
+                        case "melvorD:Sapphire":
+                            level = 20;
+                            break;
+                        case "melvorD:Ruby":
+                            level = 25;
+                            break;
+                        case "melvorD:Emerald":
+                            level = 50;
+                            break;
+                        case "melvorD:Diamond":
+                            level = 80;
+                            break;
+                        case "melvorF:Jadestone":
+                            level = 95;
+                            break;
+                        case "melvorTotH:Onyx":
+                        case "melvorTotH:Oricha":
+                        case "melvorTotH:Cerulean":
+                        case "melvorTotH:Zephyte":
+                        case "melvorTotH:Runestone":
+                            level = 99;
+                            break;
+                    }
+                    break;
+                case "Misc":
+                    if(item.type === "Bones") {
+                        switch(item.id) {
+                            case "melvorD:Bones": // 1 PP
+                                level = 10;
+                                break;
+                            case "melvorD:Big_Bones": // 3 PP
+                            case "melvorF:Holy_Dust":
+                                level = 30;
+                                break;
+                            case "melvorD:Dragon_Bones": // 5 PP
+                                level = 50;
+                                break;
+                            case "melvorD:Magic_Bones": // 10 PP
+                                level = 75;
+                                break;
+                            case "melvorTotH:Infernal_Bones": // 14 PP
+                                level = 99;
+                                break;
+                        }
+                    }
+                    break;
                 case "Woodcutting":
                     action = game.woodcutting.actions.find(action => action.product === item);
                     if(action !== undefined)
@@ -1291,7 +1435,7 @@ export class Invention extends Skill {
                         level = action.level;
                     break;
                 case "Herblore":
-                    action = game.herblore.actions.find(action => action.product === item);
+                    action = game.herblore.actions.find(action => action.potions.includes(item));
                     if(action !== undefined)
                         level = action.level;
                     break;
@@ -1309,7 +1453,6 @@ export class Invention extends Skill {
                     break;
             }
         }
-
         return level;
     }
 
@@ -1317,15 +1460,35 @@ export class Invention extends Skill {
         if(this.isAugmentedItem(item))
             item = item.item;
 
+        let chance = 99;
         let ilvl = this.getItemLevel(item)
         if(ilvl < 75) {
-            return 100 - (1.1 * ilvl);
+            chance = 100 - (1.1 * ilvl);
         } else if (ilvl >= 75 && ilvl < 90) {
-            return 99.1 - (2.089 * ilvl) + (1.1 * Math.pow(ilvl/10, 2));
+            chance = 99.1 - (2.089 * ilvl) + (1.1 * Math.pow(ilvl/10, 2));
         } else {
-            return 0;
+            chance = 0;
         }
-        return 99;
+
+        let reduction = 1;
+        if(this.hasResearched('invention:Junk1'))
+            reduction = 0.99;
+        if(this.hasResearched('invention:Junk2'))
+            reduction = 0.97;
+        if(this.hasResearched('invention:Junk3'))
+            reduction = 0.95;
+        if(this.hasResearched('invention:Junk4'))
+            reduction = 0.93;
+        if(this.hasResearched('invention:Junk5'))
+            reduction = 0.91;
+        if(this.hasResearched('invention:Junk6'))
+            reduction = 0.88;
+        if(this.hasResearched('invention:Junk7'))
+            reduction = 0.86;
+        if(this.hasResearched('invention:Junk8'))
+            reduction = 0.83;
+
+        return chance * reduction;
     }
 
     getDropTableForItem(item) {
@@ -1463,7 +1626,7 @@ export class Invention extends Skill {
         this.overview.onLoad();
         this.pages.onLoad();
         
-        this.workbench.go();
+        this.discover.go();
     }
 
     onLevelUp(oldLevel, newLevel) {
@@ -1545,6 +1708,12 @@ export class Invention extends Skill {
 
         this.overview.registerData(data.overview, this, this.game);
 
+
+        console.log("Loading Discoveries");
+        data.discoveries.forEach(data => {
+            let discovery = new InventionDiscovery(namespace, data, this, this.game);
+            this.discoveries.registerObject(discovery);
+        });
 
         console.log("Loading Perks");
         data.perks.forEach(data => {
@@ -1634,6 +1803,11 @@ export class Invention extends Skill {
             value.encode(writer);
         });
 
+        writer.writeComplexMap(this.researched, (key, value, writer) => {
+            writer.writeNamespacedObject(key);
+            writer.writeBoolean(value);
+        });
+
         this.pages.encode(writer);
         
         let end = writer.byteOffset;
@@ -1674,6 +1848,12 @@ export class Invention extends Skill {
                 console.log(`Got ${value.id}, decoding`);
                 value.decode(reader);
                 return value;
+            });
+
+            this.researched = reader.getComplexMap((reader) => {
+                let key = reader.getNamespacedObject(this.discoveries);
+                let value = reader.getBoolean();
+                return { key, value }
             });
 
             this.pages.decode(reader, version);

@@ -257,6 +257,7 @@ class InventionDisassembleTab extends ContainedComponent {
         }
     }
     updateItems() {
+        this.destroyIcons();
         let items = game.bank.unlockedItemArray.filter(item => this.disassemble.manager.canDisassemble(item));
         items.forEach((item)=>{
             this.updateItem(item);
@@ -480,7 +481,7 @@ export class InventionDisassemble extends InventionPage {
     }
     queueBankQuantityRender(item) {
         this.renderQueue.icons.add(item);
-        this.quantities = true;
+        this.renderQueue.quantities = true;
     }
 
     render() {
