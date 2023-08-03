@@ -70,6 +70,7 @@ class InventionDiscoveryResearchSelectionTab extends ContainedComponent {
     }
     setRecipeResearched(id) {
         const container = this.recipeContainers[id];
+        //container.parentElement.parentElement.classList.add('d-none');
         const recipe = this.recipes[id];
         container.textContent = '';
         const span = createElement('h5', {
@@ -328,12 +329,13 @@ class InventionDiscoveryPuzzleTab extends ContainedComponent {
         this.title.textContent = title;
     }
     updateCounts(correctCount, correctPositionCount, name, baseXP, multiplier) {
-        if(this.discovery.currentPuzzle === undefined) {
+        let parts = [...this.puzzleBox.parts];
+        let slots = [...this.puzzleBox.slots]
+        if(this.discovery.currentPuzzle === undefined || slots.filter(slot => slot.part !== undefined).length < this.discovery.currentPuzzle.length) {
             this.inventCounts.innerHTML = '';
             return;
         }
 
-        let parts = [...this.puzzleBox.parts];
         parts.forEach(slot => {
             slot.setFaded(correctCount === this.discovery.currentPuzzle.length && !this.discovery.currentPuzzle.includes(slot.part));
         });

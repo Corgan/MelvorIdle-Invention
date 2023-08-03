@@ -1,4 +1,4 @@
-const { loadModule } = mod.getContext(import.meta);
+const { loadModule, getResourceUrl } = mod.getContext(import.meta);
 
 const { InventionPageUIComponent } = await loadModule('src/components/invention.mjs');
 const { InventionGizmoModalUIComponent } = await loadModule('src/components/invention-gizmo-modal.mjs');
@@ -103,7 +103,7 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
             if(gizmos[i] !== undefined) {
                 gizmoString += `<div class="col-12">${gizmos[i].description}</div>`
             } else {
-                gizmoString += `<div class="col-12">Empty Slot</div>`
+                gizmoString += `<div class="col-12"><span class="text-burn">Empty ${this.gizmoType} Gizmo Slot</span></div>`
             }
         }
         let tt = `<div class="row no-gutters">
@@ -149,7 +149,7 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
     }
     set slots(_) { }
     get slots() {
-        return this.item.validSlots.includes('Shield') ? 1 : 2;
+        return this.item.validSlots.includes('Platebody') || this.item.validSlots.includes('Platelegs') ? 2 : 1;
     }
     set gizmos(_) { }
     get gizmos() {
@@ -168,9 +168,16 @@ class InventionAugmentedEquipmentItem extends EquipmentItem {
         return Math.min(this.manager.maxEquipmentLevel(), this.manager.equipmentXPToLevel(this._xp));
     }
 
+    set gizmoType(_) { }
+    get gizmoType() {
+        if(this.item.validSlots.includes('Gloves') || this.item.validSlots.includes('Amulet') || this.item.validSlots.includes('Ring') || this.item.validSlots.includes('Cape'))
+            return "Weapon"
+        return "Armour"
+    }
+
     canEquipGizmo(gizmo) {
-        //if(this.item.validSlots.includes('Shield'))
-        //    return this.manager.isWeaponGizmo(gizmo);
+        if(this.gizmoType === "Weapon")
+            return this.manager.isWeaponGizmo(gizmo);
         return this.manager.isArmourGizmo(gizmo);
     }
 
@@ -333,7 +340,7 @@ class InventionAugmentedWeaponItem extends WeaponItem {
             if(gizmos[i] !== undefined) {
                 gizmoString += `<div class="col-12">${gizmos[i].description}</div>`
             } else {
-                gizmoString += `<div class="col-12">Empty Slot</div>`
+                gizmoString += `<div class="col-12"><span class="text-burn">Empty ${this.gizmoType} Gizmo Slot</span></div>`
             }
         }
         let tt = `<div class="row no-gutters">
@@ -398,6 +405,11 @@ class InventionAugmentedWeaponItem extends WeaponItem {
     set level(_) { }
     get level() {
         return Math.min(game.invention.maxEquipmentLevel(), game.invention.equipmentXPToLevel(this._xp));
+    }
+
+    set gizmoType(_) { }
+    get gizmoType() {
+        return "Weapon"
     }
 
     canEquipGizmo(gizmo) {
@@ -746,9 +758,9 @@ class InventionPerk extends NamespacedObject {
 
         let onHitEffects = [];
         if(this.onHitEffects !== undefined)
-            onHitEffects = this.onHitEffects[rank-1].flatMap(attack => attack.onhitEffects.map(effect => templateString(effect.description, effect.modifiers)));
+            onHitEffects = this.onHitEffects[rank-1].flatMap(attack => attack.onhitEffects.map(effect => `<span class="text-success">${templateString(effect.description, effect.modifiers)}</span>`));
 
-        let name = `${this.name} Rank ${rank}`;
+        let name = `<span class="text-burn">${this.name} Rank ${rank}</span>`;
         let desc = `</br>${[...stats, ...mods, ...onHitEffects].join('</br>')}`;
 
         //if(this._customDescription !== undefined)
@@ -927,7 +939,7 @@ export class Invention extends Skill {
 
     getCurrentPerks() {
         let perks = new Map();
-        ['Weapon', 'Shield', 'Platebody', 'Platelegs'].forEach(slot => {
+        ['Weapon', 'Shield', 'Amulet', 'Cape', 'Ring', 'Helmet', 'Gloves', 'Boots', 'Platebody', 'Platelegs'].forEach(slot => {
             let equipmentSlot = game.combat.player.equipment.slots[slot];
             if(!equipmentSlot.isEmpty && equipmentSlot.occupiedBy === 'None' && this.isAugmentedItem(equipmentSlot.item)) {
                 equipmentSlot.item.gizmos.forEach(gizmo => {
@@ -1034,40 +1046,51 @@ export class Invention extends Skill {
     addTestData() {
         this.game.shop.upgradesPurchased.set(this.game.shop.purchases.getObjectByID('melvorD:Extra_Bank_Slot'), 1000)
         this.game.shop.computeProvidedStats();
+        
         this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Strawberry_Cupcake_Perfect'), 1e6, false, false, true, false);
 
         this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Bar'), 50000, false, false, true, false);
 
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Helmet'), 1, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Boots'), 1, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Gloves'), 1, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Sword'), 1, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Shield'), 1, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_2H_Sword'), 1, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Platebody'), 1, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Platelegs'), 1, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Sword'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Shield'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_2H_Sword'), 5, false, false, true, false);
+
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Helmet'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Boots'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Gloves'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Platebody'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Bronze_Platelegs'), 5, false, false, true, false);
+
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Amulet_of_Strength'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Gold_Topaz_Ring'), 5, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('melvorD:Obsidian_Cape'), 5, false, false, true, false);
 
         this.game.bank.addItem(this.game.items.getObjectByID('invention:Augmentor'), 20, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('invention:Weapon_Gizmo_Shell'), 20, false, false, true, false);
-        this.game.bank.addItem(this.game.items.getObjectByID('invention:Armour_Gizmo_Shell'), 20, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('invention:Weapon_Gizmo_Shell'), 50, false, false, true, false);
+        this.game.bank.addItem(this.game.items.getObjectByID('invention:Armour_Gizmo_Shell'), 50, false, false, true, false);
         this.game.bank.addItem(this.game.items.getObjectByID('invention:Equipment_Siphon'), 20, false, false, true, false);
 
         this.game.items.allObjects.filter(item => item.type === "Parts" || item.type === "Components").forEach(part => this.game.bank.addItem(part, 1000, false, false, true, false))
     }
-
     handleMissingObject(namespacedID) {
         let [ namespace, id ] = namespacedID.split(':');
         let obj;
         switch (id[0]) {
             case "w":
+                if(this.weapons.getObject(namespace, id) !== undefined)
+                    return this.weapons.getObject(namespace, id);
                 obj = new InventionAugmentedWeaponItem({id}, this, this.game);
                 this.weapons.registerObject(obj);
                 break;
             case "e":
+                if(this.armour.getObject(namespace, id) !== undefined)
+                    return this.armour.getObject(namespace, id);
                 obj = new InventionAugmentedEquipmentItem({id}, this, this.game);
                 this.armour.registerObject(obj);
                 break;
             case "g":
+                if(this.gizmos.getObject(namespace, id) !== undefined)
+                    return this.gizmos.getObject(namespace, id);
                 obj = new InventionGizmo({id}, this, this.game);
                 this.gizmos.registerObject(obj);
                 break;
@@ -1094,7 +1117,15 @@ export class Invention extends Skill {
     createAugmentedArmour(item) {
         if(!(item instanceof EquipmentItem) || item instanceof WeaponItem)
             return;
-        if(!item.validSlots.includes('Shield') && !item.validSlots.includes('Platebody') && !item.validSlots.includes('Platelegs'))
+        if(!item.validSlots.includes('Shield') &&
+           !item.validSlots.includes('Platebody') &&
+           !item.validSlots.includes('Platelegs') &&
+           !item.validSlots.includes('Amulet') &&
+           !item.validSlots.includes('Boots') &&
+           !item.validSlots.includes('Cape') &&
+           !item.validSlots.includes('Gloves') &&
+           !item.validSlots.includes('Helmet') &&
+           !item.validSlots.includes('Ring'))
             return;
         let augmentedItem = new InventionAugmentedEquipmentItem({item}, this, this.game);
         this.armour.registerObject(augmentedItem);
@@ -1128,9 +1159,19 @@ export class Invention extends Skill {
     canAugmentItem(item) {
         if(this.isAugmentedItem(item))
             return false;
+        // Cape, Ring, Amulet
         if(item instanceof WeaponItem && !(item.ammoType === AmmoTypeID.Javelins || item.ammoType === AmmoTypeID.ThrowingKnives))
             return true;
-        if(item instanceof EquipmentItem && (item.validSlots.includes('Shield') || (item.validSlots.includes('Platebody') && this.hasResearched('invention:AugmentPlatebody')) || (item.validSlots.includes('Platelegs') && this.hasResearched('invention:AugmentPlatelegs'))))
+        // Helmet, Boots, Gloves
+        if(item instanceof EquipmentItem && (item.validSlots.includes('Shield') ||
+            (item.validSlots.includes('Platebody') && this.hasResearched('invention:AugmentPlatebody')) ||
+            (item.validSlots.includes('Platelegs') && this.hasResearched('invention:AugmentPlatelegs')) ||
+            (item.validSlots.includes('Amulet') && this.hasResearched('invention:AugmentAmulet')) ||
+            (item.validSlots.includes('Boots') && this.hasResearched('invention:AugmentBoots')) ||
+            (item.validSlots.includes('Cape') && this.hasResearched('invention:AugmentCape')) ||
+            (item.validSlots.includes('Gloves') && this.hasResearched('invention:AugmentGloves')) ||
+            (item.validSlots.includes('Helmet') && this.hasResearched('invention:AugmentHelmet')) ||
+            (item.validSlots.includes('Ring') && this.hasResearched('invention:AugmentRing'))))
             return true;
         return false;
     }
@@ -1245,20 +1286,21 @@ export class Invention extends Skill {
         let type = this.getPerkTypeFromGizmo(item);
         if(type === undefined)
             return;
-        let perks = new Map();
-        let generatedPerks = this.generatePerks(type, components);
-        if(generatedPerks.length === 0)
-            return;
-        generatedPerks.forEach(gen => {
-            perks.set(gen.perk, gen.rank);
+        let gizmoPerks = new Map();
+        let { budget, perks, chosen } = this.generatePerks(type, components);
+        if(chosen.length === 0)
+            return { budget, perks, chosen };
+        
+        chosen.forEach(gen => {
+            gizmoPerks.set(gen.perk, gen.rank);
         });
 
         let gizmo = new InventionGizmo({item}, this, this.game);
-        gizmo.setPerks(perks);
+        gizmo.setPerks(gizmoPerks);
         this.gizmos.registerObject(gizmo);
         this.game.items.registerObject(gizmo);
         console.log("Created Gizmo:", gizmo.id, gizmo.description);
-        return gizmo;
+        return { budget, perks, chosen, gizmo };
     }
 
     rewardForDamage(damage) {
@@ -1575,19 +1617,20 @@ export class Invention extends Skill {
 
     generatePerks(type="weapon", materials=[]) {
         let { budget } = this.getBudget();
+        let rolledBudget = budget;
 
         let perks = this.possiblePerks(type, materials);
         
         let chosen = [];
         for(let i = 0; i < perks.length-1; i++) {
-            if(perks[i].rollRank !== undefined && perks[i].rollRank.cost <= budget) {
-                chosen.push({ perk: perks[i].perk, rank: perks[i].rollRank.rank });
-                budget -= perks[i].rollRank.cost;
+            if(perks[i].rollRank !== undefined && perks[i].rollRank.cost <= rolledBudget) {
+                chosen.push({ perk: perks[i].perk, rank: perks[i].rollRank.rank, roll: perks[i].roll });
+                rolledBudget -= perks[i].rollRank.cost;
                 if(chosen.length === 2)
                     break;
             }
         }
-        return chosen;
+        return { budget, perks, chosen };
     }
 
     perksort(low, high, arr, compare) {
@@ -1753,6 +1796,9 @@ export class Invention extends Skill {
             this.game.items.registerObject(component);
         });
 
+        console.log("Loading Items");
+        this.game.registerItemData(namespace, data.items);
+
         console.log("Loading Workbench");
         data.workbench.forEach(data => {
             let action = new InventionWorkbenchRecipe(namespace, data, this, this.game);
@@ -1768,6 +1814,7 @@ export class Invention extends Skill {
                 });
             }
         });
+
         this.data = data;
     }
 

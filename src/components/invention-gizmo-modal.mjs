@@ -71,9 +71,9 @@ class InventionGizmoSelectorTab extends ContainedComponent {
     }
     updateItems() {
         this.destroyIcons();
-        let items = game.bank.unlockedItemArray.filter(item => {
-            if(this.modal.manager.isGizmo(item)) {
-                if(this.modal.item.canEquipGizmo(item))
+        let items = game.bank.filterItems(bankItem => {
+            if(this.modal.manager.isGizmo(bankItem.item)) {
+                if(this.modal.item.canEquipGizmo(bankItem.item))
                     return true;
             }
             return false;

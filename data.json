@@ -229,6 +229,13 @@
               "baseExperience": 161
             },
             {
+              "id": "AugmentHelmet",
+              "name": "Research: Augmented helmet",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 13,
+              "baseExperience": 328
+            },
+            {
               "id": "Equipment_Dissolver",
               "name": "Device: Equipment Dissolver",
               "media": "melvor:assets/media/bank/logs_normal.png?2",
@@ -250,6 +257,20 @@
               "baseExperience": 628
             },
             {
+              "id": "AugmentAmulet",
+              "name": "Research: Augmented amulet",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 20,
+              "baseExperience": 1128
+            },
+            {
+              "id": "AugmentGloves",
+              "name": "Research: Augmented gloves",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 24,
+              "baseExperience": 1628
+            },
+            {
               "id": "Equipment_Siphon",
               "name": "Device: Equipment Siphon",
               "media": "melvor:assets/media/bank/logs_normal.png?2",
@@ -264,11 +285,25 @@
               "baseExperience": 2675
             },
             {
+              "id": "AugmentBoots",
+              "name": "Research: Augmented boots",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 30,
+              "baseExperience": 3628
+            },
+            {
               "id": "Junk1",
               "name": "Research: Junk chance reduction 1",
               "media": "melvor:assets/media/bank/logs_normal.png?2",
               "level": 34,
               "baseExperience": 5446
+            },
+            {
+              "id": "AugmentRing",
+              "name": "Research: Augmented ring",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 40,
+              "baseExperience": 3628
             },
             {
               "id": "AugmentPlatelegs",
@@ -283,6 +318,13 @@
               "media": "melvor:assets/media/bank/logs_normal.png?2",
               "level": 49,
               "baseExperience": 5446
+            },
+            {
+              "id": "AugmentCape",
+              "name": "Research: Augmented cape",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 50,
+              "baseExperience": 3628
             },
             {
               "id": "Augment15",
@@ -358,6 +400,24 @@
               "baseQuantity": 1,
               "unlockRequirements": [
                 { "type": "DiscoveryResearched", "id": "invention:Augmentor" }
+              ]
+            },
+            {
+              "id": "Box_of_Parts",
+              "name": "Box of Parts",
+              "media": "melvor:assets/media/bank/logs_normal.png?2",
+              "level": 2,
+              "baseExperience": 5,
+              "itemCosts": [
+                {
+                  "id": "invention:Junk",
+                  "quantity": 250
+                }
+              ],
+              "productID": "invention:Box_of_Parts",
+              "baseQuantity": 1,
+              "unlockRequirements": [
+                { "type": "DiscoveryResearched", "id": "invention:Disassembler" }
               ]
             },
             {
@@ -1154,11 +1214,6 @@
               "sellsFor": 0,
               "perks": {
                 "weapon": [
-                  {
-                    "perkID": "invention:Crushing",
-                    "base": 5,
-                    "roll": 25
-                  },
                   {
                     "perkID": "invention:Crushing",
                     "base": 5,
@@ -3374,10 +3429,10 @@
                   "character": "Attacker",
                   "countsOn": "Attacker",
                   "modifiers": {
-                    "decreasedAttackIntervalPercent": 1
+                    "decreasedAttackIntervalPercent": 2
                   },
-                  "maxStacks": 10,
-                  "media": "assets/media/status/attack_increase.svg",
+                  "maxStacks": 5,
+                  "media": "melvor:assets/media/status/attack_increase.svg",
                   "turns": "Infinity",
                   "name": "Frenzy",
                   "description": "When Target is hit, Attacker gains a stack of Frenzy: -${decreasedAttackIntervalPercent}% Attack Interval"
@@ -3980,7 +4035,9 @@
               "media": "melvor:assets/media/main/gp.svg",
               "equipmentStats": [],
               "modifiers": {
-                "increasedAutoEatThreshold": 2
+                "increasedAutoEatThreshold": 5,
+                "increasedAutoEatEfficiency": 5,
+                "increasedAutoEatHPLimit": 2
               },
               "ranks": [
                 {
@@ -4386,7 +4443,7 @@
               "media": "melvor:assets/media/main/gp.svg",
               "equipmentStats": [],
               "modifiers": {
-                "increasedFlatReflectDamage": 10
+                "increasedFlatReflectDamage": 1
               },
               "ranks": [
                 {
@@ -10646,6 +10703,142 @@
                 },
                 {
                   "id": "melvorTotH:Summoning_Familiar_Spectre"
+                }
+              ]
+            }
+          ],
+          "items": [
+            {
+              "id": "Box_of_Parts",
+              "name": "Box of Parts",
+              "category": "Invention",
+              "type": "Item",
+              "media": "melvor:assets/media/bank/crate_of_basic_supplies.png",
+              "ignoreCompletion": false,
+              "obtainFromItemLog": false,
+              "golbinRaidExclusive": false,
+              "sellsFor": 0,
+              "itemType": "Openable",
+              "dropTable": [
+                {
+                  "itemID": "invention:Simple_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 100
+                },
+                {
+                  "itemID": "invention:Base_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Blade_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Spiked_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Stave_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Head_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Cover_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Flexible_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Magic_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Plated_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Deflecting_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Delicate_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Metallic_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Connector_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Tensile_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Crafted_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Padded_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Smooth_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Organic_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
+                },
+                {
+                  "itemID": "invention:Clear_Parts",
+                  "minQuantity": 5,
+                  "maxQuantity": 10,
+                  "weight": 25
                 }
               ]
             }

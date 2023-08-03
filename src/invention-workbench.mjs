@@ -214,7 +214,7 @@ export class InventionWorkbench extends InventionPage {
             if(this.getCurrentRecipeCosts().checkIfOwned()) {
                 this.start();
             } else {
-                notifyPlayer(this, this.noCostsMessage, 'danger');
+                notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             }
         }
     }
@@ -257,10 +257,7 @@ export class InventionWorkbench extends InventionPage {
     action() {
         const recipeCosts = this.getCurrentRecipeCosts();
         if (!recipeCosts.checkIfOwned()) {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this, this.noCostsMessage, 'danger']
-            });
+            notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             this.manager.stop();
             return;
         }
@@ -280,10 +277,7 @@ export class InventionWorkbench extends InventionPage {
         if (nextCosts.checkIfOwned() && continueSkill) {
             this.startActionTimer();
         } else {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this.manager, this.noCostsMessage, 'danger']
-            });
+            notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             this.manager.stop();
         }
     }

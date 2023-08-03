@@ -258,7 +258,7 @@ class InventionDisassembleTab extends ContainedComponent {
     }
     updateItems() {
         this.destroyIcons();
-        let items = game.bank.unlockedItemArray.filter(item => this.disassemble.manager.canDisassemble(item));
+        let items = game.bank.filterItems(bankItem => this.disassemble.manager.canDisassemble(bankItem.item));
         items.forEach((item)=>{
             this.updateItem(item);
         });
@@ -339,7 +339,7 @@ export class InventionDisassemble extends InventionPage {
             if(this.getCurrentDisassembleCosts().checkIfOwned()) {
                 this.start();
             } else {
-                notifyPlayer(this, this.noCostsMessage, 'danger');
+                notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             }
         }
     }
@@ -382,10 +382,7 @@ export class InventionDisassemble extends InventionPage {
     action() {
         const disassembleCosts = this.getCurrentDisassembleCosts();
         if (!disassembleCosts.checkIfOwned()) {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this, this.noCostsMessage, 'danger']
-            });
+            notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             this.manager.stop();
             return;
         }
@@ -398,10 +395,7 @@ export class InventionDisassemble extends InventionPage {
         if (nextCosts.checkIfOwned() && continueSkill && !this.shouldSiphon) {
             this.startActionTimer();
         } else {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this.manager, this.noCostsMessage, 'danger']
-            });
+            notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             this.manager.stop();
             this.selectedItem = undefined;
             this.renderQueue.selectedItem = true;

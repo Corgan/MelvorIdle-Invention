@@ -113,8 +113,8 @@ class InventionAugmentationTab extends ContainedComponent {
     }
     updateItems() {
         this.destroyIcons();
-        let items = game.bank.unlockedItemArray.filter(item => {
-            if(this.augmentation.manager.canAugmentItem(item))
+        let items = game.bank.filterItems(bankItem => {
+            if(this.augmentation.manager.canAugmentItem(bankItem.item))
                 return true;
             return false;
         });
@@ -211,7 +211,7 @@ export class InventionAugmentation extends InventionPage {
             if(this.getCurrentAugmentCosts().checkIfOwned()) {
                 this.start();
             } else {
-                notifyPlayer(this, this.noCostsMessage, 'danger');
+                notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             }
         }
     }
@@ -254,10 +254,7 @@ export class InventionAugmentation extends InventionPage {
     action() {
         const augmentCosts = this.getCurrentAugmentCosts();
         if (!augmentCosts.checkIfOwned()) {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this, this.noCostsMessage, 'danger']
-            });
+            notifyPlayer(this.manager, this.noCostsMessage, 'danger');
             this.manager.stop();
             return;
         }

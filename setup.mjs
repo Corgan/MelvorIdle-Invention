@@ -11,7 +11,7 @@ export async function setup({ gameData, patch, loadTemplates, loadModule, onInte
     patch(NamespaceRegistry, 'getObjectByID').replace(function(o, id) {
         let obj = o(id);
         try {
-            if(obj === undefined && id !== undefined && id.startsWith("invention")) {
+            if(obj === undefined && id !== undefined && typeof id === 'string' && id.startsWith("invention")) {
                 return game.invention.handleMissingObject(id);
             }
         } catch(e) { console.log("Invention Error: ", e) }

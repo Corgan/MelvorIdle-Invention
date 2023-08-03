@@ -381,7 +381,7 @@ class InventionGizmoTableTab extends ContainedComponent {
     }
     updateItems() {
         this.destroyIcons();
-        let items = game.bank.unlockedItemArray.filter(item => this.gizmo_table.manager.isComponent(item));
+        let items = game.bank.filterItems(bankItem => this.gizmo_table.manager.isComponent(bankItem.item));
         items.forEach((item)=>{
             this.updateItem(item);
         });
@@ -490,7 +490,7 @@ export class InventionGizmoTable extends InventionPage {
             if(this.getCurrentGizmoCosts().checkIfOwned()) {
                 this.start();
             } else {
-                notifyPlayer(this, "You don't have the required materials to fill a gizmo.", 'danger');
+                notifyPlayer(this.manager, "You don't have the required materials to fill a gizmo.", 'danger');
             }
         }
     }
@@ -532,10 +532,7 @@ export class InventionGizmoTable extends InventionPage {
     action() {
         const disassembleCosts = this.getCurrentGizmoCosts();
         if (!disassembleCosts.checkIfOwned()) {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this, "You don't have the required materials to fill this gizmo.", 'danger']
-            });
+            notifyPlayer(this.manager, "You don't have the required materials to fill this gizmo.", 'danger');
             this.manager.stop()
             return;
         }
@@ -554,12 +551,9 @@ export class InventionGizmoTable extends InventionPage {
     }
     addActionRewards(item) {
         const rewards = this.actionRewards;
-        let gizmo = this.manager.createGizmo(item, this.menu.components.getComponents());
+        let { budget, perks, chosen, gizmo } = this.manager.createGizmo(item, this.menu.components.getComponents());
         if(gizmo === undefined) {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this, "Perks went over budget. Unfortunate :(", 'danger']
-            });
+            notifyPlayer(this.manager, `Didn't roll any perks. Perk budget was ${budget}.`, 'danger');
             this.manager.stop();
             return;
         }
@@ -567,11 +561,12 @@ export class InventionGizmoTable extends InventionPage {
         rewards.setSource(`Skill.${this.manager.id}`);
         const notAllGiven = rewards.giveRewards();
         if(notAllGiven) {
-            this.game.combat.notifications.add({
-                type: 'Player',
-                args: [this, "No space for your Gizmo", 'danger']
-            });
+            notifyPlayer(this.manager, "No space for your Gizmo", 'danger');
             this.manager.removeGizmo(gizmo);
+        } else {
+            let perkString = chosen.map(({perk, rank, roll}) => `${perk.name} Rank ${rank} (${roll})`).join(', ');
+            notifyPlayer({media: gizmo.media}, `Perk budget: ${budget}. ${perkString}`, 'info', 0);
+            //game.notifications.createInfoNotification(gizmo.id, [...gizmo.perks].map(([perk, rank]) => `${perk.name} Rank ${rank}`).join(', '), gizmo.media, 0);
         }
         return notAllGiven;
     }
