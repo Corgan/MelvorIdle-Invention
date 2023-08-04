@@ -94,7 +94,7 @@ class InventionAugmentationTab extends ContainedComponent {
             if(icon !== undefined) {
                 icon.updateQty();
             } else {
-                if(!this.augmentation.manager.canAugmentItem(item) || game.bank.lockedItems.has(item))
+                if(!this.augmentation.manager.canAugmentItem(item))
                     return;
             let icon = new ItemAugmentationIcon(this.container);
             icon.setItem(item, game.bank.getQty(item));

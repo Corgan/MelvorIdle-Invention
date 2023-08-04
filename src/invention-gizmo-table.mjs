@@ -362,7 +362,7 @@ class InventionGizmoTableTab extends ContainedComponent {
             if(icon !== undefined) {
                 icon.updateQty();
             } else {
-                if(!this.gizmo_table.manager.isComponent(item) || game.bank.lockedItems.has(item))
+                if(!this.gizmo_table.manager.isComponent(item))
                     return;
                 let icon = new ItemComponentIcon(this.container);
                 icon.setItem(item, game.bank.getQty(item));

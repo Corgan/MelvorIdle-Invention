@@ -1237,6 +1237,10 @@ export class Invention extends Skill {
             if(postLoadItem !== undefined) {
                 console.log(`Found ${postLoadItem.id}`)
                 item.item = postLoadItem;
+                let itemIcon = bankTabMenu.itemIcons.get(item)
+                if(itemIcon !== undefined)
+                    itemIcon.image.src = item.media;
+                this.game.combat.rendersRequired.equipment = true;
             } else {
                 console.log(`Found nothing`)
                 this.removeAugmentedItem(item);

@@ -52,7 +52,7 @@ class InventionGizmoSelectorTab extends ContainedComponent {
         let qty = game.bank.getQty(item);
         if(qty > 0) {
             if(icon === undefined) {
-                if(!this.modal.manager.isGizmo(item) || game.bank.lockedItems.has(item))
+                if(!this.modal.manager.isGizmo(item))
                     return;
                 if(!this.modal.item.canEquipGizmo(item))
                     return;
