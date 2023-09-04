@@ -27,6 +27,9 @@ class InventionSelectionTab extends RecipeSelectionTab {
     getRecipeName(recipe) {
         return recipe.name;
     }
+    getRecipeID(recipe) {
+        return recipe.id;
+    }
     getRecipeCallback(recipe) {
         return ()=>this.workbench.selectRecipeOnClick(recipe);
     }

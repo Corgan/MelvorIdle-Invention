@@ -939,8 +939,7 @@ export class Invention extends Skill {
 
     getCurrentPerks() {
         let perks = new Map();
-        ['Weapon', 'Shield', 'Amulet', 'Cape', 'Ring', 'Helmet', 'Gloves', 'Boots', 'Platebody', 'Platelegs'].forEach(slot => {
-            let equipmentSlot = game.combat.player.equipment.slots[slot];
+        game.combat.player.equipment.slotArray.forEach(equipmentSlot => {
             if(!equipmentSlot.isEmpty && equipmentSlot.occupiedBy === 'None' && this.isAugmentedItem(equipmentSlot.item)) {
                 equipmentSlot.item.gizmos.forEach(gizmo => {
                     gizmo.perks.forEach((rank, perk) => {
@@ -1072,6 +1071,39 @@ export class Invention extends Skill {
 
         this.game.items.allObjects.filter(item => item.type === "Parts" || item.type === "Components").forEach(part => this.game.bank.addItem(part, 1000, false, false, true, false))
     }
+
+    
+
+    makeUpgrades(item) {
+        // Create Downgrade to base item
+        let downgrade = new ItemUpgrade({
+            itemCosts: [{
+                id: item.id,
+                quantity: 1
+            },
+            {
+                id: 'invention:Augmentation_Dissolver',
+                quantity: 1
+            }],
+            gpCost: 0,
+            scCost: 0,
+            rootItemIDs: [item.id],
+            upgradedItemID: item.item.id,
+            isDowngrade: true,
+            upgradedQuantity: 1
+        }, game);
+
+        // Add Downgrade
+        downgrade.rootItems.forEach((root)=>{
+            let upgradeArray = game.bank.itemUpgrades.get(root);
+            if (upgradeArray === undefined) {
+                upgradeArray = [];
+                game.bank.itemUpgrades.set(root, upgradeArray);
+            }
+            upgradeArray.push(downgrade);
+        });
+    }
+
     handleMissingObject(namespacedID) {
         let [ namespace, id ] = namespacedID.split(':');
         let obj;
@@ -1111,6 +1143,7 @@ export class Invention extends Skill {
         this.weapons.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
         console.log("Created Augmented Weapon:", augmentedItem.id, augmentedItem.name);
+        this.makeUpgrades(augmentedItem);
         return augmentedItem;
     }
 
@@ -1131,6 +1164,7 @@ export class Invention extends Skill {
         this.armour.registerObject(augmentedItem);
         this.game.items.registerObject(augmentedItem);
         console.log("Created Augmented Armour:", augmentedItem.id, augmentedItem.name);
+        this.makeUpgrades(augmentedItem);
         return augmentedItem;
     }
 
@@ -1237,10 +1271,11 @@ export class Invention extends Skill {
             if(postLoadItem !== undefined) {
                 console.log(`Found ${postLoadItem.id}`)
                 item.item = postLoadItem;
+
                 let itemIcon = bankTabMenu.itemIcons.get(item)
                 if(itemIcon !== undefined)
                     itemIcon.image.src = item.media;
-                this.game.combat.rendersRequired.equipment = true;
+                this.game.combat.player.rendersRequired.equipment = true;
             } else {
                 console.log(`Found nothing`)
                 this.removeAugmentedItem(item);
@@ -1253,6 +1288,21 @@ export class Invention extends Skill {
         this.gizmos.allObjects.filter(item => !this.checkForGizmo(item)).forEach(item => {
             console.log(`Unused Gizmo ${item.id}`)
             this.removeGizmo(item);
+        });
+
+        [...this.weapons.allObjects, ...this.armour.allObjects].forEach(item => {
+            if(item.occupiesSlots.length > 0) {
+                game.combat.player.equipmentSets.forEach(({equipment}) => {
+                    equipment.slotArray.forEach(slot => {
+                        if(slot.item === item && slot.occupiedBy === 'None') {
+                            slot.setEquipped(item, slot.quantity, item.occupiesSlots);
+                            item.occupiesSlots.forEach((slotType)=>equipment.slots[slotType].setOccupied(item, slot.type));
+                            this.game.combat.player.rendersRequired.equipment = true;
+                        }
+                    });
+                })
+            }
+            this.makeUpgrades(item)
         });
         game.combat.player.computeAllStats();
     }
@@ -1594,11 +1644,11 @@ export class Invention extends Skill {
         let ranks = [...perks.entries()].map(([perk, {low, high, roll}]) => {
             let rollRank, lowRank, highRank;
             for(let i = 0; i < perk.ranks.length; i++) {
-                if(roll > perk.ranks[i].cost)
+                if(roll >= perk.ranks[i].cost)
                     rollRank = perk.ranks[i];
-                if(low > perk.ranks[i].cost)
+                if(low >= perk.ranks[i].cost)
                     lowRank = perk.ranks[i];
-                if(high > perk.ranks[i].cost)
+                if(high >= perk.ranks[i].cost)
                     highRank = perk.ranks[i];
             }
             return { perk, low, lowRank, high, highRank, roll, rollRank };
