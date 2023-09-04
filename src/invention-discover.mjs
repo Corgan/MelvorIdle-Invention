@@ -434,7 +434,13 @@ export class InventionDiscover extends InventionPage {
     }
 
     clearParts() {
-        this.puzzle.puzzleBox.slots.forEach(slot => slot.setPart());
+        this.puzzle.puzzleBox.slots.forEach(slot => {
+            slot.setPart();
+        });
+        this.puzzle.puzzleBox.parts.forEach(slot => {
+            slot.setFaded(false);
+        });
+        
         this.puzzle.setInventEnabled(false);
 
         let { name, multiplier } = this.getOptimization(0, 0);
