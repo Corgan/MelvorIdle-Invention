@@ -1243,7 +1243,38 @@ export async function setup({ gameData, patch, loadTemplates, loadStylesheet, lo
     });*/
 
     console.log("Registering Invention Data");
-    await gameData.addPackage('data.json'); // Add skill data (page + sidebar, skillData)
+    await gameData.addPackage('data/data.json'); // Add skill data (page + sidebar, skillData)
+
+    if(cloudManager.hasAoDEntitlementAndIsEnabled) {
+        await gameData.addPackage('data/data-aod.json');
+
+        const levelCapIncreases = ['invention:Pre99Dungeons', 'invention:ImpendingDarknessSet100'];
+
+        if(cloudManager.hasTotHEntitlementAndIsEnabled) {
+            levelCapIncreases.push(...['invention:Post99Dungeons', 'invention:ThroneOfTheHeraldSet120']);
+        }
+
+        await gameData.addPackage({
+            $schema: '',
+            namespace: 'invention',
+            modifications: {
+                gamemodes: [
+                    {
+                        id: 'melvorAoD:AncientRelics',
+                        levelCapIncreases: {
+                            add: levelCapIncreases
+                        }
+                    }
+                ]
+            }
+        });
+    }
+    
+    patch(EventManager, 'loadEvents').after(() => {
+        if(game.currentGamemode.startingSkills !== undefined && game.currentGamemode.startingSkills.has(game.invention)) {
+            game.invention.setUnlock(true);
+        }
+    });
 
     console.log('Registered Invention Data.');
 
