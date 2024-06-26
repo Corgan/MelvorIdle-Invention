@@ -3,9 +3,8 @@ const { loadModule, getResourceUrl } = mod.getContext(import.meta);
 const { InventionPage } = await loadModule('src/invention-page.mjs');
 
 const { InventionDiscoverUIComponent } = await loadModule('src/components/invention-discover.mjs');
-class InventionDiscoveryResearchSelectionTab extends ContainedComponent {
+class InventionDiscoveryResearchSelectionTab {
     constructor(discovery) {
-        super();
         this.discovery = discovery;
         this.recipes = this.discovery.manager.discoveries.allObjects;
         this.recipeContainers = [];
@@ -23,6 +22,18 @@ class InventionDiscoveryResearchSelectionTab extends ContainedComponent {
         }));
         this.recipes.forEach(()=>this.addRecipeContainer());
         this.parent.append(this.container);
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     updateRecipesForLevel() {
         this.recipes.forEach((recipe,id)=>{
@@ -123,9 +134,8 @@ class InventionDiscoveryResearchSelectionTab extends ContainedComponent {
     }
 }
 
-class PartIcon extends ContainedComponent {
+class PartIcon {
     constructor(parent) {
-        super();
         this.parent = parent;
         this.container = createElement('div', {
             classList: ['bank-item', 'no-bg', 'pointer-enabled', `resize-48`, 'btn-light', 'm-1'],
@@ -137,6 +147,18 @@ class PartIcon extends ContainedComponent {
         this.selected = false;
         this.faded = false;
         parent.appendChild(this.container);
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     setImage(media) {
         this.image.src = media;
@@ -174,9 +196,8 @@ class PartIcon extends ContainedComponent {
     }
 }
 
-class PuzzleBox extends ContainedComponent {
+class PuzzleBox {
     constructor(parent) {
-        super();
         this.parent = parent;
         this.icons = [];
         this.c = createElement('div', {
@@ -241,12 +262,23 @@ class PuzzleBox extends ContainedComponent {
         
         this.size = 48;
     }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
+    }
 }
 
 
-class InventionDiscoveryPuzzleTab extends ContainedComponent {
+class InventionDiscoveryPuzzleTab {
     constructor(discovery) {
-        super();
         this.discovery = discovery;
         this.parent = document.getElementById('invention-discover-research-category-container');
         this.container = createElement('div', {
@@ -314,6 +346,18 @@ class InventionDiscoveryPuzzleTab extends ContainedComponent {
         this.locked = false;
 
         this.parent.append(this.container);
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     lockPuzzle() {
         this.locked = true;

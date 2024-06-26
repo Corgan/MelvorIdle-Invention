@@ -4,9 +4,8 @@ const { InventionPage } = await loadModule('src/invention-page.mjs');
 
 const { InventionGizmoTableUIComponent } = await loadModule('src/components/invention-gizmo-table.mjs');
 
-class ComponentIcon extends ContainedComponent {
+class ComponentIcon {
     constructor(parent, containerClasses=[]) {
-        super();
         this.parent = parent;
         this.container = createElement('div', {
             classList: ['bank-item', 'no-bg', 'pointer-enabled', `resize-48`, 'btn-light', ...containerClasses],
@@ -48,6 +47,12 @@ class ComponentIcon extends ContainedComponent {
     show() {
         this.container.classList.remove('d-none');
     }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
+    }
     setItem(item) {
         this.item = item;
 
@@ -86,9 +91,8 @@ class ComponentIcon extends ContainedComponent {
     }
 }
 
-class ComponentsBox extends ContainedComponent {
+class ComponentsBox {
     constructor(parent, containerClasses=[]) {
-        super();
         this.parent = parent;
         this.icons = [];
         this.container = createElement('div', {
@@ -123,6 +127,18 @@ class ComponentsBox extends ContainedComponent {
         this.size = 48;
         this.localize();
     }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
+    }
     getComponents() {
         return [
             this.slots.get('c').item,
@@ -140,9 +156,8 @@ class ComponentsBox extends ContainedComponent {
         this.icons.forEach((icon)=>icon.localize());
     }
 }
-class PerksBox extends ContainedComponent {
+class PerksBox {
     constructor(parent, containerClasses=[]) {
-        super();
         this.container = createElement('div', {
             classList: containerClasses
         });
@@ -163,6 +178,18 @@ class PerksBox extends ContainedComponent {
         });
         parent.append(this.container);
         this.localize();
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     setName(name) {
         this.name.textContent = name;
@@ -321,12 +348,23 @@ class ItemComponentIcon extends ItemQtyIcon {
     }
 }
 
-class InventionGizmoTableTab extends ContainedComponent {
+class InventionGizmoTableTab {
     constructor(gizmo_table) {
-        super();
         this.gizmo_table = gizmo_table;
         this.container = document.getElementById('invention-gizmo-table-item-selection-container');
         this.icons = [];
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     setSelected(item) {
         let old = this.icons.find(icon => icon.container.classList.contains('bg-easy-task'));

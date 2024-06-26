@@ -53,12 +53,23 @@ class InventionAugmentationMenu extends ArtisanMenu { // Remove Mastery Shit
     }
 }
 
-class InventionAugmentationTab extends ContainedComponent {
+class InventionAugmentationTab {
     constructor(augmentation) {
-        super();
         this.augmentation = augmentation;
         this.container = document.getElementById('invention-augmentation-item-selection-container');
         this.icons = [];
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     setSelected(item) {
         let old = this.icons.find(icon => icon.container.classList.contains('bg-easy-task'));

@@ -2816,9 +2816,8 @@
               "id": "Precise",
               "name": "Precise",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatRangedAttackBonus": 15
+                "flatRangedAttackBonus": 15
               },
               "ranks": [
                 {
@@ -2839,9 +2838,8 @@
               "id": "Thrusting",
               "name": "Thrusting",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatStabAttackBonus": 15
+                "flatStabAttackBonus": 15
               },
               "ranks": [
                 {
@@ -2862,9 +2860,8 @@
               "id": "Rending",
               "name": "Rending",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatSlashAttackBonus": 15
+                "flatSlashAttackBonus": 15
               },
               "ranks": [
                 {
@@ -2885,9 +2882,8 @@
               "id": "Brutal",
               "name": "Brutal",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatBlockAttackBonus": 15
+                "flatBlockAttackBonus": 15
               },
               "ranks": [
                 {
@@ -2908,9 +2904,8 @@
               "id": "Mystical",
               "name": "Mystical",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatMagicAttackBonus": 15
+                "flatMagicAttackBonus": 15
               },
               "ranks": [
                 {
@@ -2931,9 +2926,8 @@
               "id": "Sharp",
               "name": "Sharp",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedRangedStrengthBonus": 2
+                "rangedStrengthBonus": 2
               },
               "ranks": [
                 {
@@ -2954,9 +2948,8 @@
               "id": "Blunt",
               "name": "Blunt",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMeleeStrengthBonus": 2
+                "meleeStrengthBonus": 2
               },
               "ranks": [
                 {
@@ -2977,9 +2970,8 @@
               "id": "Occult",
               "name": "Occult",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMagicDamageBonus": 2
+                "magicDamageBonus": 2
               },
               "ranks": [
                 {
@@ -3000,9 +2992,8 @@
               "id": "Savage",
               "name": "Savage",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageToSlayerTasks": 1
+                "damageDealtToSlayerTasks": 1
               },
               "ranks": [
                 {
@@ -3023,9 +3014,8 @@
               "id": "Devout",
               "name": "Devout",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatPrayerCostReduction": 1
+                "flatPrayerPointCost": -1
               },
               "ranks": [
                 {
@@ -3046,10 +3036,19 @@
               "id": "Gale",
               "name": "Gale",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMinAirSpellDmg": 1.5,
-                "increasedMaxAirSpellDmg": 1.5
+                "flatMagicMinHit": [
+                  {
+                    "subcategoryID": "melvorD:Air",
+                    "value": 1.5
+                  }
+                ],
+                "flatMagicMaxHit": [
+                  {
+                    "subcategoryID": "melvorD:Air",
+                    "value": 1.5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -3070,10 +3069,19 @@
               "id": "Flood",
               "name": "Flood",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMinWaterSpellDmg": 1.5,
-                "increasedMaxWaterSpellDmg": 1.5
+                "flatMagicMinHit": [
+                  {
+                    "subcategoryID": "melvorD:Water",
+                    "value": 1.5
+                  }
+                ],
+                "flatMagicMaxHit": [
+                  {
+                    "subcategoryID": "melvorD:Water",
+                    "value": 1.5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -3094,10 +3102,19 @@
               "id": "Earthquake",
               "name": "Earthquake",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMinEarthSpellDmg": 1.5,
-                "increasedMaxEarthSpellDmg": 1.5
+                "flatMagicMinHit": [
+                  {
+                    "subcategoryID": "melvorD:Earth",
+                    "value": 1.5
+                  }
+                ],
+                "flatMagicMaxHit": [
+                  {
+                    "subcategoryID": "melvorD:Earth",
+                    "value": 1.5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -3118,10 +3135,19 @@
               "id": "Volcanic",
               "name": "Volcanic",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMinFireSpellDmg": 1.5,
-                "increasedMaxFireSpellDmg": 1.5
+                "flatMagicMinHit": [
+                  {
+                    "subcategoryID": "melvorD:Fire",
+                    "value": 1.5
+                  }
+                ],
+                "flatMagicMaxHit": [
+                  {
+                    "subcategoryID": "melvorD:Fire",
+                    "value": 1.5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -3142,9 +3168,8 @@
               "id": "Thrifty",
               "name": "Thrifty",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedAmmoPreservation": 5
+                "ammoPreservationChance": 5
               },
               "ranks": [
                 {
@@ -3165,9 +3190,8 @@
               "id": "Efficient",
               "name": "Efficient",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedRunePreservation": 5
+                "runePreservationChance": 5
               },
               "ranks": [
                 {
@@ -3188,9 +3212,8 @@
               "id": "Quick",
               "name": "Quick",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "decreasedAttackIntervalPercent": 2
+                "attackInterval": -2
               },
               "ranks": [
                 {
@@ -3211,9 +3234,8 @@
               "id": "Vampiric",
               "name": "Vampiric",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedLifesteal": 5
+                "lifesteal": 5
               },
               "ranks": [
                 {
@@ -3234,9 +3256,8 @@
               "id": "Balanced",
               "name": "Balanced",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMinHitBasedOnMaxHit": 2
+                "minHitBasedOnMaxHit": 2
               },
               "ranks": [
                 {
@@ -3257,10 +3278,9 @@
               "id": "Commanding",
               "name": "Commanding",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedSummoningMaxHit": 5,
-                "increasedSummoningAttackLifesteal": 5
+                "summoningMaxHit": 5,
+                "summoningAttackLifesteal": 5
               },
               "ranks": [
                 {
@@ -3281,9 +3301,15 @@
               "id": "Cruel",
               "name": "Cruel",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyDeadlyPoisonWhenPoisoned": 10
+              "combatEffect": {
+                "effectID": "melvorD:DeadlyPoison",
+                "chance": 10,
+                "condition": {
+                  "character": "Enemy",
+                  "type": "CombatEffectGroup",
+                  "groupID": "melvorD:PoisonDOT"
+                },
+                "appliesWhen": "HitWithAttack"
               },
               "ranks": [
                 {
@@ -3304,9 +3330,11 @@
               "id": "Electric",
               "name": "Electric",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyShock": 10
+              "combatEffect": {
+                "effectID": "melvorTotH:Shock",
+                "appliesWhen": "PostAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_SHOCK_ON_ATTACK",
+                "chance": 5
               },
               "ranks": [
                 {
@@ -3327,9 +3355,11 @@
               "id": "Rot",
               "name": "Rot",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyDecayCurse": 5
+              "combatEffect": {
+                "effectID": "melvorF:Decay",
+                "appliesWhen": "PostAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_CURSE_ON_ATTACK",
+                "chance": 5
               },
               "ranks": [
                 {
@@ -3350,9 +3380,10 @@
               "id": "Venomous",
               "name": "Venomous",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyDeadlyPoison": 5
+              "combatEffect": {
+                "effectID": "melvorD:DeadlyPoison",
+                "appliesWhen": "HitWithAttack",
+                "chance": 5
               },
               "ranks": [
                 {
@@ -3373,9 +3404,10 @@
               "id": "Insanity",
               "name": "Insanity",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "applyMadnessCurseOnSpawn": 1
+              "combatEffect": {
+                "effectID": "melvorTotH:Madness",
+                "appliesWhen": "StartOfFight",
+                "descriptionLang": "CUSTOM_APPLICATOR_CURSE_ON_SPAWN"
               },
               "ranks": [
                 {
@@ -3388,9 +3420,10 @@
               "id": "Torture",
               "name": "Torture",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "applyTormentCurseOnSpawn": 1
+              "combatEffect": {
+                "effectID": "melvorTotH:Torment",
+                "appliesWhen": "StartOfFight",
+                "descriptionLang": "CUSTOM_APPLICATOR_CURSE_ON_SPAWN"
               },
               "ranks": [
                 {
@@ -3403,9 +3436,10 @@
               "id": "Anguish",
               "name": "Anguish",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "applyDespairCurseOnSpawn": 1
+              "combatEffect": {
+                "effectID": "melvorTotH:Despair",
+                "appliesWhen": "StartOfFight",
+                "descriptionLang": "CUSTOM_APPLICATOR_CURSE_ON_SPAWN"
               },
               "ranks": [
                 {
@@ -3418,26 +3452,42 @@
               "id": "Frenzy",
               "name": "Frenzy",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {},
-              "onHitEffects": [
-                {
-                  "id": "Frenzy",
-                  "effectType": "Custom",
-                  "type": "Modifier",
-                  "stacksToAdd": 1,
-                  "character": "Attacker",
-                  "countsOn": "Attacker",
-                  "modifiers": {
-                    "decreasedAttackIntervalPercent": 2
+              "combatEffect": {
+                "effectID": "invention:Frenzy",
+                "appliesWhen": "PostAttack",
+                "customDescription": "When Target is hit, Attacker gains a stack of ${effectName}: -${modValue0}% Attack Interval (Stacks 5 times)",
+
+                "id": "Frenzy",
+                "templateID": "melvorD:StackingNonCountingModifier",
+                "name": "Frenzy",
+                "media": "melvor:assets/media/status/attack_increase.svg",
+                "target": "Self",
+                "parameters": [
+                  {
+                    "name": "initialStacks",
+                    "initialValue": 0
                   },
-                  "maxStacks": 5,
-                  "media": "melvor:assets/media/status/attack_increase.svg",
-                  "turns": "Infinity",
-                  "name": "Frenzy",
-                  "description": "When Target is hit, Attacker gains a stack of Frenzy: -${decreasedAttackIntervalPercent}% Attack Interval"
-                }
-              ],
+                  {
+                    "name": "stacksToAdd",
+                    "initialValue": 1
+                  },
+                  {
+                    "name": "maxStacks",
+                    "initialValue": 5
+                  }
+                ],
+                "statGroups": [
+                  {
+                    "name": "stacks",
+                    "modifiers": {
+                      "attackInterval": -2
+                    }
+                  }
+                ],
+                "effectGroups": [
+                  "melvorD:Buff"
+                ]
+              },
               "ranks": [
                 {
                   "cost": 40,
@@ -3457,9 +3507,39 @@
               "id": "Leviathan",
               "name": "Leviathan",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedLeviathan": 5
+              "combatEffect": {
+                "effectID": "invention:Leviathan",
+                "appliesWhen": "StartOfFight",
+                "applyEffectWhenMerged": true,
+                "descriptionLang": "MODIFIER_DATA_increasedLeviathan",
+                "id": "Leviathan",
+                "templateID": "melvorD:NonCountingReflexive",
+                "name": "Spiky Skin",
+                "nameLang": "ITEM_NAME_Leviathan_Shield",
+                "media": "melvor:assets/media/status/evasion_increase.svg",
+                "parameters": [
+                  {
+                    "name": "maxStacks",
+                    "initialValue": 5
+                  }
+                ],
+                "statGroups": [
+                  {
+                    "name": "stacks",
+                    "modifiers": {
+                      "reflectDamage": 5,
+                      "flatResistance": [
+                        {
+                          "damageTypeID": "melvorD:Normal",
+                          "value": 1
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "effectGroups": [
+                  "melvorD:Buff"
+                ]
               },
               "ranks": [
                 {
@@ -3480,9 +3560,10 @@
               "id": "Fiery",
               "name": "Fiery",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyBurnWithRanged": 5
+              "combatEffect": {
+                "effectID": "melvorD:Burn",
+                "chance": 5,
+                "appliesWhen": "PostAttack"
               },
               "ranks": [
                 {
@@ -3503,9 +3584,8 @@
               "id": "Hemophilia",
               "name": "Hemophilia",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedBleedLifesteal": 5
+                "bleedLifesteal": 5
               },
               "ranks": [
                 {
@@ -3526,9 +3606,8 @@
               "id": "Pyrophilia",
               "name": "Pyrophilia",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedBurnLifesteal": 5
+                "burnLifesteal": 5
               },
               "ranks": [
                 {
@@ -3549,9 +3628,8 @@
               "id": "Toxiphile",
               "name": "Toxiphile",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedPoisonLifesteal": 5
+                "poisonLifesteal": 5
               },
               "ranks": [
                 {
@@ -3572,9 +3650,8 @@
               "id": "Crushing",
               "name": "Crushing",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMeleeCritChance": 5
+                "meleeCritChance": 5
               },
               "ranks": [
                 {
@@ -3595,9 +3672,8 @@
               "id": "Lethal",
               "name": "Lethal",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedRangedCritChance": 5
+                "rangedCritChance": 5
               },
               "ranks": [
                 {
@@ -3618,9 +3694,8 @@
               "id": "Deadly",
               "name": "Deadly",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMagicCritChance": 5
+                "magicCritChance": 5
               },
               "ranks": [
                 {
@@ -3641,9 +3716,17 @@
               "id": "Concussive",
               "name": "Concussive",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedMeleeStunChance": 5
+              "combatEffect": {
+                "effectID": "melvorD:Stun",
+                "chance": 5,
+                "condition": {
+                  "character": "Player",
+                  "type": "CombatType",
+                  "thisAttackType": "melee",
+                  "targetAttackType": "any"
+                },
+                "appliesWhen": "HitWithAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_STUN_ON_MELEE_HIT"
               },
               "ranks": [
                 {
@@ -3664,9 +3747,10 @@
               "id": "Hypothermia",
               "name": "Hypothermia",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyFrostburn": 5
+              "combatEffect": {
+                "effectID": "melvorD:Frostburn",
+                "chance": 5,
+                "appliesWhen": "PostAttack"
               },
               "ranks": [
                 {
@@ -3687,9 +3771,10 @@
               "id": "Poisonous",
               "name": "Poisonous",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyPoison": 5
+              "combatEffect": {
+                "effectID": "melvorD:Poison",
+                "chance": 5,
+                "appliesWhen": "PostAttack"
               },
               "ranks": [
                 {
@@ -3710,9 +3795,10 @@
               "id": "Blaze",
               "name": "Blaze",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplyBurn": 5
+              "combatEffect": {
+                "effectID": "melvorD:Burn",
+                "chance": 5,
+                "appliesWhen": "PostAttack"
               },
               "ranks": [
                 {
@@ -3733,9 +3819,17 @@
               "id": "Chaotic",
               "name": "Chaotic",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedElementalEffectChance": 2
+              "combatEffect": {
+                "tableID": "melvorF:ElementalEffect",
+                "chance": 5,
+                "appliesWhen": "HitWithAttack",
+                "condition": {
+                  "character": "Player",
+                  "type": "CombatType",
+                  "thisAttackType": "magic",
+                  "targetAttackType": "any"
+                },
+                "descriptionLang": "CUSTOM_APPLICATOR_ELEMENTAL_EFFECT"
               },
               "ranks": [
                 {
@@ -3756,7 +3850,6 @@
               "id": "Adept",
               "name": "Adept",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": [
                 {
                   "allowNonMagicCurses": 1
@@ -3780,9 +3873,11 @@
               "id": "Stunning",
               "name": "Stunning",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedGlobalStunChance": 5
+              "combatEffect": {
+                "effectID": "melvorD:Stun",
+                "chance": 5,
+                "appliesWhen": "HitWithAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_STUN_ON_HIT"
               },
               "ranks": [
                 {
@@ -3803,9 +3898,11 @@
               "id": "Sandman",
               "name": "Sandman",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedGlobalSleepChance": 5
+              "combatEffect": {
+                "effectID": "melvorD:Sleep",
+                "chance": 5,
+                "appliesWhen": "HitWithAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_SLEEP_ON_HIT"
               },
               "ranks": [
                 {
@@ -3826,9 +3923,21 @@
               "id": "Daze",
               "name": "Daze",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increased15SlowStunChance2Turns": 5
+              "combatEffect": {
+                "effectID": "melvorD:Slow",
+                "chance": 5,
+                "initialParams": [
+                  {
+                    "name": "magnitude",
+                    "value": 15
+                  },
+                  {
+                    "name": "turns",
+                    "value": 2
+                  }
+                ],
+                "appliesWhen": "HitWithAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_SLOW_ON_HIT"
               },
               "ranks": [
                 {
@@ -3849,9 +3958,8 @@
               "id": "Strategic",
               "name": "Strategic",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageToBosses": 5
+                "damageDealtToBosses": 5
               },
               "ranks": [
                 {
@@ -3872,9 +3980,13 @@
               "id": "Dismantling",
               "name": "Dismantling",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "decreasedEnemyDamageReduction": 1
+              "enemyModifiers": {
+                "flatResistance": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": -1
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -3895,9 +4007,8 @@
               "id": "Acrobatic",
               "name": "Acrobatic",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatRangedDefenceBonus": 15
+                "flatRangedDefenceBonus": 15
               },
               "ranks": [
                 {
@@ -3918,9 +4029,8 @@
               "id": "Safeguard",
               "name": "Safeguard",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatMeleeDefenceBonus": 15
+                "flatMeleeDefenceBonus": 15
               },
               "ranks": [
                 {
@@ -3941,9 +4051,8 @@
               "id": "Deflecting",
               "name": "Deflecting",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatMagicDefenceBonus": 15
+                "flatMagicDefenceBonus": 15
               },
               "ranks": [
                 {
@@ -3964,9 +4073,13 @@
               "id": "Durable",
               "name": "Durable",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageReduction": 1
+                "flatResistance": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": 1
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -3987,9 +4100,8 @@
               "id": "Regenerative",
               "name": "Regenerative",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedHPRegenFlat": 1
+                "flatHPRegen": 1
               },
               "ranks": [
                 {
@@ -4010,9 +4122,13 @@
               "id": "Wealth",
               "name": "Wealth",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedGPFromMonsters": 5
+                "currencyGainFromCombat": [
+                  {
+                    "currencyID": "melvorD:GP",
+                    "value": 5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4033,11 +4149,10 @@
               "id": "Glutton",
               "name": "Glutton",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedAutoEatThreshold": 5,
-                "increasedAutoEatEfficiency": 5,
-                "increasedAutoEatHPLimit": 2
+                "autoEatThreshold": 5,
+                "autoEatEfficiency": 5,
+                "autoEatHPLimit": 2
               },
               "ranks": [
                 {
@@ -4058,19 +4173,66 @@
               "id": "Lizardman",
               "name": "Lizardman",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": [
+              "combatEffect": [
                 {
-                  "increasedEndOfTurnHealing5": 10
+                  "effectID": "melvorD:EndOfTurnCurrentHealing",
+                  "initialParams": [
+                    {
+                      "name": "XTurns",
+                      "value": 5
+                    },
+                    {
+                      "name": "percent",
+                      "value": 10
+                    }
+                  ],
+                  "appliesWhen": "StartOfFight",
+                  "descriptionLang": "CUSTOM_APPLICATOR_END_OF_TURN_CURRENT_HEALING"
                 },
                 {
-                  "increasedEndOfTurnHealing3": 10
+                  "effectID": "melvorD:EndOfTurnCurrentHealing",
+                  "initialParams": [
+                    {
+                      "name": "XTurns",
+                      "value": 3
+                    },
+                    {
+                      "name": "percent",
+                      "value": 10
+                    }
+                  ],
+                  "appliesWhen": "StartOfFight",
+                  "descriptionLang": "CUSTOM_APPLICATOR_END_OF_TURN_CURRENT_HEALING"
                 },
                 {
-                  "increasedEndOfTurnHealing2": 10
+                  "effectID": "melvorD:EndOfTurnCurrentHealing",
+                  "initialParams": [
+                    {
+                      "name": "XTurns",
+                      "value": 2
+                    },
+                    {
+                      "name": "percent",
+                      "value": 10
+                    }
+                  ],
+                  "appliesWhen": "StartOfFight",
+                  "descriptionLang": "CUSTOM_APPLICATOR_END_OF_TURN_CURRENT_HEALING"
                 },
                 {
-                  "increasedEndOfTurnMaxHealing2": 5
+                  "effectID": "melvorD:EndOfTurnMaxHealing",
+                  "initialParams": [
+                    {
+                      "name": "XTurns",
+                      "value": 2
+                    },
+                    {
+                      "name": "percent",
+                      "value": 5
+                    }
+                  ],
+                  "appliesWhen": "StartOfFight",
+                  "descriptionLang": "CUSTOM_APPLICATOR_END_OF_TURN_MAX_HEALING"
                 }
               ],
               "ranks": [
@@ -4096,9 +4258,13 @@
               "id": "Hardened",
               "name": "Hardened",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageReductionAgainstMelee": 2
+                "flatResistanceAgainstMelee": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": 2
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4119,9 +4285,13 @@
               "id": "Impenetrable",
               "name": "Impenetrable",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageReductionAgainstRanged": 2
+                "flatResistanceAgainstRanged": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": 2
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4142,9 +4312,13 @@
               "id": "Resistant",
               "name": "Resistant",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageReductionAgainstMagic": 2
+                "flatResistanceAgainstMagic": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": 2
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4165,9 +4339,13 @@
               "id": "Magus",
               "name": "Magus",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageReductionWithMagic2HWeapon": 2
+                "flatResistanceWithMagic2HWeapon": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": 2
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4188,9 +4366,13 @@
               "id": "Perceptive",
               "name": "Perceptive",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageReductionAgainstBosses": 2
+                "flatResistanceAgainstBosses": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": 2
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4211,9 +4393,11 @@
               "id": "Razor_Sharp",
               "name": "Razor Sharp",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedBleedReflectChance": 5
+              "combatEffect": {
+                "effectID": "melvorF:BleedReflect",
+                "chance": 5,
+                "appliesWhen": "HitByFirstAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_BLEED_REFLECT"
               },
               "ranks": [
                 {
@@ -4234,9 +4418,13 @@
               "id": "Grizzled",
               "name": "Grizzled",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedDamageReductionAgainstSlayerTasks": 2
+                "flatResistanceAgainstSlayerTasks": [
+                  {
+                    "damageTypeID": "melvorD:Normal",
+                    "value": 2
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4257,9 +4445,10 @@
               "id": "Noxious",
               "name": "Noxious",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedPoisonReflectChance": 5
+              "combatEffect": {
+                "effectID": "melvorD:Poison",
+                "chance": 5,
+                "appliesWhen": "HitByFirstAttack"
               },
               "ranks": [
                 {
@@ -4280,9 +4469,13 @@
               "id": "Blessed",
               "name": "Blessed",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedChanceToAvoidCurses": 5
+                "effectIgnoreChance": [
+                  {
+                    "effectGroupID": "melvorD:Curse",
+                    "value": 5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4303,7 +4496,6 @@
               "id": "Agile",
               "name": "Agile",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
                 "meleeProtection": 5
               },
@@ -4326,7 +4518,6 @@
               "id": "Elusive",
               "name": "Elusive",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
                 "rangedProtection": 5
               },
@@ -4349,7 +4540,6 @@
               "id": "Blurred",
               "name": "Blurred",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
                 "magicProtection": 5
               },
@@ -4372,9 +4562,13 @@
               "id": "Wet",
               "name": "Wet",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "burnImmunity": 5
+                "effectIgnoreChance": [
+                  {
+                    "effectGroupID": "melvorD:BurnDOT",
+                    "value": 5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4395,9 +4589,13 @@
               "id": "Mithridatism",
               "name": "Mithridatism",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "poisonImmunity": 5
+                "effectIgnoreChance": [
+                  {
+                    "effectGroupID": "melvorD:PoisonDOT",
+                    "value": 5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4418,9 +4616,13 @@
               "id": "Clotting",
               "name": "Clotting",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "bleedImmunity": 5
+                "effectIgnoreChance": [
+                  {
+                    "effectGroupID": "melvorD:BleedDOT",
+                    "value": 5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4441,9 +4643,8 @@
               "id": "Thorny",
               "name": "Thorny",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatReflectDamage": 1
+                "flatReflectDamage": 1
               },
               "ranks": [
                 {
@@ -4464,9 +4665,8 @@
               "id": "Healthy",
               "name": "Healthy",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedMaxHitpoints": 1
+                "maxHitpoints": 1
               },
               "ranks": [
                 {
@@ -4487,9 +4687,8 @@
               "id": "Hearty",
               "name": "Hearty",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedFlatMaxHitpoints": 1
+                "flatMaxHitpoints": 1
               },
               "ranks": [
                 {
@@ -4510,9 +4709,8 @@
               "id": "Invigorate",
               "name": "Invigorate",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedHitpointRegeneration": 1
+                "hitpointRegeneration": 1
               },
               "ranks": [
                 {
@@ -4533,9 +4731,8 @@
               "id": "Evasive",
               "name": "Evasive",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedGlobalEvasion": 2
+                "evasion": 2
               },
               "ranks": [
                 {
@@ -4556,9 +4753,8 @@
               "id": "Soft",
               "name": "Soft",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedChanceToAvoidStun": 5
+                "stunAvoidChance": 5
               },
               "ranks": [
                 {
@@ -4579,9 +4775,13 @@
               "id": "Buzzed",
               "name": "Buzzed",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedChanceToAvoidSleep": 5
+                "effectIgnoreChance": [
+                  {
+                    "effectGroupID": "melvorD:Sleep",
+                    "value": 5
+                  }
+                ]
               },
               "ranks": [
                 {
@@ -4602,9 +4802,8 @@
               "id": "Cat_Nap",
               "name": "Cat Nap",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "increasedHealWhenSleep": 5
+                "healWhenSlept": 5
               },
               "ranks": [
                 {
@@ -4625,9 +4824,17 @@
               "id": "Tonic_Immobility",
               "name": "Tonic Immobility",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
-              "modifiers": {
-                "increasedChanceToApplySleepToTargetWhenHit": 5
+              "combatEffect": {
+                "effectID": "melvorD:Sleep",
+                "chance": 5,
+                "initialParams": [
+                  {
+                    "name": "turns",
+                    "value": 2
+                  }
+                ],
+                "appliesWhen": "HitByAttack",
+                "descriptionLang": "CUSTOM_APPLICATOR_SLEEP_REFLECT"
               },
               "ranks": [
                 {
@@ -4648,9 +4855,8 @@
               "id": "Flame_Retardant",
               "name": "Flame Retardant",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "decreasedBurnDOTDamage": 10
+                "burnDOTDamageTaken": -10
               },
               "ranks": [
                 {
@@ -4671,9 +4877,8 @@
               "id": "Bandage",
               "name": "Bandage",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "decreasedBleedDOTDamage": 10
+                "bleedDOTDamageTaken": -10
               },
               "ranks": [
                 {
@@ -4694,9 +4899,8 @@
               "id": "Antidote",
               "name": "Antidote",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "decreasedPoisonDOTDamage": 10
+                "poisonDOTDamageTaken": -10
               },
               "ranks": [
                 {
@@ -4717,9 +4921,8 @@
               "id": "Antitoxin",
               "name": "Antitoxin",
               "media": "melvor:assets/media/main/gp.svg",
-              "equipmentStats": [],
               "modifiers": {
-                "decreasedDeadlyPoisonDOTDamage": 10
+                "deadlyPoisonDOTDamageTaken": -10
               },
               "ranks": [
                 {

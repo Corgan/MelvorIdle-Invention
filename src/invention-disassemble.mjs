@@ -198,12 +198,23 @@ class InventionDisassembleMenu extends ArtisanMenu { // Remove Mastery Shit
     }
 }
 
-class InventionDisassembleTab extends ContainedComponent {
+class InventionDisassembleTab {
     constructor(disassemble) {
-        super();
         this.disassemble = disassemble;
         this.container = document.getElementById('invention-disassemble-item-selection-container');
         this.icons = [];
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     setSelected(item) {
         let old = this.icons.find(icon => icon.container.classList.contains('bg-easy-task'));

@@ -31,12 +31,23 @@ class ItemGizmoIcon extends ItemQtyIcon {
     }
 }
 
-class InventionGizmoSelectorTab extends ContainedComponent {
+class InventionGizmoSelectorTab {
     constructor(modal, container) {
-        super();
         this.modal = modal;
         this.container = container;
         this.icons = [];
+    }
+    show() {
+        showElement(this.container);
+    }
+    hide() {
+        hideElement(this.container);
+    }
+    invisible() {
+        this.container.classList.add('invisible');
+    }
+    visible() {
+        this.container.classList.remove('invisible');
     }
     localize() {
         this.icons.forEach((icon)=>icon.localize());
@@ -123,7 +134,7 @@ export class InventionGizmoUIComponent extends UIComponent {
                 bankSideBarMenu.selectedMenu.setItem(this.game.bank.selectedBankItem, this.game.bank);
             };
         } else {
-            this.icon.src = `${CDNDIR}assets/media/bank/passive_slot.png`;
+            this.icon.src = `${CDNDIR()}assets/media/bank/passive_slot.png`;
             this.name.textContent = "Empty";
             this.description.innerHTML = "";
             this.add.onclick = () => this.modal.setGizmoSlot(this);

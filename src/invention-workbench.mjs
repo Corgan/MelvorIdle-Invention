@@ -145,35 +145,16 @@ export class InventionWorkbench extends InventionPage {
     get currentActionInterval() {
         return this.actionTimer.maxTicks * TICK_INTERVAL;
     }
-    getFlatIntervalModifier(action) {
-        return (this.game.modifiers.getSkillModifierValue('increasedSkillInterval', this.manager) - this.game.modifiers.getSkillModifierValue('decreasedSkillInterval', this.manager));
-    }
-    getPercentageIntervalModifier(action) {
-        return (this.game.modifiers.getSkillModifierValue('increasedSkillIntervalPercent', this.manager) - this.game.modifiers.getSkillModifierValue('decreasedSkillIntervalPercent', this.manager) + this.game.modifiers.increasedGlobalSkillIntervalPercent - this.game.modifiers.decreasedGlobalSkillIntervalPercent);
-    }
     modifyInterval(interval, action) {
-        const flatModifier = this.getFlatIntervalModifier(action);
-        const percentModifier = this.getPercentageIntervalModifier(action);
+        const flatModifier = game.invention.getFlatIntervalModifier(action);
+        const percentModifier = game.invention.getPercentageIntervalModifier(action);
         interval *= 1 + percentModifier / 100;
         interval += flatModifier;
         interval = roundToTickInterval(interval);
         return Math.max(interval, 250);
     }
     get actionPreservationChance() {
-        return this.getPreservationChance(this.masteryAction, 0);
-    }
-    getPreservationChance(action, chance) {
-        chance += this.game.modifiers.increasedGlobalPreservationChance - this.game.modifiers.decreasedGlobalPreservationChance;
-        chance += this.game.modifiers.getSkillModifierValue('increasedSkillPreservationChance', this.manager);
-        chance -= this.game.modifiers.getSkillModifierValue('decreasedSkillPreservationChance', this.manager);
-        return Math.min(chance, this.getPreservationCap());
-    }
-    getPreservationCap() {
-        const baseCap = 80;
-        let modifier = 0;
-        modifier += this.game.modifiers.getSkillModifierValue('increasedSkillPreservationCap', this.manager);
-        modifier -= this.game.modifiers.getSkillModifierValue('decreasedSkillPreservationCap', this.manager);
-        return baseCap + modifier;
+        return game.invention.getPreservationChance(this.masteryAction, 0);
     }
 
     getRecipeCosts(recipe) {
@@ -297,11 +278,7 @@ export class InventionWorkbench extends InventionPage {
         let qtyToAdd = this.actionItemQuantity;
         if (rollPercentage(this.actionDoublingChance))
             qtyToAdd *= 2;
-        qtyToAdd *= Math.pow(2, this.game.modifiers.getSkillModifierValue('doubleItemsSkill', this.manager));
         const itemID = this.actionItem;
-        const extraItemChance = this.game.modifiers.getSkillModifierValue('increasedChanceAdditionalSkillResource', this.manager) - this.game.modifiers.getSkillModifierValue('decreasedChanceAdditionalSkillResource', this.manager);
-        if (rollPercentage(extraItemChance))
-            qtyToAdd++;
         rewards.addItem(itemID, qtyToAdd);
         rewards.addXP(this.manager, this.actionXP);
         //this.addCommonRewards(rewards);
