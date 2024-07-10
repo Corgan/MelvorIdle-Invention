@@ -1,4 +1,4 @@
-export async function setup({ gameData, patch, loadTemplates, loadStylesheet, loadModule, onInterfaceAvailable, onCharacterLoaded }) {
+export async function setup({ gameData, patch, loadTemplates, loadStylesheet, loadModule, onModsLoaded, onInterfaceAvailable, onCharacterLoaded }) {
     if(typeof getUnlockedAtNodes === 'undefined') {
         function getUnlockedAtNodes(skill, level) {
             const unlockText = templateLangString('MENU_TEXT_UNLOCKED_AT', {
@@ -1245,38 +1245,56 @@ export async function setup({ gameData, patch, loadTemplates, loadStylesheet, lo
     console.log("Registering Invention Data");
     await gameData.addPackage('data/data.json'); // Add skill data (page + sidebar, skillData)
 
-    if(cloudManager.hasAoDEntitlementAndIsEnabled) {
+    if(cloudManager.hasAoDEntitlementAndIsEnabled)
         await gameData.addPackage('data/data-aod.json');
 
-        const levelCapIncreases = ['invention:Pre99Dungeons', 'invention:ImpendingDarknessSet100'];
+    console.log('Registered Invention Data.');
 
-        if(cloudManager.hasTotHEntitlementAndIsEnabled) {
-            levelCapIncreases.push(...['invention:Post99Dungeons', 'invention:ThroneOfTheHeraldSet120']);
-        }
+    onModsLoaded(async () => {
+        if(cloudManager.hasAoDEntitlementAndIsEnabled) {
+            const levelCapIncreases = ['invention:Pre99Dungeons', 'invention:ImpendingDarknessSet100'];
 
-        await gameData.addPackage({
-            $schema: '',
-            namespace: 'invention',
-            modifications: {
-                gamemodes: [
-                    {
-                        id: 'melvorAoD:AncientRelics',
+            if(cloudManager.hasTotHEntitlementAndIsEnabled) {
+                levelCapIncreases.push(...['invention:Post99Dungeons', 'invention:ThroneOfTheHeraldSet120']);
+            }
+
+            const gamemodes = game.gamemodes.filter(gamemode => gamemode.defaultInitialLevelCap !== undefined && gamemode.levelCapIncreases.length > 0 && gamemode.useDefaultSkillUnlockRequirements === true && gamemode.allowSkillUnlock === false);
+
+            await gameData.addPackage({
+                $schema: '',
+                namespace: 'invention',
+                modifications: {
+                    gamemodes: gamemodes.map(gamemode => ({
+                        id: gamemode.id,
                         levelCapIncreases: {
                             add: levelCapIncreases
-                        }
-                    }
-                ]
+                        },
+                        startingSkills: {
+                            add: ['hunter:Hunter']
+                        },
+                        skillUnlockRequirements: [
+                            {
+                                skillID: 'hunter:Hunter',
+                                requirements: [
+                                    {
+                                        type: 'SkillLevel',
+                                        skillID: 'melvorD:Attack',
+                                        level: 1
+                                    }
+                                ]
+                            }
+                        ]
+                    }))
+                }
+            });
+        }
+    
+        patch(EventManager, 'loadEvents').after(() => {
+            if(game.currentGamemode.startingSkills !== undefined && game.currentGamemode.startingSkills.has(game.invention)) {
+                game.invention.setUnlock(true);
             }
         });
-    }
-    
-    patch(EventManager, 'loadEvents').after(() => {
-        if(game.currentGamemode.startingSkills !== undefined && game.currentGamemode.startingSkills.has(game.invention)) {
-            game.invention.setUnlock(true);
-        }
     });
-
-    console.log('Registered Invention Data.');
 
     onCharacterLoaded(async() => {
         game.invention.onCharacterLoaded();
